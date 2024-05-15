@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ProjetoFinal_Myte_Grupo3.props" />
+</Project>
