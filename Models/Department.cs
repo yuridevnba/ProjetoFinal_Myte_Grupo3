@@ -4,7 +4,6 @@ namespace ProjetoFinal_Myte_Grupo3.Models
 {
     public class Department
     {
-
         [Required]
         [Display(Name = "ID")]
         public int DepartmentId { get; set; }
@@ -14,7 +13,5 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         public string? DepartmentName { get; set; }
 
         public ICollection<Employee>? Employee { get; set; }
-
-
     }
 }

@@ -4,10 +4,9 @@ namespace ProjetoFinal_Myte_Grupo3.Models
 {
     public class WBS
     {
-
         [Required]
         [Display(Name = "ID")]
-        public string? WBSId { get; set; }
+        public int WBSId { get; set; }
 
         [Required]
         [Display(Name = "Código")]
@@ -21,12 +20,9 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         [Display(Name = "Tipos")]
         public string? Type { get; set; }
 
+
         //public string? SubType { get; set; }
         // como as pessoas vão cadastrar wbs, escolhemos deixar uma tabela separada.
-
-      
-       
-
         //  *código
         //  *tipo
         //  *subtipos

@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\y.henrique.da.silva\\source\\repos\\ProjetoFinal_Myte_Grupo3\\ProjetoFinal_Myte_Grupo3.csproj": {}
+    "C:\\Users\\l.silva.vasconcelos\\Desktop\\ProjetoFinal_Myte_Grupo3\\ProjetoFinal_Myte_Grupo3.csproj": {}
   },
   "projects": {
-    "C:\\Users\\y.henrique.da.silva\\source\\repos\\ProjetoFinal_Myte_Grupo3\\ProjetoFinal_Myte_Grupo3.csproj": {
+    "C:\\Users\\l.silva.vasconcelos\\Desktop\\ProjetoFinal_Myte_Grupo3\\ProjetoFinal_Myte_Grupo3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\y.henrique.da.silva\\source\\repos\\ProjetoFinal_Myte_Grupo3\\ProjetoFinal_Myte_Grupo3.csproj",
+        "projectUniqueName": "C:\\Users\\l.silva.vasconcelos\\Desktop\\ProjetoFinal_Myte_Grupo3\\ProjetoFinal_Myte_Grupo3.csproj",
         "projectName": "ProjetoFinal_Myte_Grupo3",
-        "projectPath": "C:\\Users\\y.henrique.da.silva\\source\\repos\\ProjetoFinal_Myte_Grupo3\\ProjetoFinal_Myte_Grupo3.csproj",
-        "packagesPath": "C:\\Users\\y.henrique.da.silva\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\y.henrique.da.silva\\source\\repos\\ProjetoFinal_Myte_Grupo3\\obj\\",
+        "projectPath": "C:\\Users\\l.silva.vasconcelos\\Desktop\\ProjetoFinal_Myte_Grupo3\\ProjetoFinal_Myte_Grupo3.csproj",
+        "packagesPath": "C:\\Users\\l.silva.vasconcelos\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\l.silva.vasconcelos\\Desktop\\ProjetoFinal_Myte_Grupo3\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\y.henrique.da.silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\l.silva.vasconcelos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -64,6 +68,10 @@
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
               "version": "[8.0.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             }
           },
           "imports": [
