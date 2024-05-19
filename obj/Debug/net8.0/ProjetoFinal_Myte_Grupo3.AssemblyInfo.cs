@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjetoFinal_Myte_Grupo3")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e14abb1d3e25c6ce2d22fefe89a1e15b895a787c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+51364bd85e2ed91275d0dd13d8bd8731355c3d9c")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjetoFinal_Myte_Grupo3")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjetoFinal_Myte_Grupo3")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
