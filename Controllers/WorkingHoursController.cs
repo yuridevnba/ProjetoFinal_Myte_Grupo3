@@ -55,6 +55,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View();
         }
 
+        // Criado manualmente
         [HttpPost]
         [Route("api/workinghours/create")]
         public async Task<IActionResult> CreateWorkingHour([FromBody] WorkingHour workingHour)
