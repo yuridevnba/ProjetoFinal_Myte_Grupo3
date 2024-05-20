@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
+using ProjetoFinal_Myte_Grupo3.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -20,19 +20,5 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         [Display(Name = "Tipos")]
         public string? Type { get; set; }
 
-
-        //public string? SubType { get; set; }
-        // como as pessoas vão cadastrar wbs, escolhemos deixar uma tabela separada.
-        //  *código
-        //  *tipo
-        //  *subtipos
-        //  *descrição
-        //  Id
-
-        //-------------------------------------
-        //Not chargeable
-        //chargeable
-
-
     }
 }

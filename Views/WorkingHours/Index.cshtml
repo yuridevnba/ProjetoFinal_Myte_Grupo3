@@ -69,7 +69,14 @@
                 <td><input type="text" value=""></td>
             </tr>
             <tr>
-                <td><input type="text" value=""></td>
+                <td>
+                    <select id="WBSId" name="WBSId">
+                        @foreach (var wbs in ViewBag.WBSId as SelectList)
+                        {
+                            <option value="@wbs.Value">@wbs.Text</option>
+                        }
+                    </select>
+                </td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
@@ -88,7 +95,14 @@
                 <td><input type="text" value=""></td>
             </tr>
             <tr>
-                <td><input type="text" value=""></td>
+                <td>
+                    <select id="WBSId" name="WBSId">
+                        @foreach (var wbs in ViewBag.WBSId as SelectList)
+                        {
+                            <option value="@wbs.Value">@wbs.Text</option>
+                        }
+                    </select>
+                </td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
@@ -107,7 +121,14 @@
                 <td><input type="text" value=""></td>
             </tr>
             <tr>
-                <td><input type="text" value=""></td>
+                <td>
+                    <select id="WBSId" name="WBSId">
+                        @foreach (var wbs in ViewBag.WBSId as SelectList)
+                        {
+                            <option value="@wbs.Value">@wbs.Text</option>
+                        }
+                    </select>
+                </td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
