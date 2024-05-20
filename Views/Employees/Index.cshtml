@@ -4,332 +4,66 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Horas</h1>
+<h1>Index</h1>
 
 <br />
 
-<!--
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-@Html.DisplayNameFor(model => model.EmployeeName)
+                @Html.DisplayNameFor(model => model.EmployeeName)
             </th>
             <th>
-@Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-@Html.DisplayNameFor(model => model.Password)
+                @Html.DisplayNameFor(model => model.Password)
             </th>
             <th>
-@Html.DisplayNameFor(model => model.HiringDate)
+                @Html.DisplayNameFor(model => model.HiringDate)
             </th>
             <th>
-@Html.DisplayNameFor(model => model.AcessLevel)
+                @Html.DisplayNameFor(model => model.AcessLevel)
             </th>
             <th>
-@Html.DisplayNameFor(model => model.StatusEmployee)
+                @Html.DisplayNameFor(model => model.StatusEmployee)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-                                            <tr>
-                                                <td>
-            @Html.DisplayFor(modelItem => item.EmployeeName)
-                                                </td>
-                                                <td>
-            @Html.DisplayFor(modelItem => item.Email)
-                                                </td>
-                                                <td>
-            @Html.DisplayFor(modelItem => item.Password)
-                                                </td>
-                                                <td>
-            @Html.DisplayFor(modelItem => item.HiringDate)
-                                                </td>
-                                                <td>
-            @Html.DisplayFor(modelItem => item.AcessLevel)
-                                                </td>
-                                                <td>
-            @Html.DisplayFor(modelItem => item.StatusEmployee)
-                                                </td>
-                                                <td>
-                                                    <a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
-                                                    <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
-                                                    <a asp-action="Delete" asp-route-id="@item.EmployeeId">Delete</a>
-                                                </td>
-                                            </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HiringDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AcessLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusEmployee)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EmployeeId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-
--->
-
-
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: center;
-    }
-
-    input {
-        width: 100%;
-    }
-</style>
-
-<body>
-    <table>
-        <thead>
-            <tr>
-                <th>Dia da Semana</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-                <th>6</th>
-                <th>7</th>
-                <th>8</th>
-                <th>9</th>
-                <th>10</th>
-                <th>11</th>
-                <th>12</th>
-                <th>13</th>
-                <th>14</th>
-                <th>15</th>
-                <th>Total de Horas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-            </tr>
-            <tr>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-            </tr>
-            <tr>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-            </tr>
-            <tr>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-            </tr>
-        </tbody>
-    </table>
-</body>
-
-
-
-
-
-<form id="formIntervalo">
-    <label for="dataInicio">Selecione a data:</label>
-    <input type="date" id="dataInicio" name="dataInicio">
-    <button type="submit">Buscar</button>
-</form>
-
-<script>
-    // Função para buscar o intervalo baseado em uma data
-    function buscarIntervaloPorData(data, intervalos) {
-        for (let i = 0; i < intervalos.length; i++) {
-            if (data >= intervalos[i].inicio && data <= intervalos[i].fim) {
-                return intervalos[i];
-            }
-        }
-        return "Nenhum intervalo de data foi encontrado para a data fornecida.";
-    }
-
-    // Função para extrair os dias de um intervalo no formato "Dia da Semana: Dia"
-    function extrairDiasDoIntervaloFormatado(intervalo) {
-        const diasFormatados = [];
-        const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-
-        let dataAtual = new Date(intervalo.inicio);
-
-        while (dataAtual <= intervalo.fim) {
-            const diaSemana = diasSemana[dataAtual.getDay()];
-            const dia = dataAtual.getDate();
-            const diaFormatado = `${diaSemana}: Dia ${dia}`;
-            diasFormatados.push(diaFormatado);
-            dataAtual.setDate(dataAtual.getDate() + 1);
-        }
-
-        return diasFormatados;
-    }
-
-    document.getElementById('formIntervalo').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const dataInicio = new Date(document.getElementById('dataInicio').value);
-
-        // Definir data de término como 15 dias após a data de início
-        const dataFim = new Date(dataInicio);
-        dataFim.setDate(dataInicio.getDate() + 14);
-
-        const intervalo = { inicio: dataInicio, fim: dataFim };
-        console.log(intervalo);
-
-        // Intervalos predefinidos
-        const intervalos = [
-            { inicio: new Date('2024-01-01'), fim: new Date('2024-01-15') },
-            { inicio: new Date('2024-01-16'), fim: new Date('2024-01-30') },
-            // Adicione mais intervalos conforme necessário
-        ];
-
-        // Testar a busca de intervalo por data
-        const intervaloEncontrado = buscarIntervaloPorData(dataInicio, intervalos);
-        console.log(intervaloEncontrado);
-
-        // Testar a extração de dias de um intervalo no formato desejado
-        const diasDoIntervaloFormatado = extrairDiasDoIntervaloFormatado(intervaloEncontrado);
-        console.log(diasDoIntervaloFormatado);
-    });
-</script>
-
-
-
-
-
-<form id="formIntervalo">
-    <label for="dataInicio">Selecione a data:</label>
-    <input type="date" id="dataInicio" name="dataInicio">
-    <button type="submit">Buscar</button>
-</form>
-
-<table id="tabelaDias">
-    <thead>
-        <tr>
-            <th>Dia</th>
-            <th>Dia da Semana</th>
-        </tr>
-    </thead>
-    <tbody id="corpoTabela"></tbody>
-</table>
-
-<script>
-    document.getElementById('formIntervalo').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const dataInicio = new Date(document.getElementById('dataInicio').value);
-
-        // Definir data de término como 15 dias após a data de início
-        const dataFim = new Date(dataInicio);
-        dataFim.setDate(dataInicio.getDate() + 14);
-
-        const intervalo = { inicio: dataInicio, fim: dataFim };
-        console.log(intervalo);
-
-        // Limpar tabela existente, se houver
-        const corpoTabela = document.getElementById('corpoTabela');
-        corpoTabela.innerHTML = '';
-
-        // Preencher tabela com os dias do intervalo
-        const diasFormatados = extrairDiasDoIntervaloFormatado(intervalo);
-        diasFormatados.forEach(function (diaFormatado, index) {
-            const dataAtual = new Date(intervalo.inicio);
-            dataAtual.setDate(dataAtual.getDate() + index);
-            const diaSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'][dataAtual.getDay()];
-
-            const tr = document.createElement('tr');
-            const tdDia = document.createElement('td');
-            const tdDiaSemana = document.createElement('td');
-            tdDia.textContent = diaFormatado;
-            tdDiaSemana.textContent = diaSemana;
-            tr.appendChild(tdDia);
-            tr.appendChild(tdDiaSemana);
-            corpoTabela.appendChild(tr);
-        });
-    });
-
-    // Função para extrair os dias de um intervalo no formato "Dia da Semana: Dia"
-    function extrairDiasDoIntervaloFormatado(intervalo) {
-        const diasFormatados = [];
-        let dataAtual = new Date(intervalo.inicio);
-
-        while (dataAtual <= intervalo.fim) {
-            const diaSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'][dataAtual.getDay()];
-            const dia = dataAtual.getDate();
-            const diaFormatado = `${diaSemana}: Dia ${dia}`;
-            diasFormatados.push(diaFormatado);
-            dataAtual.setDate(dataAtual.getDate() + 1);
-        }
-
-        return diasFormatados;
-    }
-</script>

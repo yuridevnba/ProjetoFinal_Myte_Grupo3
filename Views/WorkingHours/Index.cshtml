@@ -1,0 +1,241 @@
+﻿@model IEnumerable<ProjetoFinal_Myte_Grupo3.Models.WorkingHour>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    input {
+        width: 100%;
+    }
+</style>
+
+<form id="formIntervalo">
+    <label for="dataInicio">Selecione a data:</label>
+    <input type="date" id="dataInicio" name="dataInicio">
+    <button type="submit">Buscar</button>
+</form>
+
+<body>
+    <table>
+        <thead>
+            <tr id="linhaCabecalho">
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <select id="WBSId" name="WBSId">
+                        @foreach (var wbs in ViewBag.WBSId as SelectList)
+                        {
+                            <option value="@wbs.Value">@wbs.Text</option>
+                        }
+                    </select>
+                </td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+            </tr>
+            <tr>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button id="submitWorkingHours">Salvar Horas</button>
+</body>
+
+
+@* Script responsável por fazer requisição POST para salvar as horas *@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    function submitForm() {
+        // Dados estão fixos, precisa pegar de forma dinamica a partir da tabela
+        var workingHour = {
+            WBSId: 2,
+            WorkedDate: new Date(),
+            WorkedHours: 8,
+            EmployeeId: 3
+        };
+
+        $.ajax({
+            url: '/api/workinghours/create',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(workingHour),
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert('Um erro ocorreu ao tentar salvar as horas.');
+            }
+        });
+    }
+
+    document.getElementById('submitWorkingHours').addEventListener('click', submitForm);
+</script>
+
+
+@* Script responsável por popular as quinzenas no cabeçalho da tabela *@
+<script>
+    const dataHoje = new Date();
+    carregarDatas(dataHoje);
+
+    document.getElementById('formIntervalo').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const valorData = document.getElementById('dataInicio').value;
+
+        const dataInicio = new Date(valorData);
+        dataInicio.setDate(dataInicio.getDate() + 1);
+
+        carregarDatas(dataInicio);
+    });
+
+    function carregarDatas(dataInicio) {
+        // Definir data de término como 15 dias após a data de início
+        const dataFim = new Date(dataInicio);
+        dataFim.setDate(dataInicio.getDate() + 14);
+
+        const intervalo = { inicio: dataInicio, fim: dataFim };
+        console.log(intervalo);
+
+        // Preencher tabela com os dias do intervalo
+        const diasFormatados = extrairDiasDoIntervaloFormatado(intervalo);
+        console.log({ diasFormatados });
+        const linhaCabecalho = document.getElementById("linhaCabecalho");
+        linhaCabecalho.replaceChildren();
+
+        const thPrimeira = document.createElement("th");
+        thPrimeira.textContent = "Primeira";
+        linhaCabecalho.appendChild(thPrimeira);
+
+        diasFormatados.forEach(function (diaFormatado) {
+            const thDiaSemana = document.createElement("th");
+            const paragrafoDia = document.createElement("p");
+            const paragrafoData = document.createElement("p");
+
+            paragrafoDia.textContent = diaFormatado.diaSemana;
+            paragrafoData.textContent = diaFormatado.data;
+
+            thDiaSemana.appendChild(paragrafoDia);
+            thDiaSemana.appendChild(paragrafoData);
+
+            linhaCabecalho.appendChild(thDiaSemana);
+        });
+
+        const thTotalHoras = document.createElement("th");
+        thTotalHoras.textContent = "Total de Horas";
+        linhaCabecalho.appendChild(thTotalHoras);
+    };
+
+    // Função para extrair os dias de um intervalo no formato "Dia da Semana: Dia"
+    function extrairDiasDoIntervaloFormatado(intervalo) {
+        const diasFormatados = [];
+        let dataAtual = new Date(intervalo.inicio);
+
+        while (dataAtual <= intervalo.fim) {
+            const diaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'][dataAtual.getDay()];
+            const dia = dataAtual.getDate();
+            const diaFormatado = {
+                diaSemana: diaSemana,
+                data: dia
+            };
+            diasFormatados.push(diaFormatado);
+            dataAtual.setDate(dataAtual.getDate() + 1);
+        }
+
+        return diasFormatados;
+    };
+</script>
