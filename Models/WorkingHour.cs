@@ -10,13 +10,14 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         [Display(Name = "WBS")]
         public WBS? WBS { get; set; }
 
-        [Display(Name = "WBSId")]
+        [Display(Name = "Código")]
         public int WBSId { get; set; }
 
         [Display(Name = "Dia Trabalhado")]
         public DateTime WorkedDate { get; set; }
 
-        [Display(Name = "Horas Trabalhas")]
+        [Display(Name = "Horas Trabalhadas")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public int WorkedHours { get; set; }
 
         [Display(Name = "Funcionario")]
