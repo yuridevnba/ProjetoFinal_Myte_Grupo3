@@ -19,6 +19,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             _context = context;
         }
 
+        // GET: WBS
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.WBS.ToListAsync());
+        }
+
         // GET: WBS/Details/5
         public async Task<IActionResult> Details(int? id)
         {
