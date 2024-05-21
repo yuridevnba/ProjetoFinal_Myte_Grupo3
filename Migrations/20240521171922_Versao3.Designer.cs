@@ -9,11 +9,11 @@ using ProjetoFinal_Myte_Grupo3.Data;
 
 #nullable disable
 
-namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
+namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240520180457_BancoWbsMigrat")]
-    partial class BancoWbsMigrat
+    [Migration("20240521171922_Versao3")]
+    partial class Versao3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,12 +170,10 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -212,12 +210,10 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -293,11 +289,15 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SequentialCounter")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -313,6 +313,7 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                             WBSId = 1,
                             Code = "WBS0000001",
                             Description = "Férias",
+                            SequentialCounter = 0,
                             Type = "Non-Chargeability"
                         },
                         new
@@ -320,6 +321,7 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                             WBSId = 2,
                             Code = "WBS0000002",
                             Description = "Day-Off",
+                            SequentialCounter = 0,
                             Type = "Non-Chargeability"
                         },
                         new
@@ -327,6 +329,7 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                             WBSId = 3,
                             Code = "WBS0000003",
                             Description = "Sem Tarefa",
+                            SequentialCounter = 0,
                             Type = "Non-Chargeability"
                         },
                         new
@@ -334,6 +337,7 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                             WBSId = 4,
                             Code = "WBS0000004",
                             Description = "Implementação e Desenvolvimento",
+                            SequentialCounter = 0,
                             Type = "Chargeability"
                         });
                 });
