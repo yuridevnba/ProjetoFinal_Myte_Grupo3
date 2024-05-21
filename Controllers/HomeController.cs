@@ -15,12 +15,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToPage("/Account/Login", new { area = "Identity" });
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return RedirectToAction("Login", "Account");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

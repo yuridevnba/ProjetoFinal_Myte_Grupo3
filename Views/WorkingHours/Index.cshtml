@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<ProjetoFinal_Myte_Grupo3.Models.WorkingHour>
-
 @{
     ViewData["Title"] = "Index";
 }
@@ -43,13 +42,13 @@
         </thead>
         <tbody>
             <tr>
-                <td>
-                    <select id="WBSId" name="WBSId">
+                <td>@* 
+                     <select id="WBSId" name="WBSId">
                         @foreach (var wbs in ViewBag.WBSId as SelectList)
                         {
                             <option value="@wbs.Value">@wbs.Text</option>
                         }
-                    </select>
+                    </select>  *@
                 </td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
@@ -70,12 +69,12 @@
             </tr>
             <tr>
                 <td>
-                    <select id="WBSId" name="WBSId">
+                   @*  <select id="WBSId" name="WBSId">
                         @foreach (var wbs in ViewBag.WBSId as SelectList)
                         {
                             <option value="@wbs.Value">@wbs.Text</option>
                         }
-                    </select>
+                    </select> *@
                 </td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
@@ -96,12 +95,12 @@
             </tr>
             <tr>
                 <td>
-                    <select id="WBSId" name="WBSId">
+                   @*  <select id="WBSId" name="WBSId">
                         @foreach (var wbs in ViewBag.WBSId as SelectList)
                         {
                             <option value="@wbs.Value">@wbs.Text</option>
                         }
-                    </select>
+                    </select> *@
                 </td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
@@ -122,12 +121,12 @@
             </tr>
             <tr>
                 <td>
-                    <select id="WBSId" name="WBSId">
+                    @* <select id="WBSId" name="WBSId">
                         @foreach (var wbs in ViewBag.WBSId as SelectList)
                         {
                             <option value="@wbs.Value">@wbs.Text</option>
                         }
-                    </select>
+                    </select> *@
                 </td>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>

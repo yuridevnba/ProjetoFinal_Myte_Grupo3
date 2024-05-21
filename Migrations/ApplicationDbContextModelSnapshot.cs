@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetoFinal_Myte_Grupo3.Data;
 
 #nullable disable
 
-namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
+namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240516131908_FirstMigrat")]
-    partial class FirstMigrat
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,12 +167,10 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -212,12 +207,10 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -236,7 +229,6 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
 
                     b.Property<string>("DepartmentName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DepartmentId");
@@ -273,6 +265,9 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StatusEmployee")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("EmployeeId");
 
                     b.HasIndex("DepartmentId");
@@ -290,11 +285,15 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SequentialCounter")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -303,6 +302,69 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                     b.HasKey("WBSId");
 
                     b.ToTable("WBS");
+
+                    b.HasData(
+                        new
+                        {
+                            WBSId = 1,
+                            Code = "WBS0000001",
+                            Description = "Férias",
+                            SequentialCounter = 0,
+                            Type = "Non-Chargeability"
+                        },
+                        new
+                        {
+                            WBSId = 2,
+                            Code = "WBS0000002",
+                            Description = "Day-Off",
+                            SequentialCounter = 0,
+                            Type = "Non-Chargeability"
+                        },
+                        new
+                        {
+                            WBSId = 3,
+                            Code = "WBS0000003",
+                            Description = "Sem Tarefa",
+                            SequentialCounter = 0,
+                            Type = "Non-Chargeability"
+                        },
+                        new
+                        {
+                            WBSId = 4,
+                            Code = "WBS0000004",
+                            Description = "Implementação e Desenvolvimento",
+                            SequentialCounter = 0,
+                            Type = "Chargeability"
+                        });
+                });
+
+            modelBuilder.Entity("ProjetoFinal_Myte_Grupo3.Models.WorkingHour", b =>
+                {
+                    b.Property<int>("WorkingHourId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkingHourId"));
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WBSId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("WorkedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WorkedHours")
+                        .HasColumnType("int");
+
+                    b.HasKey("WorkingHourId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("WBSId");
+
+                    b.ToTable("WorkingHour");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -363,6 +425,25 @@ namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("ProjetoFinal_Myte_Grupo3.Models.WorkingHour", b =>
+                {
+                    b.HasOne("ProjetoFinal_Myte_Grupo3.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjetoFinal_Myte_Grupo3.Models.WBS", "WBS")
+                        .WithMany()
+                        .HasForeignKey("WBSId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("WBS");
                 });
 
             modelBuilder.Entity("ProjetoFinal_Myte_Grupo3.Models.Department", b =>

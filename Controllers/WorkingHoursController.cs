@@ -23,7 +23,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.WorkingHour.Include(w => w.Employee).Include(w => w.WBS);
-            ViewData["WBSId"] = new SelectList(_context.WBS, "WBSId", "Code");
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -53,20 +52,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             ViewData["EmployeeId"] = new SelectList(_context.Employee, "EmployeeId", "Email");
             ViewData["WBSId"] = new SelectList(_context.WBS, "WBSId", "Code");
             return View();
-        }
-
-        // Criado manualmente
-        [HttpPost]
-        [Route("api/workinghours/create")]
-        public async Task<IActionResult> CreateWorkingHour([FromBody] WorkingHour workingHour)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(workingHour);
-                await _context.SaveChangesAsync();
-                return Ok(new { success = true, message = "WorkingHour created successfully" });
-            }
-            return BadRequest(new { success = false, message = "Invalid data" });
         }
 
         // POST: WorkingHours/Create
