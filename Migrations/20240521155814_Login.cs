@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace ProjetoFinal_Myte_Grupo3.Data.Migrations
+namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     /// <inheritdoc />
-    public partial class NovasMigrats : Migration
+    public partial class Login : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
