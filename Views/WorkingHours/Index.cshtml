@@ -2,261 +2,151 @@
 
 @{
     ViewData["Title"] = "Index";
+    var dateRange = (List<DateTime>)ViewBag.DateRange;
+    var wbsList = (List<ProjetoFinal_Myte_Grupo3.Models.WBS>)ViewBag.WBSList;
+    var workingHoursByWbsAndDate = (List<List<int>>)ViewBag.WorkingHoursByWbsAndDate;
+    var totalsPerDay = (List<int>)ViewBag.TotalsPerDay;
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1 class="titulo_boasVindas">Bem-vindo, @ViewData["EmployeeName"]!</h1>
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
+    h1.titulo_boasVindas {
+        margin-top: 70px;
+        margin-bottom: 100px;
+        font-family: sans-serif;
+    }
+
     table {
         border-collapse: collapse;
         width: 100%;
     }
 
+    tbody {
+        border-color: inherit;
+        border-style: solid;
+    }
+
     th, td {
-        border: 1px solid black;
+        border: none;
         padding: 8px;
         text-align: center;
     }
 
     input {
         width: 100%;
+        border: none;
+        text-align: center;
+    }
+
+    select {
+        border: none;
+    }
+
+    .mt-4 {
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .but_salvar {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .form-group {
+        width: 250px;
     }
 </style>
 
-<form id="formIntervalo">
-    <label for="dataInicio">Selecione a data:</label>
-    <input type="date" id="dataInicio" name="dataInicio">
-    <button type="submit">Buscar</button>
-</form>
+<div class="container mt-4">
+    <form id="formIntervalo" method="post" asp-controller="WorkingHours" asp-action="Index">
+        <div class="form-group">
+            <label for="dataInicio">Selecione a data:</label>
+            <div class="input-group">
+                <input type="date" id="dataInicio" name="startDate" class="form-control" value="@dateRange[0].ToString("yyyy-MM-dd")">
+                <div class="input-group-append">
+                    <button type="submit" class="buttons_orange">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<br />
 
 <body>
-    <table>
-        <thead>
-            <tr id="linhaCabecalho">
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <select id="WBSId" name="WBSId">
-                        @foreach (var wbs in ViewBag.WBSId as SelectList)
+    <form id="saveHoursForm" method="post" action="@Url.Action("SaveWorkingHours", "WorkingHours")">
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr id="linhaCabecalho">
+                    <th class="titulo_tabela"> MyThree</th>
+                    @foreach (var date in dateRange)
+                    {
+                        <th>
+                            <p>@date.ToString("ddd")</p>
+                            <p>@date.ToString("dd/MM")</p>
+                             <input type="hidden" name="Dates[]" value="@date.ToString("yyyy-MM-dd")" />
+                        </th>
+                    }
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabela">
+                @for (var wbsIndex = 0; wbsIndex < wbsList.Count; wbsIndex++)
+                {
+                    var wbs = wbsList[wbsIndex];
+                    <tr>
+                        <td>
+                            <select name="WBSId[]">
+                                <option value="@wbs.WBSId">@wbs.Code</option>
+                            </select>
+                        </td>
+                        @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
                         {
-                            <option value="@wbs.Value">@wbs.Text</option>
+                            var hours = workingHoursByWbsAndDate[wbsIndex][dateIndex];
+                            <td><input type="text" name="Hours[@wbsIndex][@dateIndex]" class="hour-input" value="@hours"></td>
                         }
-                    </select>
-                </td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-            </tr>
-            <tr>
-                <td>
-                    <select id="WBSId" name="WBSId">
-                        @foreach (var wbs in ViewBag.WBSId as SelectList)
-                        {
-                            <option value="@wbs.Value">@wbs.Text</option>
-                        }
-                    </select>
-                </td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-            </tr>
-            <tr>
-                <td>
-                    <select id="WBSId" name="WBSId">
-                        @foreach (var wbs in ViewBag.WBSId as SelectList)
-                        {
-                            <option value="@wbs.Value">@wbs.Text</option>
-                        }
-                    </select>
-                </td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-            </tr>
-            <tr>
-                <td>
-                    <select id="WBSId" name="WBSId">
-                        @foreach (var wbs in ViewBag.WBSId as SelectList)
-                        {
-                            <option value="@wbs.Value">@wbs.Text</option>
-                        }
-                    </select>
-                </td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-                <td><input type="text" value=""></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <button id="submitWorkingHours">Salvar Horas</button>
-</body>
-
-
-@* Script responsável por fazer requisição POST para salvar as horas *@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-    function submitForm() {
-        // Dados estão fixos, precisa pegar de forma dinamica a partir da tabela
-        var workingHour = {
-            WBSId: 2,
-            WorkedDate: new Date(),
-            WorkedHours: 8,
-            EmployeeId: 3
-        };
-
-        $.ajax({
-            url: '/api/workinghours/create',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(workingHour),
-            success: function (response) {
-                if (response.success) {
-                    alert(response.message);
-                } else {
-                    alert(response.message);
+                    </tr>
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-                alert('Um erro ocorreu ao tentar salvar as horas.');
-            }
-        });
-    }
+            </tbody>
+            <tfoot>
+                <tr id="linhaTotais">
+                    <td>Total por Dia</td>
+                    @for (var i = 0; i < totalsPerDay.Count; i++)
+                    {
+                        <td id="totalDia-@i">@totalsPerDay[i]</td>
+                    }
+                    <td id="totalGeral">@totalsPerDay.Sum()</td>
+                </tr>
+            </tfoot>
+        </table>
 
-    document.getElementById('submitWorkingHours').addEventListener('click', submitForm);
-</script>
+        <button class="buttons_orange" id="submitWorkingHours" type="submit">Salvar Horas</button>
 
-
-@* Script responsável por popular as quinzenas no cabeçalho da tabela *@
-<script>
-    const dataHoje = new Date();
-    carregarDatas(dataHoje);
-
-    document.getElementById('formIntervalo').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const valorData = document.getElementById('dataInicio').value;
-
-        const dataInicio = new Date(valorData);
-        dataInicio.setDate(dataInicio.getDate() + 1);
-
-        carregarDatas(dataInicio);
-    });
-
-    function carregarDatas(dataInicio) {
-        // Definir data de término como 15 dias após a data de início
-        const dataFim = new Date(dataInicio);
-        dataFim.setDate(dataInicio.getDate() + 14);
-
-        const intervalo = { inicio: dataInicio, fim: dataFim };
-        console.log(intervalo);
-
-        // Preencher tabela com os dias do intervalo
-        const diasFormatados = extrairDiasDoIntervaloFormatado(intervalo);
-        console.log({ diasFormatados });
-        const linhaCabecalho = document.getElementById("linhaCabecalho");
-        linhaCabecalho.replaceChildren();
-
-        const thPrimeira = document.createElement("th");
-        thPrimeira.textContent = "Primeira";
-        linhaCabecalho.appendChild(thPrimeira);
-
-        diasFormatados.forEach(function (diaFormatado) {
-            const thDiaSemana = document.createElement("th");
-            const paragrafoDia = document.createElement("p");
-            const paragrafoData = document.createElement("p");
-
-            paragrafoDia.textContent = diaFormatado.diaSemana;
-            paragrafoData.textContent = diaFormatado.data;
-
-            thDiaSemana.appendChild(paragrafoDia);
-            thDiaSemana.appendChild(paragrafoData);
-
-            linhaCabecalho.appendChild(thDiaSemana);
-        });
-
-        const thTotalHoras = document.createElement("th");
-        thTotalHoras.textContent = "Total de Horas";
-        linhaCabecalho.appendChild(thTotalHoras);
-    };
-
-    // Função para extrair os dias de um intervalo no formato "Dia da Semana: Dia"
-    function extrairDiasDoIntervaloFormatado(intervalo) {
-        const diasFormatados = [];
-        let dataAtual = new Date(intervalo.inicio);
-
-        while (dataAtual <= intervalo.fim) {
-            const diaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'][dataAtual.getDay()];
-            const dia = dataAtual.getDate();
-            const diaFormatado = {
-                diaSemana: diaSemana,
-                data: dia
-            };
-            diasFormatados.push(diaFormatado);
-            dataAtual.setDate(dataAtual.getDate() + 1);
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
         }
 
-        return diasFormatados;
-    };
-</script>
+        @if (!string.IsNullOrEmpty(successMessage))
+        {
+            <div class="alert alert-success" role="alert">
+                @successMessage
+            </div>
+        }
+    </form>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</body>

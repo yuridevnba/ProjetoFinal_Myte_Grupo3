@@ -21,3 +21,16 @@ body {
   margin-bottom: 60px;
 }
 
+.buttons_orange,
+.buttons_orange:hover, 
+.buttons_orange:active {
+    font-family: sans-serif;
+    font-size: 15px;
+    background: #f85106;
+    color: #ffff;
+    border-color: #f85106;
+    border-radius: 4px;
+    border: solid #f85106 1px;
+    padding: 2px 11px;
+}
+

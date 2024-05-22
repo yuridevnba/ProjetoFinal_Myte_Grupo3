@@ -25,6 +25,21 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(await _context.Employee.ToListAsync());
         }
 
+        //PARA CHAMAR O NOME DO FUNCIONÁRIO NO INDEX 
+        //public async Task<IActionResult> Index()
+        //{
+        //    // Obtenha o ID do funcionário logado (suponho que você tenha algum método para isso)
+        //    var loggedInEmployeeId = GetLoggedInEmployeeId();
+
+        //    // Encontre o funcionário com base no ID
+        //    var loggedInEmployee = await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == loggedInEmployeeId);
+
+        //    // Passe o nome do funcionário para a visualização
+        //    ViewData["EmployeeName"] = loggedInEmployee?.EmployeeName;
+
+        //    return View();
+        //}
+
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
