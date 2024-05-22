@@ -69,74 +69,108 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveWorkingHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates)
         {
-            // TODO: Ao invés de usar o numero 3 fixo, precisamos pegar o id do employee logado.
-            var employeeId = 3;
+            var employeeId = GetCurrentEmployeeId();
 
             if (ModelState.IsValid)
             {
-                // Dictionary to store the total sum of hours for each day
-                var dailyTotalHours = new Dictionary<DateTime, int>();
-
-                for (int i = 0; i < WBSId.Count; i++)
+                var dailyTotalHours = CalculateDailyTotalHours(WBSId, Hours, Dates);
+                
+                if (!ValidateTotalHours(dailyTotalHours))
                 {
-                    for (int j = 0; j < Dates.Count; j++)
+                    return RedirectToAction(nameof(Index));
+                }
+
+                await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
+
+                TempData["SuccessMessage"] = "Sucesso!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
+        private int GetCurrentEmployeeId()
+        {
+            // TODO: Pegar o ID do employee logado
+            return 3;
+        }
+
+        private Dictionary<DateTime, int> CalculateDailyTotalHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates)
+        {
+            var dailyTotalHours = new Dictionary<DateTime, int>();
+
+            for (int i = 0; i < WBSId.Count; i++)
+            {
+                for (int j = 0; j < Dates.Count; j++)
+                {
+                    var date = Dates[j];
+                    var hours = Hours[i][j];
+
+                    if (hours > 0)
                     {
-                        var wbsId = WBSId[i];
-                        var date = Dates[j];
-                        var hours = Hours[i][j];
-
-                        // Only process if hours is greater than 0
-                        if (hours > 0)
+                        if (!dailyTotalHours.ContainsKey(date))
                         {
-                            // Calculate the total sum of hours for each day
-                            if (!dailyTotalHours.ContainsKey(date))
-                            {
-                                dailyTotalHours[date] = 0;
-                            }
-                            dailyTotalHours[date] += hours;
+                            dailyTotalHours[date] = 0;
+                        }
+                        dailyTotalHours[date] += hours;
+                    }
+                }
+            }
 
-                            // Check if a working hour record already exists for this date, WBS, and employee
-                            var existingWorkingHour = await _context.WorkingHour
-                                .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
+            return dailyTotalHours;
+        }
 
-                            if (existingWorkingHour != null)
+        private bool ValidateTotalHours(Dictionary<DateTime, int> dailyTotalHours)
+        {
+            foreach (var kvp in dailyTotalHours)
+            {
+                if (kvp.Value < 8)
+                {
+                    TempData["ErrorMessage"] =
+                          $"O somatório total de horas para a data {kvp.Key.ToString("yyyy-MM-dd")} deve ser maior que 8.";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private async Task SaveOrUpdateWorkingHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates, int employeeId)
+        {
+            for (int i = 0; i < WBSId.Count; i++)
+            {
+                for (int j = 0; j < Dates.Count; j++)
+                {
+                    var wbsId = WBSId[i];
+                    var date = Dates[j];
+                    var hours = Hours[i][j];
+
+                    if (hours > 0)
+                    {
+                        var existingWorkingHour = await _context.WorkingHour
+                            .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
+
+                        if (existingWorkingHour != null)
+                        {
+                            existingWorkingHour.WorkedHours = hours;
+                            _context.Update(existingWorkingHour);
+                        }
+                        else
+                        {
+                            var newWorkingHour = new WorkingHour
                             {
-                                // Update the existing record with the new worked hours
-                                existingWorkingHour.WorkedHours = hours;
-                                _context.Update(existingWorkingHour);
-                            }
-                            else
-                            {
-                                // Create a new working hour record
-                                var newWorkingHour = new WorkingHour
-                                {
-                                    WBSId = wbsId,
-                                    WorkedDate = date,
-                                    WorkedHours = hours,
-                                    EmployeeId = employeeId
-                                };
-                                _context.Add(newWorkingHour);
-                            }
+                                WBSId = wbsId,
+                                WorkedDate = date,
+                                WorkedHours = hours,
+                                EmployeeId = employeeId
+                            };
+                            _context.Add(newWorkingHour);
                         }
                     }
                 }
-
-                // Validate the total sum of hours for each day
-                foreach (var kvp in dailyTotalHours)
-                {
-                    if (kvp.Value < 8)
-                    {
-                        TempData["ErrorMessage"] = $"Total sum of hours for {kvp.Key.ToString("yyyy-MM-dd")} is less than 8.";
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-
-                // If validation passes, save the data
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = $"Sucesso!";
-                return RedirectToAction(nameof(Index));
             }
-            return View();
+
+            await _context.SaveChangesAsync();
         }
 
         // GET: WorkingHours/Details/5
