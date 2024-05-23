@@ -8,6 +8,7 @@
     var totalsPerDay = (List<int>)ViewBag.TotalsPerDay;
     var errorMessage = TempData["ErrorMessage"] as string;
     var successMessage = TempData["SuccessMessage"] as string;
+    var currentTotalSum = 0;
 
     System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
     System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("pt-BR");
@@ -52,6 +53,7 @@
             <tbody id="corpoTabela">
                 @for (var wbsIndex = 0; wbsIndex < wbsList.Count; wbsIndex++)
                 {
+                    currentTotalSum = 0;
                     var wbs = wbsList[wbsIndex];
                     <tr>
                         <td>
@@ -64,9 +66,16 @@
                             var hours = workingHoursByWbsAndDate[wbsIndex][dateIndex];
                             var date = dateRange[dateIndex];
                             var isWeekend = date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
-                            <td class="@(isWeekend ? "weekend-column" : "")"><input type="text" name="Hours[@wbsIndex][@dateIndex]" class="hour-input" value="@hours"></td>
+                            <td class="@(isWeekend ? "weekend-column" : "")">
+                                <input type="text" name="Hours[@wbsIndex][@dateIndex]" class="hour-input" value="@hours">
+                            </td>
                         }
-                        <td>0</td>
+                        @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
+                        {
+                            var hours = workingHoursByWbsAndDate[wbsIndex][dateIndex];
+                            currentTotalSum = currentTotalSum + hours;
+                        }
+                        <td>@currentTotalSum</td>
                     </tr>
                 }
             </tbody>
