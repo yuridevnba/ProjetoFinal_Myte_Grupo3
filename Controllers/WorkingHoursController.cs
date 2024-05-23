@@ -312,5 +312,42 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             return _context.WorkingHour.Any(e => e.WorkingHourId == id);
         }
+
+
+        //Código para soma de total das horas por quinzena em 1 wbs
+        private async Task<(List<DateTime>, List<WBS>, List<List<int>>, List<int>)> GetWorkingHoursAsync(DateTime startDate, int selectedWBSId)
+        {
+            var endDate = startDate.AddDays(14);
+            var dateRange = Enumerable.Range(0, 15).Select(offset => startDate.AddDays(offset)).ToList();
+
+            // Filtrar as horas trabalhadas apenas para a WBs selecionada
+            var workingHours = await _context.WorkingHour
+                .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate && wh.WBSId == selectedWBSId)
+                .ToListAsync();
+
+            var wbsList = await _context.WBS.ToListAsync();
+            var workingHoursByWbsAndDate = new List<List<int>>();
+            var totalsPerDay = new List<int>(new int[15]);
+
+            foreach (var date in dateRange)
+            {
+                var hoursList = new List<int>();
+                foreach (var wbs in wbsList)
+                {
+                    var hours = workingHours
+                        .Where(wh => wh.WorkedDate.Date == date.Date && wh.WBSId == wbs.WBSId)
+                        .Sum(wh => wh.WorkedHours);
+                    hoursList.Add(hours);
+                }
+                workingHoursByWbsAndDate.Add(hoursList);
+            }
+
+            for (int dateIndex = 0; dateIndex < 15; dateIndex++)
+            {
+                totalsPerDay[dateIndex] = workingHoursByWbsAndDate.Sum(hoursList => hoursList[dateIndex]);
+            }
+
+            return (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay);
+        }
     }
 }
