@@ -14,19 +14,28 @@
     System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("pt-BR");
 }
 
-<div class="container mt-4">
+<div class="container title-container">
     <h1 class="titulo_boasVindas">Bem-vindo, <span style="color: #fd7e14;">Avaneildo!</span></h1>
-    @* Substituir o nome do Ava, pelo nome do funcionário logado  @ViewData["EmployeeName"] *@
-    <form id="formIntervalo" method="post" asp-controller="WorkingHours" asp-action="Index">
-        <div class="form-group">
-            <div class="input-group">
-                <input type="date" id="dataInicio" name="startDate" class="form-control" value="@dateRange[0].ToString("yyyy-MM-dd")">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+    <div class="date-forms-container">
+        <form method="post" asp-controller="WorkingHours" asp-action="Index">
+            <input type="hidden" name="selectedDate" value="@dateRange[0].AddDays(-15).ToString("yyyy-MM-dd")">
+            <button type="submit" class="btn btn-link"><i class="fas fa-chevron-left"></i></button>
+        </form>
+        <form id="formIntervalo" method="post" asp-controller="WorkingHours" asp-action="Index">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="date" id="dataInicio" name="selectedDate" class="form-control" value="@dateRange[0].ToString("yyyy-MM-dd")">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+        <form method="post" asp-controller="WorkingHours" asp-action="Index">
+            <input type="hidden" name="selectedDate" value="@dateRange[0].AddDays(15).ToString("yyyy-MM-dd")">
+            <button type="submit" class="btn btn-link"><i class="fas fa-chevron-right"></i></button>
+        </form>
+    </div>
 </div>
 
 <body>

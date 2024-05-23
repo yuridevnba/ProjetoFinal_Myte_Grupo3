@@ -15,10 +15,43 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             _context = context;
         }
 
-        private async Task<(List<DateTime>, List<WBS>, List<List<int>>, List<int>)> GetWorkingHoursAsync(DateTime startDate)
+        private List<(DateTime StartDate, DateTime EndDate)> Generate15DaySlices()
         {
-            var endDate = startDate.AddDays(14);
-            var dateRange = Enumerable.Range(0, 15).Select(offset => startDate.AddDays(offset)).ToList();
+            var startDate = new DateTime(2024, 1, 1);
+            var slices = new List<(DateTime, DateTime)>();
+
+            for (int i = 0; i < 24; i++) // Assuming you need 24 slices for the whole year
+            {
+                var endDate = startDate.AddDays(14);
+                slices.Add((startDate, endDate));
+                startDate = endDate.AddDays(1); // Move to the next day after the end of the current slice
+            }
+
+            return slices;
+        }
+
+        private (DateTime StartDate, DateTime EndDate) GetSliceFromDate(DateTime selectedDate)
+        {
+            var slices = Generate15DaySlices();
+
+            foreach (var slice in slices)
+            {
+                if (selectedDate >= slice.StartDate && selectedDate <= slice.EndDate)
+                {
+                    return slice;
+                }
+            }
+
+            // If the selected date is not within any slice, return the first slice as default
+            return slices.FirstOrDefault();
+        }
+
+        private async Task<(List<DateTime>, List<WBS>, List<List<int>>, List<int>)> GetWorkingHoursAsync(DateTime startDate, DateTime endDate)
+        {
+            var dateRange = Enumerable.Range(0, (int)(endDate - startDate).TotalDays + 1)
+                                       .Select(offset => startDate.AddDays(offset))
+                                       .ToList();
+
             // TODO: Pegar working hours APENAS do employee logado! adicionar um where employeeId
             var workingHours = await _context.WorkingHour
                 .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate)
@@ -26,7 +59,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             var wbsList = await _context.WBS.ToListAsync();
             var workingHoursByWbsAndDate = new List<List<int>>();
-            var totalsPerDay = new List<int>(new int[15]);
+            var totalsPerDay = new List<int>(new int[dateRange.Count]);
 
             foreach (var wbs in wbsList)
             {
@@ -41,7 +74,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 workingHoursByWbsAndDate.Add(hoursList);
             }
 
-            for (int dateIndex = 0; dateIndex < 15; dateIndex++)
+            for (int dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
             {
                 totalsPerDay[dateIndex] = workingHoursByWbsAndDate.Sum(hoursList => hoursList[dateIndex]);
             }
@@ -49,14 +82,26 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay);
         }
 
-        public async Task<IActionResult> Index(DateTime? startDate)
+        public async Task<IActionResult> Index(DateTime? selectedDate)
         {
-            var applicationDbContext = _context.WorkingHour.Include(w => w.Employee).Include(w => w.WBS);
-            ViewData["WBSId"] = new SelectList(_context.WBS, "WBSId", "Code");
+            DateTime effectiveStartDate;
+            DateTime effectiveEndDate;
 
-            var effectiveStartDate = startDate ?? DateTime.Today;
+            if (selectedDate.HasValue)
+            {
+                var selectedDateTime = selectedDate.Value.Date;
+                var selectedSlice = GetSliceFromDate(selectedDateTime);
+                effectiveStartDate = selectedSlice.StartDate;
+                effectiveEndDate = selectedSlice.EndDate;
+            }
+            else
+            {
+                var currentSlice = GetSliceFromDate(DateTime.Today);
+                effectiveStartDate = currentSlice.StartDate;
+                effectiveEndDate = currentSlice.EndDate;
+            }
 
-            var (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay) = await GetWorkingHoursAsync(effectiveStartDate);
+            var (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay) = await GetWorkingHoursAsync(effectiveStartDate, effectiveEndDate);
 
             ViewBag.DateRange = dateRange;
             ViewBag.WBSList = wbsList;
