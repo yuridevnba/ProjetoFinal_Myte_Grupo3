@@ -127,7 +127,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
                 await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
 
-                TempData["SuccessMessage"] = "Sucesso!";
+                TempData["SuccessMessage"] = " Sucesso! Suas horas foram salvas! ";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -172,7 +172,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 if (kvp.Value < 8)
                 {
                     TempData["ErrorMessage"] =
-                          $"O somatório total de horas para a data {kvp.Key.ToString("yyyy-MM-dd")} deve ser maior que 8.";
+                          $" O somatório total de horas para a data {kvp.Key.ToString("yyyy-MM-dd")} deve ser maior que 8! ";
                     return false;
                 }
             }

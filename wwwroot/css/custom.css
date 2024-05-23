@@ -53,6 +53,7 @@
     box-shadow: 0 0 0 0.2rem rgba(253, 126, 20, 0.5);
 }
 /* ----------------------------------------------- */
+
 .table table-bordered {
     border: 2px solid #dee2e6;
 }
@@ -77,9 +78,18 @@ h1.titulo_boasVindas {
     font-size: 16px;
 }
 
+#linhaTotais,
+#totalGeral,
+.table td,
+.table th {
+    font-family: Calibri, sans-serif;
+    vertical-align: baseline;
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .table thead th {
@@ -96,20 +106,30 @@ p {
     margin: 0px;
 }
 
-
-/* ----------------------------------------------- NavBar */ 
+/* ----------------------------------------------- NavBar */
 .texto_logo {
     vertical-align: middle;
-    font-family: Calibri, sans-serif;
-    font-weight: 900;
-    margin: 0;
+    margin-top: 3px;
     color: white;
     font-size: 22px;
+    font-weight: 600;
+    font-style: normal;
 }
 
 .navbar {
     padding: 10px;
     margin-bottom: 100px;
+}
+/* ----------------------------------------------- */
+
+/* ------------------------- Linha abaixo da tabela */
+.msg_tabela {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+    font-weight: 500;
+    gap: 6px;
 }
 /* ----------------------------------------------- */
 
@@ -152,12 +172,6 @@ select {
 .date-forms-container {
     display: flex;
     gap: 8px;
-}
-
-.but_salvar {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
 }
 
 .form-group {

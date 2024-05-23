@@ -15,7 +15,7 @@
 }
 
 <div class="container title-container">
-    <h1 class="titulo_boasVindas">Bem-vindo, <span style="color: #fd7e14;">Avaneildo!</span></h1>
+    <h1 class="titulo_boasVindas"><i class="fa fa-user" style="color: #fd7e14;"></i> Bem-vindo, <span style="color: #fd7e14;">Avaneildo!</span></h1>
     <div class="date-forms-container">
         <form method="post" asp-controller="WorkingHours" asp-action="Index">
             <input type="hidden" name="selectedDate" value="@dateRange[0].AddDays(-15).ToString("yyyy-MM-dd")">
@@ -76,7 +76,7 @@
                             var date = dateRange[dateIndex];
                             var isWeekend = date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
                             <td class="@(isWeekend ? "weekend-column" : "")">
-                                <input type="text" name="Hours[@wbsIndex][@dateIndex]" class="hour-input" value="@hours">
+                                <input type="@(isWeekend ? "hidden" : "text")" name="Hours[@wbsIndex][@dateIndex]" class="hour-input" value="@hours">
                             </td>
                         }
                         @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -103,23 +103,25 @@
                 </tr>
             </tfoot>
         </table>
-        <div class="but_salvar">
-            <button class="btn btn-primary" id="submitWorkingHours" type="submit">Salvar Horas</button>
+        <div class="msg_tabela">
+            <div class="but_salvar">
+                <button class="btn btn-primary" id="submitWorkingHours" type="submit"> Salvar </button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert msg_tabela" style="padding: 7px 20px; background-color: #fff3e8;" role="alert">
+                    @errorMessage <i class="fa-solid fa-ban fa" style="color: #f47d14;"></i>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert msg_tabela" style="padding: 7px 20px; background-color: #fff3e8; " role="alert">
+                    @successMessage <i class="fa-regular fa-thumbs-up fa" style="color: #f47d14;"></i>
+                </div>
+            }
         </div>
-
-        @if (!string.IsNullOrEmpty(errorMessage))
-        {
-            <div class="alert alert-danger" role="alert">
-                @errorMessage
-            </div>
-        }
-
-        @if (!string.IsNullOrEmpty(successMessage))
-        {
-            <div class="alert alert-success" role="alert">
-                @successMessage
-            </div>
-        }
     </form>
 
     <br />
