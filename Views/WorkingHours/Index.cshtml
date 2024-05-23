@@ -50,7 +50,6 @@
                         var formattedDayOfWeek = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dayOfWeek.ToLower());
 
                         <th class="@(date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday ? "weekend-column" : "")">
-
                             <p>@formattedDayOfWeek</p>
                             <p>@date.ToString("dd/MM")</p>
                             <input type="hidden" name="Dates[]" value="@date.ToString("yyyy-MM-dd")" />
@@ -67,7 +66,11 @@
                     <tr>
                         <td>
                             <select name="WBSId[]">
-                                <option value="@wbs.WBSId">@wbs.Code</option>
+                                <option value="" disabled selected>WBS</option>
+                                @foreach (var wbsOption in wbsList)
+                                {
+                                    <option value="@wbsOption.WBSId">@wbsOption.Code</option>
+                                }
                             </select>
                         </td>
                         @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -130,3 +133,18 @@
     <br />
     <br />
 </body>
+
+
+@* Código para as wbs não serem repetidas em cada select *@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("select[name='WBSId[]']").change(function () {
+            var selectedWBS = $(this).val();
+            var allSelects = $("select[name='WBSId[]']");
+
+            // Remover a opção selecionada dos outros selects
+            allSelects.not(this).find("option[value='" + selectedWBS + "']").remove();
+        });
+    });
+</script>
