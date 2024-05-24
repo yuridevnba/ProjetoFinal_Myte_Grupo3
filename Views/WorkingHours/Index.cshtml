@@ -1,0 +1,132 @@
+﻿@model IEnumerable<ProjetoFinal_Myte_Grupo3.Models.WorkingHour>
+
+@{
+    ViewData["Title"] = "Index";
+    var dateRange = (List<DateTime>)ViewBag.DateRange;
+    var wbsList = (List<ProjetoFinal_Myte_Grupo3.Models.WBS>)ViewBag.WBSList;
+    var workingHoursByWbsAndDate = (List<List<int>>)ViewBag.WorkingHoursByWbsAndDate;
+    var totalsPerDay = (List<int>)ViewBag.TotalsPerDay;
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
+    var currentTotalSum = 0;
+
+    System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
+    System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("pt-BR");
+}
+
+<div class="container title-container">
+    <h1 class="titulo_boasVindas"><i class="fa fa-user" style="color: #fd7e14;"></i> Bem-vindo, <span style="color: #fd7e14;">Avaneildo!</span></h1>
+    <div class="date-forms-container">
+        <form method="post" asp-controller="WorkingHours" asp-action="Index">
+            <input type="hidden" name="selectedDate" value="@dateRange[0].AddDays(-15).ToString("yyyy-MM-dd")">
+            <button type="submit" class="btn btn-link"><i class="fas fa-chevron-left"></i></button>
+        </form>
+        <form id="formIntervalo" method="post" asp-controller="WorkingHours" asp-action="Index">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="date" id="dataInicio" name="selectedDate" class="form-control" value="@dateRange[0].ToString("yyyy-MM-dd")">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form method="post" asp-controller="WorkingHours" asp-action="Index">
+            <input type="hidden" name="selectedDate" value="@dateRange[0].AddDays(15).ToString("yyyy-MM-dd")">
+            <button type="submit" class="btn btn-link"><i class="fas fa-chevron-right"></i></button>
+        </form>
+    </div>
+</div>
+
+<body>
+    <form id="saveHoursForm" method="post" action="@Url.Action("SaveWorkingHours", "WorkingHours")">
+        <table class="table table-striped table-striped">
+            <thead>
+                <tr id="linhaCabecalho">
+                    <th class="titulo_tabela">Código WBS</th>
+                    @foreach (var date in dateRange)
+                    {
+                        var dayOfWeek = date.ToString("ddd", new System.Globalization.CultureInfo("pt-BR"));
+                        var formattedDayOfWeek = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dayOfWeek.ToLower());
+
+                        <th class="@(date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday ? "weekend-column" : "")">
+
+                            <p>@formattedDayOfWeek</p>
+                            <p>@date.ToString("dd/MM")</p>
+                            <input type="hidden" name="Dates[]" value="@date.ToString("yyyy-MM-dd")" />
+                        </th>
+                    }
+                    <th class="text_totais">Total</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabela">
+                @for (var wbsIndex = 0; wbsIndex < wbsList.Count; wbsIndex++)
+                {
+                    currentTotalSum = 0;
+                    var wbs = wbsList[wbsIndex];
+                    <tr>
+                        <td>
+                            <select name="WBSId[]">
+                                <option value="@wbs.WBSId">@wbs.Code</option>
+                            </select>
+                        </td>
+                        @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
+                        {
+                            var hours = workingHoursByWbsAndDate[wbsIndex][dateIndex];
+                            var date = dateRange[dateIndex];
+                            var isWeekend = date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
+                            <td class="@(isWeekend ? "weekend-column" : "")">
+                                <input type="@(isWeekend ? "hidden" : "text")" name="Hours[@wbsIndex][@dateIndex]" class="hour-input" value="@hours">
+                            </td>
+                        }
+                        @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
+                        {
+                            var hours = workingHoursByWbsAndDate[wbsIndex][dateIndex];
+                            currentTotalSum = currentTotalSum + hours;
+                        }
+                        <td>@currentTotalSum</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr id="linhaTotais">
+                    <td class="text_totais">Total de Horas</td>
+                    @for (var i = 0; i < totalsPerDay.Count; i++)
+                    {
+                        var date = dateRange[i];
+                        var isWeekend = date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
+
+                        <td class="@(isWeekend ? "weekend-column" : "")" id="totalDia-@i">@totalsPerDay[i]</td>
+
+                    }
+                    <td id="totalGeral">@totalsPerDay.Sum()</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="msg_tabela">
+            <div class="but_salvar">
+                <button class="btn btn-primary" id="submitWorkingHours" type="submit"> Salvar </button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert msg_tabela" style="padding: 7px 20px; background-color: #fff3e8;" role="alert">
+                    @errorMessage <i class="fa-solid fa-ban fa" style="color: #f47d14;"></i>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert msg_tabela" style="padding: 7px 20px; background-color: #fff3e8; " role="alert">
+                    @successMessage <i class="fa-regular fa-thumbs-up fa" style="color: #f47d14;"></i>
+                </div>
+            }
+        </div>
+    </form>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</body>
