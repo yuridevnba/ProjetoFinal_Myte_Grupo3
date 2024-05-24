@@ -1,0 +1,31 @@
+﻿@model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.LoginViewModel
+@{
+    ViewBag.Title = "Login de Usuário";
+}
+<div class="row position-absolute top-50 start-50 translate-middle">
+    <div class="col-md-12 center">
+        <h1>Login</h1>
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" class="form-control form-control-lg" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Senha</label>
+                <input type="password" asp-for="Password" class="form-control form-control-lg" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="Rememberme">
+                        <input asp-for="Rememberme" />
+                        @Html.DisplayNameFor(m => m.Rememberme)
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-danger">Entrar</button>
+        </form>
+    </div>
+</div>

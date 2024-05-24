@@ -1,0 +1,20 @@
+﻿@model List<string> //Modelo para lista de registro de e-mail
+@{
+    ViewBag.Title = "Registro de Usuários";
+}
+<h2 class="card-title mt-5">Registro de Usuários</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var users in Model)
+        {
+            <tr>
+                <td>@users</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -18,5 +18,46 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    z-index: 1;
 }
+
+
+.table thead th {
+    background-color: #ffffff !important;
+    color: #f85106;
+}
+
+.btn-primary {
+    background-color: #f85106;
+    border-color: #f85106;
+}
+
+.text-warning {
+    color: #f8b400; /* Laranja para ativos */
+}
+
+.text-secondary {
+    color: #dcdcdc; /* Cinza claro para inativos */
+}
+
+
+/*
+.div_background {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    z-index: -1;
+
+}
+
+.img_background {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-10%, -80%);
+    object-fit: contain;
+    opacity: 0.2;
+}*/

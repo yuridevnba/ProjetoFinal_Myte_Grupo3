@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\ProjetoFinal_Myte_Grupo3.props" />
-</Project>
