@@ -5,7 +5,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
     public class RegisterViewsModel
     {
         [EmailAddress]
-        [Required(ErrorMessage = "Campo obrigatório")]
+        [Required]
         public string? Email { get; set; }
 
         [DataType(DataType.Password)]
@@ -14,7 +14,5 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "As senhas não conferem")]
         public string? ConfirmPassword { get; set; }
-
-        public ICollection<string>? Emails { get; set; }
     }
 }

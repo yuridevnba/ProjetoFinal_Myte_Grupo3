@@ -1,36 +1,33 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ProjetoFinal_Myte_Grupo3.Models;
 using ProjetoFinal_Myte_Grupo3.Models.TelasLogin;
-using ProjetoFinal_Myte_Grupo3.Services;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
+
     public class AccountController : Controller
     {
-        //Injeção de dependência e facilita registro de usuários, logout
-        private readonly UserManager<IdentityUser> userManager; //Crud de usuário login
+        // Injeção de dependência.// facilita registro de usuários, logout
+        private readonly UserManager<IdentityUser> userManager; // crud de usuário login
 
-        private readonly SignInManager<IdentityUser> signInManager; //Credenciais de login
+        private readonly SignInManager<IdentityUser> signInManager; // credenciais//login
 
-        private readonly RegistersService registersService; //Método para lista de e-mails registrados
-
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RegistersService registersService)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
+
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.registersService = registersService;
-        }
 
+        }
         public IActionResult Register()
         {
             return View();
         }
 
-        [HttpPost] //Anotação de ENVIAR
-        public async Task<IActionResult> Register(RegisterViewsModel model)//E-mail e senha e confirmação
-        { //Recebe os dados do form    
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewsModel model)
+        {
+            // Recebe os dados do form    
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser
@@ -39,11 +36,11 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     Email = model.Email
                 };
 
-                //Armazena os dados do usuário na tabela AspNetUsers
+                // Armazena os dados do usuário na tabela AspNetUsers
                 var result = await userManager.CreateAsync(user, model.Password!);
 
-                //Se o usuário foi criado com sucesso, faz o login do usuário
-                //Usando o serviço SignInManager e redireciona para o método Action Index.
+                // Se o usuário foi criado com sucesso, faz o login do usuário
+                // usando o serviço SignInManager e redireciona para o método Action Index.
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
@@ -55,8 +52,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
             return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Login()
@@ -64,23 +63,26 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View();
         }
 
+
+
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)//Email e senha e confirmação
-        { //Recebe os dados do form    
+        public async Task<IActionResult> Login(LoginViewModel model)// email e senha e confirmação
+        { //recebe os dados do form    
 
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.Rememberme, false);
+
+                var result = await signInManager.PasswordSignInAsync(
+                model.Email, model.Password, model.Rememberme, false);
+
+
+
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Login Inválido");
-                }
+
+                ModelState.AddModelError(string.Empty, "Login Inválido");
             }
             return View(model);
         }
@@ -100,13 +102,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View();
         }
 
-        public IActionResult Users() 
-        {
-            var users = registersService.GetRegister(); ;
 
-            return View(users);
-        }
     }
+
 }
 
 

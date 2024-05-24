@@ -1,12 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-@if (SignInManager.IsSignedIn(User)) //Se ele  estiver logado
+   
+    
+      
+@if (SignInManager.IsSignedIn(User)) // se ele  estiver logado
 {
-    @if (User.IsInRole("Admin")) //Se ele for participante da role ADMIN
+    @if (User.IsInRole("Admin")) // se ele for participante da role ADMIN
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
         </li>
     }
 }
+
+        
+        
+       
+      

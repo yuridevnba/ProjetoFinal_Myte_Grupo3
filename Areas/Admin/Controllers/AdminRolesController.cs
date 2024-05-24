@@ -71,7 +71,7 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-            id = "e4af6391-c39b-4476-8cae-cb34e5501223";
+            id = "7127a0a9-6fd1-4158-bcf9-6b56cd76846c"; ///Guid
             IdentityRole role = await roleManager.FindByIdAsync(id);
             List<IdentityUser> members = new List<IdentityUser>();
            List<IdentityUser> nonMembers = new List<IdentityUser>();

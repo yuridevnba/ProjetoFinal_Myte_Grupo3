@@ -5,7 +5,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models
     public class WorkingHour
     {
         [Display(Name = "ID")]
-        public int WorkingHourId { get; set; }
+        public int WorkingHourId {  get; set; }
 
         [Display(Name = "WBS")]
         public WBS? WBS { get; set; }
@@ -24,6 +24,6 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         public Employee? Employee { get; set; }
 
         [Display(Name = "FuncionarioId")]
-        public int EmployeeId { get; set; }
+        public int EmployeeId{ get; set; }
     }
 }

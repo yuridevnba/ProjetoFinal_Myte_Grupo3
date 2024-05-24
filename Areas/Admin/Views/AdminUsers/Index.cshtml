@@ -1,30 +1,80 @@
 ﻿@model IEnumerable<IdentityUser>
-
-<h1> Usuários</h1>
+@{
+    ViewData["Title"] = "Gerenciar Usuários";
+}
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <nav class="navbar navbar-light bg-danger bg-body-tertiary fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjetoFinal_Myte_Grupo3</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <partial name="_LoginPartial" />
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Details">Dados Pessoais</a>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                @* <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Users">Acesso de Usuários</a>
+                        </li> *@
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Gerenciar Roles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Registar de Usuário</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="WorkingHours" asp-action="Index">Cadastrar Horas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="WBS" asp-action="Index">WBS</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    }
+</div>
+<br />
+<h1 class="mt-5">Usuários</h1>
+<hr />
 @if (Model.Any())
 {
-    <a asp-action="Register" asp-controller="Account" asp-area=""
-       class="btn btn-primary mb-3" style="width:auto">
-        Novo Usuário
-    </a>
-    foreach (var user in Model)
-    {
-   <div class="card mb-3">
-        <div class="card-header">
-            User Id : @user.Id
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">@user .UserName</h5>
-        </div>
-     </div>
-    }
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        @foreach (var user in Model)
+        {
+            <tbody>
+            <td>@user.Id</td>
+            <td>@user</td>
+            </tbody>
+        }
+    </table>
+    <a asp-area="" asp-action="Register" asp-controller="Account" class="btn btn-danger" style="width:auto">Criar Registro</a>
+    <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-danger">Voltar</a>
 }
-
-
-
-
-
-
-
- 
-  

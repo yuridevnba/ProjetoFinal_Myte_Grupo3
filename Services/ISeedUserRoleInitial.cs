@@ -2,7 +2,7 @@
 {
     public interface ISeedUserRoleInitial
     {
-        Task SeedRolesAsync(); //Criar as roles
-        Task SeedUserAsync();  //Criar os usuários, e atribuir o usuário a uma role que foi criada.
+        Task SeedRolesAsync(); // criar as roles
+        Task SeedUserAsync();  // criar os usuários, e atribuir o usuário a uma role que foi criada.
     }
 }

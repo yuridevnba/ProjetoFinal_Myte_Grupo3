@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Bia : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,9 +71,10 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                 {
                     WBSId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SequentialCounter = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,10 +194,10 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HiringDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DepartmentId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     AcessLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StatusEmployee = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -207,7 +208,8 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                         name: "FK_Employee_Department_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Department",
-                        principalColumn: "DepartmentId");
+                        principalColumn: "DepartmentId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -240,13 +242,13 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
 
             migrationBuilder.InsertData(
                 table: "WBS",
-                columns: new[] { "WBSId", "Code", "Description", "Type" },
+                columns: new[] { "WBSId", "Code", "Description", "SequentialCounter", "Type" },
                 values: new object[,]
                 {
-                    { 1, "WBS0000001", "Férias", "Non-Chargeability" },
-                    { 2, "WBS0000002", "Day-Off", "Non-Chargeability" },
-                    { 3, "WBS0000003", "Sem Tarefa", "Non-Chargeability" },
-                    { 4, "WBS0000004", "Implementação e Desenvolvimento", "Chargeability" }
+                    { 1, "WBS0000001", "Férias", 0, "Non-Chargeability" },
+                    { 2, "WBS0000002", "Day-Off", 0, "Non-Chargeability" },
+                    { 3, "WBS0000003", "Sem Tarefa", 0, "Non-Chargeability" },
+                    { 4, "WBS0000004", "Implementação e Desenvolvimento", 0, "Chargeability" }
                 });
 
             migrationBuilder.CreateIndex(

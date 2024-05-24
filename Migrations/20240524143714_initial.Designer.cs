@@ -12,8 +12,8 @@ using ProjetoFinal_Myte_Grupo3.Data;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240521155814_Login")]
-    partial class Login
+    [Migration("20240524143714_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,11 +251,10 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                     b.Property<string>("AcessLevel")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeName")
@@ -266,7 +265,6 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StatusEmployee")
@@ -289,11 +287,15 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SequentialCounter")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -309,6 +311,7 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                             WBSId = 1,
                             Code = "WBS0000001",
                             Description = "Férias",
+                            SequentialCounter = 0,
                             Type = "Non-Chargeability"
                         },
                         new
@@ -316,6 +319,7 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                             WBSId = 2,
                             Code = "WBS0000002",
                             Description = "Day-Off",
+                            SequentialCounter = 0,
                             Type = "Non-Chargeability"
                         },
                         new
@@ -323,6 +327,7 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                             WBSId = 3,
                             Code = "WBS0000003",
                             Description = "Sem Tarefa",
+                            SequentialCounter = 0,
                             Type = "Non-Chargeability"
                         },
                         new
@@ -330,6 +335,7 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                             WBSId = 4,
                             Code = "WBS0000004",
                             Description = "Implementação e Desenvolvimento",
+                            SequentialCounter = 0,
                             Type = "Chargeability"
                         });
                 });
@@ -418,7 +424,9 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                 {
                     b.HasOne("ProjetoFinal_Myte_Grupo3.Models.Department", "Department")
                         .WithMany("Employee")
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Department");
                 });

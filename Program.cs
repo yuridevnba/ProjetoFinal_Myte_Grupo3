@@ -13,15 +13,14 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-{
-    options.User.RequireUniqueEmail = true; //Garante que cada email seja único
-})
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -42,6 +41,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
      options.SlidingExpiration = true;
  });
 
+
+
+
+
+
+
+
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireUserAdminGerenteRole",
@@ -50,7 +57,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-builder.Services.AddScoped<RegistersService>();
+
 
 var app = builder.Build();
 
@@ -70,9 +77,14 @@ await CriarPerfisUsuariosAsync(app);
 
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "MinhaArea",
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+
+
+
+
 
 app.MapControllerRoute(
     name: "default",
@@ -80,10 +92,11 @@ app.MapControllerRoute(
 
 app.Run();
 
+
 async Task CriarPerfisUsuariosAsync(WebApplication app)
 {
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>(); // Interface como função gerênciar escopos do serviço para a aplicação.
-    using (var scope = scopedFactory?.CreateScope())
+    using (var scope = scopedFactory.CreateScope())
     {
         // createScope cria uma nova instância do serviço.
         var service = scope.ServiceProvider.GetService<ISeedUserRoleInitial>();

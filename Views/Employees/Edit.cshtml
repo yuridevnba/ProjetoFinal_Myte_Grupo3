@@ -34,6 +34,11 @@
                 <span asp-validation-for="HiringDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DepartmentId" class="control-label"></label>
+                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="AcessLevel" class="control-label"></label>
                 <input asp-for="AcessLevel" class="form-control" />
                 <span asp-validation-for="AcessLevel" class="text-danger"></span>
@@ -55,5 +60,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

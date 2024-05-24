@@ -1,8 +1,8 @@
 ﻿@model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.RegisterViewsModel
 @{
-    ViewBag.Title = "Registro de Usuário";
+    ViewBag.Title = "Registrar de Usuário";
 }
-<h2>Registro Usuário</h2>
+<h2 class="mt-5">Registrar Usuário</h2>
 <div class="row">
     <div class="col-md-12">
         <form method="post">
@@ -16,14 +16,14 @@
                 <label asp-for="Password">Senha</label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
-            </div>        
+            </div>
             <div class="form-group">
-            <label asp-for="ConfirmPassword">Confirme a Senha</label>
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div> 
-            <button type="submit" class="btn btn-primary">Salvar</button>
-            <a asp-action="Login" class="btn btn-secondary">Cancelar</a>
+                <label asp-for="ConfirmPassword">Confirme a Senha</label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-danger mt-2">Salvar</button>
+            <a asp-action="Login" class="btn btn-danger mt-2">Cancelar</a>
         </form>
     </div>
 </div>

@@ -22,10 +22,23 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // GET: WBS
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.WBS.ToListAsync());
+        //}
+
+        public async Task<IActionResult> Index(string[] type)
         {
-            return View(await _context.WBS.ToListAsync());
+            IQueryable<WBS> types = _context.WBS;
+
+            if (type != null && type.Length > 0)
+            {
+                types = types.Where(t => type.Contains(t.Type));
+            }
+
+            return View(await types.ToListAsync());
         }
+
 
         // GET: WBS/Details/5
         public async Task<IActionResult> Details(int? id)

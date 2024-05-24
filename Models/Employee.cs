@@ -7,7 +7,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models
     public class Employee
     {
         [Display(Name = "ID")]
-        public int EmployeeId { get; set; }
+        public int EmployeeId { get; set; } 
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Nome")]
@@ -28,6 +28,9 @@ namespace ProjetoFinal_Myte_Grupo3.Models
 
         [Display(Name = "Departamento")]
         public Department? Department { get; set; }
+
+        [Display(Name = "Departamento")]
+        public int DepartmentId { get; set; }
 
         [Display(Name = "Nível de Acesso")]
         public string? AcessLevel { get; set; } = "Employee"; //Standard

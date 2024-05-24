@@ -12,8 +12,8 @@ using ProjetoFinal_Myte_Grupo3.Data;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240522023109_Versao4")]
-    partial class Versao4
+    [Migration("20240523190505_Bia")]
+    partial class Bia
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,11 +251,10 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                     b.Property<string>("AcessLevel")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeName")
@@ -266,7 +265,6 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StatusEmployee")
@@ -426,7 +424,9 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                 {
                     b.HasOne("ProjetoFinal_Myte_Grupo3.Models.Department", "Department")
                         .WithMany("Employee")
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Department");
                 });

@@ -14,7 +14,10 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
         public AdminUsersController(UserManager<IdentityUser> userManager)
         {
+
+           
             this.userManager = userManager;
+
         }
 
         public IActionResult Index()
@@ -22,6 +25,9 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
             var users = userManager.Users;
             return View(users);
         }
+
     }
-}
+
+        
+    }
 

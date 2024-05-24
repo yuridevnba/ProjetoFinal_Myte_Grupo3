@@ -7,10 +7,28 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
+
+<form asp-controller="WBS" asp-action="Index" method="get">
+    <div class="row">
+        <div class="col-5">
+            <div class="form-group">
+                <label>Type</label><br />
+                <input type="checkbox" name="type" value="chargeability" id="chargeability" />
+                <label for="chargeability">Chargeability</label><br />
+                <input type="checkbox" name="type" value="non-chargeability" id="non-chargeability" />
+                <label for="non-chargeability">Non-chargeability</label>
+            </div>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Code)
@@ -21,33 +39,28 @@
             <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SequentialCounter)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SequentialCounter)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.WBSId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.WBSId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.WBSId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.WBSId">Edit</a> |
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.WBSId">Details</a> |
+                    <a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.WBSId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

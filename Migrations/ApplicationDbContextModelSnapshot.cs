@@ -229,6 +229,7 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
 
                     b.Property<string>("DepartmentName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DepartmentId");
@@ -247,11 +248,10 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                     b.Property<string>("AcessLevel")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeName")
@@ -262,7 +262,6 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StatusEmployee")
@@ -422,7 +421,9 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                 {
                     b.HasOne("ProjetoFinal_Myte_Grupo3.Models.Department", "Department")
                         .WithMany("Employee")
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Department");
                 });

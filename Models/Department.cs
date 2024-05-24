@@ -8,6 +8,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         [Display(Name = "ID")]
         public int DepartmentId { get; set; }
 
+        [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Departamento")]
         public string? DepartmentName { get; set; }
 
