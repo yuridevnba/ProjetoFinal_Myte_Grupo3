@@ -83,6 +83,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         public async Task<IActionResult> Index(DateTime? selectedDate)
         {
+
+            var employeeId = GetCurrentEmployeeId();
+
+            var employee = await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            ViewBag.EmployeeName = employee.EmployeeName;
+
             DateTime effectiveStartDate;
             DateTime effectiveEndDate;
 
