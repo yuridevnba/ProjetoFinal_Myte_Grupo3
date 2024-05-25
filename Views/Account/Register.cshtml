@@ -1,4 +1,4 @@
-﻿@model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.RegisterViewsModel
+﻿@* @model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.RegisterViewsModel
 @{
     ViewBag.Title = "Registrar de Usuário";
 }
@@ -22,6 +22,85 @@
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
+            <button type="submit" class="btn btn-danger mt-2">Salvar</button>
+            <a asp-action="Login" class="btn btn-danger mt-2">Cancelar</a>
+        </form>
+    </div>
+</div> *@
+
+            @model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.RegisterViewsModel
+
+@{
+    ViewBag.Title = "Registrar Usuário";
+}
+
+<h2 class="mt-5">Registrar Usuário</h2>
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <!-- Employee ID -->
+            @* <div class="form-group">
+                <label asp-for="EmployeeId"></label>
+                <input asp-for="EmployeeId" class="form-control" />
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div> *@
+
+            <!-- Employee Name -->
+            <div class="form-group">
+                <label asp-for="EmployeeName"></label>
+                <input asp-for="EmployeeName" class="form-control" />
+                <span asp-validation-for="EmployeeName" class="text-danger"></span>
+            </div>
+
+            <!-- Hiring Date -->
+            <div class="form-group">
+                <label asp-for="HiringDate"></label>
+                <input asp-for="HiringDate" class="form-control" />
+                <span asp-validation-for="HiringDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DepartmentId" class="control-label"></label>
+                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+            </div>
+
+            <!-- Access Level -->
+            <div class="form-group">
+                <label asp-for="AcessLevel"></label>
+                <input asp-for="AcessLevel" class="form-control" />
+                <span asp-validation-for="AcessLevel" class="text-danger"></span>
+            </div>
+
+            <!-- Status -->
+            <div class="form-group">
+                <label asp-for="StatusEmployee"></label>
+                <input asp-for="StatusEmployee" class="form-control" />
+                <span asp-validation-for="StatusEmployee" class="text-danger"></span>
+            </div>
+
             <button type="submit" class="btn btn-danger mt-2">Salvar</button>
             <a asp-action="Login" class="btn btn-danger mt-2">Cancelar</a>
         </form>
