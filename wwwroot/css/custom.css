@@ -8,21 +8,6 @@
     text-overflow: '';
 }
 
-.hidden-input {
-    opacity: 0.8;
-}
-
-.hidden-input:hover,
-.hidden-input:active,
-.hidden-input:focus,
-.hidden-input:focus-within {
-    opacity: 1;
-}
-
-.hour-input[value]:not([value="0"]) {
-    opacity: 1 !important;
-}
-
 /* Configurações para a NavBar */
 .nav_color {
     background-color: #fd7e14;
