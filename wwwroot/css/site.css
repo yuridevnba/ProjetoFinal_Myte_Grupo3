@@ -23,11 +23,6 @@ body {
     z-index: 1;
 }
 
-
-.table thead th {
-    background-color: #ffffff !important;
-}
-
 .btn-primary {
     background-color: #f85106;
     border-color: #f85106;
