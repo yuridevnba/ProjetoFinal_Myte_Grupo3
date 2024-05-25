@@ -30,11 +30,13 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
         public ViewResult Index() => View(roleManager.Roles);
 
-
+        [Route("Create")]
         public IActionResult Create()
         {
            return View();
         }
+        [HttpPost]
+        [Route("Create")]
         public async Task<IActionResult> Create([Required] string name)
         {
             if (ModelState.IsValid)
@@ -71,8 +73,8 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-            id = "7127a0a9-6fd1-4158-bcf9-6b56cd76846c"; ///Guid
-            IdentityRole role = await roleManager.FindByIdAsync(id);
+
+            var role = await roleManager.FindByNameAsync("Admin");
             List<IdentityUser> members = new List<IdentityUser>();
            List<IdentityUser> nonMembers = new List<IdentityUser>();
 
@@ -156,6 +158,7 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             IdentityRole role = await roleManager.FindByIdAsync(id);
+           
 
             if (role == null)
             {
@@ -169,6 +172,33 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
 
         }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+            
+            if (role != null)
+            {
+                IdentityResult result = await roleManager.DeleteAsync(role);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    Errors(result);
+                }
+               
+            }
+            else
+            {
+                ModelState.AddModelError("", "Role não encontrada");
+            }
+            return View("Index",roleManager.Roles);
+        }
+
 
 
 

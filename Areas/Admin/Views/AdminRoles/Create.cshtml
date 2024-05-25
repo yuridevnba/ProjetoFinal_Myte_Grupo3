@@ -1,11 +1,15 @@
-﻿@model string
+﻿@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 <h1 class="bg-info text-white">Criar Role</h1>
 <a asp-action="Index" class="btn btn-secondary">Retornar</a>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Create" method="post">
     <div class="form-group">
         <label for="name">Nome:</label>
-        <input name="name" class="form-control" />
+        <input name="name" class="form-control" required />
     </div>
     <button type="submit" class="btn btn-primary mt-2">Criar</button>
 </form>
