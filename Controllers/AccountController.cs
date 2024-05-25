@@ -31,16 +31,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName");
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewsModel model)
         {
             // Recebe os dados do form    
             if (ModelState.IsValid)
             {
-
-                
-
                 var user = new IdentityUser
                 {
                     UserName = model.Email,
@@ -54,10 +50,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 // usando o serviço SignInManager e redireciona para o método Action Index.
                 if (result.Succeeded)
                 {
-
                     var employee = new Employee
                     {
-                        //EmployeeId = user.Id,
                         Email = model.Email!,
                         IdentityUserId = user.Id,
                         EmployeeName = model.EmployeeName,
@@ -66,28 +60,29 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                         AcessLevel = model.AcessLevel,
                         StatusEmployee = model.StatusEmployee,
                         Password = model.Password
-                        
                     };
-
 
                     _context.Employee.Add(employee);
                     await _context.SaveChangesAsync();
 
-
-
-
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    // Retorna o resultado do redirecionamento para a action "Create" no controller "Employees"
                     return RedirectToAction("Index", "Employees");
                 }
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    // Adiciona os erros ao ModelState para exibição na view
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 
+            // Se chegamos aqui, algo falhou, retorna a view com os erros
+            // Certifique-se de preencher os dados necessários para o campo "Departamento" novamente
+            ViewBag.Departments = new SelectList(_context.Department, "DepartmentId", "DepartmentName");
             return View(model);
         }
+
 
 
         [HttpGet]

@@ -1,108 +1,71 @@
-﻿@* @model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.RegisterViewsModel
+﻿ @model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.RegisterViewsModel
 @{
-    ViewBag.Title = "Registrar de Usuário";
-}
-<h2 class="mt-5">Registrar Usuário</h2>
-<div class="row">
-    <div class="col-md-12">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" class="form-control
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password">Senha</label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword">Confirme a Senha</label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-danger mt-2">Salvar</button>
-            <a asp-action="Login" class="btn btn-danger mt-2">Cancelar</a>
-        </form>
-    </div>
-</div> *@
-
-            @model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.RegisterViewsModel
-
-@{
-    ViewBag.Title = "Registrar Usuário";
+    ViewBag.Title = "Register";
 }
 
-<h2 class="mt-5">Registrar Usuário</h2>
-<div class="row">
-    <div class="col-md-12">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+<h2>Register</h2>
 
-            <!-- Email -->
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Register</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <!-- Password -->
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <!-- Confirm Password -->
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <!-- Employee ID -->
-            @* <div class="form-group">
-                <label asp-for="EmployeeId"></label>
-                <input asp-for="EmployeeId" class="form-control" />
-                <span asp-validation-for="EmployeeId" class="text-danger"></span>
-            </div> *@
-
-            <!-- Employee Name -->
-            <div class="form-group">
-                <label asp-for="EmployeeName"></label>
-                <input asp-for="EmployeeName" class="form-control" />
-                <span asp-validation-for="EmployeeName" class="text-danger"></span>
+        <div class="form-group">
+            @Html.LabelFor(m => m.EmployeeName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.EmployeeName, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <!-- Hiring Date -->
-            <div class="form-group">
-                <label asp-for="HiringDate"></label>
-                <input asp-for="HiringDate" class="form-control" />
-                <span asp-validation-for="HiringDate" class="text-danger"></span>
+        <div class="form-group">
+            @Html.LabelFor(m => m.HiringDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.HiringDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.HiringDate, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DepartmentId, "Department", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Select Department", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.DepartmentId, "", new { @class = "text-danger" })
             </div>
+        </div>
 
-            <!-- Access Level -->
-            <div class="form-group">
-                <label asp-for="AcessLevel"></label>
-                <input asp-for="AcessLevel" class="form-control" />
-                <span asp-validation-for="AcessLevel" class="text-danger"></span>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Register" class="btn btn-default" />
             </div>
-
-            <!-- Status -->
-            <div class="form-group">
-                <label asp-for="StatusEmployee"></label>
-                <input asp-for="StatusEmployee" class="form-control" />
-                <span asp-validation-for="StatusEmployee" class="text-danger"></span>
-            </div>
-
-            <button type="submit" class="btn btn-danger mt-2">Salvar</button>
-            <a asp-action="Login" class="btn btn-danger mt-2">Cancelar</a>
-        </form>
+        </div>
     </div>
-</div>
+}
