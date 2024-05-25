@@ -14,23 +14,19 @@
     color: white;
     padding: 12px 16px 12px 16px;
 }
-
 .nav_color .navbar-toggler {
     border-color: rgba(255, 255, 255, 0.5);
 }
-
 .nav_color .navbar-toggler:hover {
     border-color: rgba(255, 255, 255, 0.75);
     background-color: rgba(255, 255, 255, 0.1);
 }
-
 .nav_color .navbar-toggler:active,
 .nav_color .navbar-toggler:focus {
     border-color: rgba(255, 255, 255, 1);
     background-color: rgba(255, 255, 255, 0.2);
     box-shadow: none !important; 
 }
-
 .navbar-light .navbar-brand,
 .navbar-light .navbar-nav .nav-link,
 .navbar-light .navbar-brand:hover,
@@ -39,11 +35,9 @@
     color: none !important;
     box-shadow: none !important;
 }
-
 .nav_color .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
-
 
 /*Título e Logo da navbar ------------------------- */
 .texto_logo {
@@ -54,60 +48,51 @@
     font-weight: 600;
     font-style: normal;
 }
-
 .logo_e_titulo {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-
 /* Cores para os buttons do Mythree ---------------------------------- */
 .btn-primary {
     background-color: #fd7e14;
     border-color: #fd7e14;
 }
-
-    .btn-primary:hover,
-    .btn-primary:focus,
-    .btn-primary:active,
-    .btn-primary.active,
-    .show > .btn-primary.dropdown-toggle {
-        background-color: #e36b0a;
-        border-color: #e36b0a;
-    }
-
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+    background-color: #e36b0a;
+    border-color: #e36b0a;
+}
 .btn-link {
     color: #fd7e14;
 }
-
-    .btn-link:hover,
-    .btn-link:focus,
-    .btn-link:active,
-    .btn-link.active {
-        color: #e36b0a;
-    }
-
+.btn-link:hover,
+.btn-link:focus,
+.btn-link:active,
+.btn-link.active {
+    color: #e36b0a;
+}
 .btn-primary:disabled,
 .btn-primary.disabled {
     background-color: #ff9c51;
     border-color: #ff9c51;
 }
-
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
     background-color: #e36b0a;
     border-color: #e36b0a;
 }
-
-    .btn-primary:not(:disabled):not(.disabled):active:focus,
-    .btn-primary:not(:disabled):not(.disabled).active:focus,
-    .btn-link:not(:disabled):not(.disabled).active:focus,
-    .show > .btn-primary.dropdown-toggle:focus {
-        box-shadow: 0 0 0 0.2rem rgba(253, 126, 20, 0.5);
-    }
-
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-link:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(253, 126, 20, 0.5);
+}
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
@@ -120,7 +105,6 @@
 .table table-bordered {
     border: 2px solid #dee2e6;
 }
-
 h1.titulo_boasVindas {
     margin-bottom: 10px;
     margin-top: 10px;
@@ -128,19 +112,17 @@ h1.titulo_boasVindas {
     font-size: 18px;
     font-weight: 700;
 }
-
 .titulo_tabela {
     font-family: Calibri, sans-serif;
     font-weight: 900;
     font-size: 16px;
 }
-
 .text_totais {
     font-family: Calibri, sans-serif;
     font-weight: 900;
     font-size: 16px;
+    padding: 16px !important;
 }
-
 #linhaTotais,
 #totalGeral,
 .table td,
@@ -148,11 +130,18 @@ h1.titulo_boasVindas {
     font-family: Calibri, sans-serif;
     vertical-align: baseline;
 }
-
-table {
+.table {
     border-collapse: collapse;
     width: 100%;
     margin-bottom: 20px;
+}
+
+.table-striped {
+    box-shadow: none !important;
+}
+
+.table > :not(caption) > * > * {
+    box-shadow: none !important;
 }
 
 .table thead th {
@@ -161,14 +150,12 @@ table {
     font-weight: 900;
     margin: 0;
 }
-
 p {
     font-family: Calibri, sans-serif;
     font-size: 14px;
     font-weight: 400;
     margin: 0px;
 }
-
 
 /* ------------------------- Linha abaixo da tabela */
 .msg_tabela {
@@ -181,18 +168,14 @@ p {
 }
 /* ----------------------------------------------- */
 
-
 tfoot {
     background-color: rgba(0, 0, 0, .05);
 }
-
 th, td {
     border: none;
     padding: 8px;
     text-align: center;
 }
-
-
 input {
     width: 100%;
     border: none;
@@ -200,15 +183,14 @@ input {
     background-color: rgba(0, 0, 0, .0);
     padding: 0.375rem 0.3rem; /* Padding padrão do Bootstrap */
     font-family: Calibri, sans-serif;
+    margin: 3px;
 }
-
 select {
     border: none;
     background-color: rgba(0, 0, 0, .0);
     padding: 0.375rem 0.75rem; /* Padding padrão do Bootstrap */
     font-family: Calibri, sans-serif;
 }
-
 .title-container {
     padding: 0;
     display: flex;
@@ -216,17 +198,14 @@ select {
     align-items: center;
     margin-top: 200px;
 }
-
 .date-forms-container {
     display: flex;
     gap: 8px;
 } 
-
 .form-group {
     width: 250px;
     margin-bottom: 0;
 }
-
 .weekend-column {
-    background-color: #eaeaea /* Tonalidade mais escura */
+    background-color: #eaeaea !important; /* Tonalidade mais escura */
 }
