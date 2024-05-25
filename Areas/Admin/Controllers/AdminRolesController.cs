@@ -174,7 +174,6 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
         }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
