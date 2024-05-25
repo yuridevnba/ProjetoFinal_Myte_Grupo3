@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
+using System.Security.Claims;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -46,14 +47,14 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         private async Task<(List<DateTime>, List<WBS>, List<List<int>>, List<int>)> GetWorkingHoursAsync(DateTime startDate, DateTime endDate)
         {
+            var employeeId = GetCurrentEmployeeId();
             var dateRange = Enumerable.Range(0, (int)(endDate - startDate).TotalDays + 1)
-                                       .Select(offset => startDate.AddDays(offset))
-                                       .ToList();
+                                      .Select(offset => startDate.AddDays(offset))
+                                      .ToList();
 
-            // TODO: Pegar working hours APENAS do employee logado! adicionar um where employeeId
             var workingHours = await _context.WorkingHour
-                .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate)
-                .ToListAsync();
+                                             .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate && wh.EmployeeId == employeeId)
+                                             .ToListAsync();
 
             var wbsList = await _context.WBS.ToListAsync();
             var workingHoursByWbsAndDate = new List<List<int>>();
@@ -65,8 +66,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 foreach (var date in dateRange)
                 {
                     var hours = workingHours
-                        .Where(wh => wh.WBSId == wbs.WBSId && wh.WorkedDate.Date == date.Date)
-                        .Sum(wh => wh.WorkedHours);
+                                .Where(wh => wh.WBSId == wbs.WBSId && wh.WorkedDate.Date == date.Date)
+                                .Sum(wh => wh.WorkedHours);
                     hoursList.Add(hours);
                 }
                 workingHoursByWbsAndDate.Add(hoursList);
@@ -116,14 +117,11 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             if (ModelState.IsValid)
             {
                 var dailyTotalHours = CalculateDailyTotalHours(WBSId, Hours, Dates);
-
                 if (!ValidateTotalHours(dailyTotalHours))
                 {
                     return RedirectToAction(nameof(Index));
                 }
-
                 await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
-
                 TempData["SuccessMessage"] = " Sucesso! Suas horas foram salvas! ";
                 return RedirectToAction(nameof(Index));
             }
@@ -131,10 +129,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
 
+
         private int GetCurrentEmployeeId()
         {
-            // TODO: Pegar o ID do employee logado
-            return 3;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.FirstOrDefault(e => e.IdentityUserId == userId);
+            return employee != null ? employee.EmployeeId : 0;
         }
 
         private Dictionary<DateTime, int> CalculateDailyTotalHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates)
@@ -183,11 +183,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     var wbsId = WBSId[i];
                     var date = Dates[j];
                     var hours = Hours[i][j];
-
                     if (hours > 0)
                     {
                         var existingWorkingHour = await _context.WorkingHour
-                            .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
+                                                              .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
                         if (existingWorkingHour != null)
                         {
                             existingWorkingHour.WorkedHours = hours;
@@ -209,6 +208,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
             await _context.SaveChangesAsync();
         }
+
 
         // GET: WorkingHours/Details/5
         public async Task<IActionResult> Details(int? id)

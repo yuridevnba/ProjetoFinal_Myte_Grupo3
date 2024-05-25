@@ -12,8 +12,8 @@ using ProjetoFinal_Myte_Grupo3.Data;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240525134400_Initial")]
-    partial class Initial
+    [Migration("20240525182605_Create")]
+    partial class Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -265,7 +265,6 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IdentityUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")

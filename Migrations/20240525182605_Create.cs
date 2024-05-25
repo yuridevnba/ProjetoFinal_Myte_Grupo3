@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -200,7 +200,7 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     AcessLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StatusEmployee = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdentityUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IdentityUserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
