@@ -1,62 +1,12 @@
-﻿@model IEnumerable<IdentityRole>
-@{
-    ViewData["Title"] = "Gerenciar Roles";
+﻿ @{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <nav class="navbar navbar-light bg-danger bg-body-tertiary fixed-top">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjetoFinal_Myte_Grupo3</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        <partial name="_LoginPartial" />
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Details">Dados Pessoais</a>
-                            </li>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                @* <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Users">Acesso de Usuários</a>
-                        </li> *@
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Gerenciar Roles</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Registar de Usuário</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="WorkingHours" asp-action="Index">Cadastrar Horas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="WBS" asp-action="Index">WBS</a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    }
-</div>
-<br />
+ 
+
+
 <h1 class="mt-5">Roles</h1>
+
 <hr />
 <table class="table table-light mt-5">
     <thead>
@@ -72,6 +22,16 @@
                 <td>@role.Id</td>
                 <td>@role.Name</td>
             </tr>
+            <td>
+
+                <form asp-action="Delete" asp-route-id="@role.Id" method="get">
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Deletar
+                    </button>
+
+                </form>
+
+            </td>
         }
     </tbody>
 </table>
