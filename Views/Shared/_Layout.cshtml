@@ -14,21 +14,28 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="~/ProjetoFinal_Myte_Grupo3.styles.css" asp-append-version="true" />
     </head>
     <body>
         <header>
-            @if (User.Identity.IsAuthenticated)
+            @if (User.Identity.IsAuthenticated) 
             {
-                <nav class="navbar navbar-light bg-danger bg-body-tertiary fixed-top">
+                <nav class="navbar nav_color bg-body-tertiary fixed-top">
+                    @* Dados principais da nav *@
                     <div class="container-fluid">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjetoFinal_Myte_Grupo3</a>
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                            <div class="logo_e_titulo">   @* Logo e Título *@
+                                <img src="/css/logo_mythree_test.png" width="30" height="30" class="d-inline-block align-top" alt="Logo do site">
+                                <p class="texto_logo">MyThree</p>
+                            </div>
+                        </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
+                            <span class="navbar-toggler-icon"></span> 
                         </button>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                            <div class="offcanvas-header">
+                            <div class="offcanvas-header"> @* <--- Div onde se encontra o ícone de saída *@
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 <partial name="_LoginPartial" />
                             </div>
