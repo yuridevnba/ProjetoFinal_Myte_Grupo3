@@ -56,7 +56,21 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                                              .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate && wh.EmployeeId == employeeId)
                                              .ToListAsync();
 
-            var wbsList = await _context.WBS.ToListAsync();
+            var workedWbsIds = new List<int>();
+
+            workingHours.ForEach(workingHour =>
+            {
+                var wbsId = workingHour.WBSId;
+                var resultadoDaBusca = workedWbsIds.FindIndex(workedWbsId => workedWbsId == wbsId);
+
+                if (resultadoDaBusca == -1) {
+                    workedWbsIds.Add(wbsId); 
+                }
+            });
+
+            var wbsList = await _context.WBS
+                .Where(wbs => workedWbsIds.Contains(wbs.WBSId))
+                .ToListAsync();
             var workingHoursByWbsAndDate = new List<List<int>>();
             var totalsPerDay = new List<int>(new int[dateRange.Count]);
 
@@ -87,7 +101,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             var employeeId = GetCurrentEmployeeId();
 
             var employee = await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
-            ViewBag.EmployeeName = employee.EmployeeName;
+            ViewBag.EmployeeName = employee?.EmployeeName;
 
             DateTime effectiveStartDate;
             DateTime effectiveEndDate;
@@ -108,8 +122,18 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             var (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay) = await GetWorkingHoursAsync(effectiveStartDate, effectiveEndDate);
 
+            if (workingHoursByWbsAndDate.Count < 4)
+            {
+                for (var remainingLoops = 4 -  workingHoursByWbsAndDate.Count; remainingLoops > 0; remainingLoops--)
+                {
+                    workingHoursByWbsAndDate.Add(Enumerable.Repeat(0, 15).ToList());
+                }
+            }
+
             ViewBag.DateRange = dateRange;
             ViewBag.WBSList = wbsList;
+            ViewBag.AllWBSList = await _context.WBS
+                .ToListAsync();
             ViewBag.WorkingHoursByWbsAndDate = workingHoursByWbsAndDate;
             ViewBag.TotalsPerDay = totalsPerDay;
 
@@ -189,7 +213,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     var wbsId = WBSId[i];
                     var date = Dates[j];
                     var hours = Hours[i][j];
-                    if (hours > 0)
+                    if (hours > 0 && wbsId != 0)
                     {
                         var existingWorkingHour = await _context.WorkingHour
                                                               .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
@@ -352,41 +376,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         private bool WorkingHourExists(int id)
         {
             return _context.WorkingHour.Any(e => e.WorkingHourId == id);
-        }
-
-
-        //Código para soma de total das horas por quinzena em 1 wbs
-        private async Task<(List<DateTime>, List<WBS>, List<List<int>>, List<int>)> GetWorkingHoursAsync(DateTime startDate, int selectedWBSId)
-        {
-            var endDate = startDate.AddDays(14);
-            var dateRange = Enumerable.Range(0, 15).Select(offset => startDate.AddDays(offset)).ToList();
-
-            // Filtrar as horas trabalhadas apenas para a WBs selecionada
-            var workingHours = await _context.WorkingHour
-                .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate && wh.WBSId == selectedWBSId)
-                .ToListAsync();
-
-            var wbsList = await _context.WBS.ToListAsync();
-            var workingHoursByWbsAndDate = new List<List<int>>();
-            var totalsPerDay = new List<int>(new int[15]);
-
-            foreach (var date in dateRange)
-            {
-                var hoursList = new List<int>();
-                foreach (var wbs in wbsList)
-                {
-                    var hours = workingHours
-                        .Where(wh => wh.WorkedDate.Date == date.Date && wh.WBSId == wbs.WBSId)
-                        .Sum(wh => wh.WorkedHours);
-                    hoursList.Add(hours);
-                }
-                workingHoursByWbsAndDate.Add(hoursList);
-            }
-            for (int dateIndex = 0; dateIndex < 15; dateIndex++)
-            {
-                totalsPerDay[dateIndex] = workingHoursByWbsAndDate.Sum(hoursList => hoursList[dateIndex]);
-            }
-            return (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay);
         }
     }
 }

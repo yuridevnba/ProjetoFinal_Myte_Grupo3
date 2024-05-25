@@ -1,8 +1,16 @@
-﻿/* Configurações para a NavBar */
+﻿/* Configurações exclusivas do index.cshtml de working hours */
+.loaded-wbs {
+    outline: none;
+    pointer-events: none;
+    text-decoration: none;
+    appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
 
+/* Configurações para a NavBar */
 .nav_color {
     background-color: #fd7e14;
-
     color: white;
     padding: 12px 16px 12px 16px;
 }
