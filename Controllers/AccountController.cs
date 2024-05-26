@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ProjetoFinal_Myte_Grupo3.Data;
+using ProjetoFinal_Myte_Grupo3.Models;
 using ProjetoFinal_Myte_Grupo3.Models.TelasLogin;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
@@ -12,15 +15,20 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         private readonly SignInManager<IdentityUser> signInManager; // credenciais//login
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        private readonly ApplicationDbContext _context;
+
+        public AccountController(ApplicationDbContext context,UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
 
             this.userManager = userManager;
             this.signInManager = signInManager;
+            _context = context;
 
         }
         public IActionResult Register()
         {
+
+            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName");
             return View();
         }
 
@@ -30,6 +38,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             // Recebe os dados do form    
             if (ModelState.IsValid)
             {
+
+                
+
                 var user = new IdentityUser
                 {
                     UserName = model.Email,
@@ -43,9 +54,31 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 // usando o serviço SignInManager e redireciona para o método Action Index.
                 if (result.Succeeded)
                 {
+
+                    var employee = new Employee
+                    {
+                        //EmployeeId = user.Id,
+                        Email = model.Email!,
+                        IdentityUserId = user.Id,
+                        EmployeeName = model.EmployeeName,
+                        HiringDate = model.HiringDate,
+                        DepartmentId = model.DepartmentId,
+                        AcessLevel = model.AcessLevel,
+                        StatusEmployee = model.StatusEmployee,
+                        Password = model.Password
+                        
+                    };
+
+
+                    _context.Employee.Add(employee);
+                    await _context.SaveChangesAsync();
+
+
+
+
                     await signInManager.SignInAsync(user, isPersistent: false);
                     // Retorna o resultado do redirecionamento para a action "Create" no controller "Employees"
-                    return RedirectToAction("Create", "Employees");
+                    return RedirectToAction("Index", "Employees");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -92,7 +125,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         [HttpGet]
         [Route("/Account/AccessDenied")]
-
         public ActionResult AccessDenied()
         {
             return View();

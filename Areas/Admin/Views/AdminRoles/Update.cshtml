@@ -1,12 +1,18 @@
 ﻿@model ProjetoFinal_Myte_Grupo3.Areas.Admin.Models.RoleEdit
 
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
 <h1>Atualizar Role</h1>
 
 <a asp-action="Index" class="btn btn-secondary">Retornar</a>
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-<form method="post">
+<form asp-action="Update" method="post">
     <input type="hidden" name="roleName" value="@Model.Role.Name" />
     <input type="hidden" name="roleId" value="@Model.Role.Id" />
 
@@ -25,12 +31,38 @@
                 <tr>
                     <td>@user.UserName</td>
                     <td>
-                        <input type="checkbox" name="AddIds" value="@user.Id" />
+                        <input  type="checkbox" name="AddIds" value="@user.Id" />
                     </td>
                 </tr>
             }
         }
     </table>
 
-    <button type="submit" class="btn btn-primary">Salvar</button>
+    </table>
+    <h2 class="bg-info p-1 text-white">Remover da Role: @Model.Role.Name</h2>
+    <table class="table table-bordered table-sm">
+        @if (Model.Members.Count() == 0)
+        {
+            <tr><td colspan="2">Não existem usuários nesta Role</td></tr>
+        }
+        else
+        {
+            @foreach (IdentityUser user in Model.Members)
+            {
+
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>
+                    <input type="checkbox" name="DeleteIds" value="@user.Id">
+                    </td>
+                </tr>
+
+
+
+            }
+        }
+
+
+     </table>
+        <button type="submit" class="btn btn-primary">Salvar</button>
 </form>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
+using System.Security.Claims;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -46,16 +47,30 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         private async Task<(List<DateTime>, List<WBS>, List<List<int>>, List<int>)> GetWorkingHoursAsync(DateTime startDate, DateTime endDate)
         {
+            var employeeId = GetCurrentEmployeeId();
             var dateRange = Enumerable.Range(0, (int)(endDate - startDate).TotalDays + 1)
-                                       .Select(offset => startDate.AddDays(offset))
-                                       .ToList();
+                                      .Select(offset => startDate.AddDays(offset))
+                                      .ToList();
 
-            // TODO: Pegar working hours APENAS do employee logado! adicionar um where employeeId
             var workingHours = await _context.WorkingHour
-                .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate)
-                .ToListAsync();
+                                             .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate && wh.EmployeeId == employeeId)
+                                             .ToListAsync();
 
-            var wbsList = await _context.WBS.ToListAsync();
+            var workedWbsIds = new List<int>();
+
+            workingHours.ForEach(workingHour =>
+            {
+                var wbsId = workingHour.WBSId;
+                var resultadoDaBusca = workedWbsIds.FindIndex(workedWbsId => workedWbsId == wbsId);
+
+                if (resultadoDaBusca == -1) {
+                    workedWbsIds.Add(wbsId); 
+                }
+            });
+
+            var wbsList = await _context.WBS
+                .Where(wbs => workedWbsIds.Contains(wbs.WBSId))
+                .ToListAsync();
             var workingHoursByWbsAndDate = new List<List<int>>();
             var totalsPerDay = new List<int>(new int[dateRange.Count]);
 
@@ -65,8 +80,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 foreach (var date in dateRange)
                 {
                     var hours = workingHours
-                        .Where(wh => wh.WBSId == wbs.WBSId && wh.WorkedDate.Date == date.Date)
-                        .Sum(wh => wh.WorkedHours);
+                                .Where(wh => wh.WBSId == wbs.WBSId && wh.WorkedDate.Date == date.Date)
+                                .Sum(wh => wh.WorkedHours);
                     hoursList.Add(hours);
                 }
                 workingHoursByWbsAndDate.Add(hoursList);
@@ -82,6 +97,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         public async Task<IActionResult> Index(DateTime? selectedDate)
         {
+
+            var employeeId = GetCurrentEmployeeId();
+
+            var employee = await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            ViewBag.EmployeeName = employee?.EmployeeName;
+
             DateTime effectiveStartDate;
             DateTime effectiveEndDate;
 
@@ -101,8 +122,18 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             var (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay) = await GetWorkingHoursAsync(effectiveStartDate, effectiveEndDate);
 
+            if (workingHoursByWbsAndDate.Count < 4)
+            {
+                for (var remainingLoops = 4 -  workingHoursByWbsAndDate.Count; remainingLoops > 0; remainingLoops--)
+                {
+                    workingHoursByWbsAndDate.Add(Enumerable.Repeat(0, 15).ToList());
+                }
+            }
+
             ViewBag.DateRange = dateRange;
             ViewBag.WBSList = wbsList;
+            ViewBag.AllWBSList = await _context.WBS
+                .ToListAsync();
             ViewBag.WorkingHoursByWbsAndDate = workingHoursByWbsAndDate;
             ViewBag.TotalsPerDay = totalsPerDay;
 
@@ -116,14 +147,11 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             if (ModelState.IsValid)
             {
                 var dailyTotalHours = CalculateDailyTotalHours(WBSId, Hours, Dates);
-
                 if (!ValidateTotalHours(dailyTotalHours))
                 {
                     return RedirectToAction(nameof(Index));
                 }
-
                 await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
-
                 TempData["SuccessMessage"] = " Sucesso! Suas horas foram salvas! ";
                 return RedirectToAction(nameof(Index));
             }
@@ -131,10 +159,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
 
+
         private int GetCurrentEmployeeId()
         {
-            // TODO: Pegar o ID do employee logado
-            return 3;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employee.FirstOrDefault(e => e.IdentityUserId == userId);
+            return employee != null ? employee.EmployeeId : 0;
         }
 
         private Dictionary<DateTime, int> CalculateDailyTotalHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates)
@@ -183,11 +213,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     var wbsId = WBSId[i];
                     var date = Dates[j];
                     var hours = Hours[i][j];
-
-                    if (hours > 0)
+                    if (hours > 0 && wbsId != 0)
                     {
                         var existingWorkingHour = await _context.WorkingHour
-                            .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
+                                                              .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
                         if (existingWorkingHour != null)
                         {
                             existingWorkingHour.WorkedHours = hours;
@@ -209,6 +238,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
             await _context.SaveChangesAsync();
         }
+
 
         // GET: WorkingHours/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -346,41 +376,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         private bool WorkingHourExists(int id)
         {
             return _context.WorkingHour.Any(e => e.WorkingHourId == id);
-        }
-
-
-        //Código para soma de total das horas por quinzena em 1 wbs
-        private async Task<(List<DateTime>, List<WBS>, List<List<int>>, List<int>)> GetWorkingHoursAsync(DateTime startDate, int selectedWBSId)
-        {
-            var endDate = startDate.AddDays(14);
-            var dateRange = Enumerable.Range(0, 15).Select(offset => startDate.AddDays(offset)).ToList();
-
-            // Filtrar as horas trabalhadas apenas para a WBs selecionada
-            var workingHours = await _context.WorkingHour
-                .Where(wh => wh.WorkedDate >= startDate && wh.WorkedDate <= endDate && wh.WBSId == selectedWBSId)
-                .ToListAsync();
-
-            var wbsList = await _context.WBS.ToListAsync();
-            var workingHoursByWbsAndDate = new List<List<int>>();
-            var totalsPerDay = new List<int>(new int[15]);
-
-            foreach (var date in dateRange)
-            {
-                var hoursList = new List<int>();
-                foreach (var wbs in wbsList)
-                {
-                    var hours = workingHours
-                        .Where(wh => wh.WorkedDate.Date == date.Date && wh.WBSId == wbs.WBSId)
-                        .Sum(wh => wh.WorkedHours);
-                    hoursList.Add(hours);
-                }
-                workingHoursByWbsAndDate.Add(hoursList);
-            }
-            for (int dateIndex = 0; dateIndex < 15; dateIndex++)
-            {
-                totalsPerDay[dateIndex] = workingHoursByWbsAndDate.Sum(hoursList => hoursList[dateIndex]);
-            }
-            return (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay);
         }
     }
 }

@@ -19,13 +19,8 @@ html {
 
 body {
     margin-bottom: 60px;
+    margin-top: 100px;
     z-index: 1;
-}
-
-
-.table thead th {
-    background-color: #ffffff !important;
-    color: #f85106;
 }
 
 .btn-primary {

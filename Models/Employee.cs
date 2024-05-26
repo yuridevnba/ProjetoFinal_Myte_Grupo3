@@ -37,5 +37,8 @@ namespace ProjetoFinal_Myte_Grupo3.Models
 
         [Display(Name = "Status")]
         public string? StatusEmployee { get; set; } = "Active"; // Inactive
+
+
+        public string? IdentityUserId { get; set; }
     }
 }
