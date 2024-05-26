@@ -83,8 +83,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(model);
         }
 
-
-
         [HttpGet]
         public IActionResult Login()
         {
