@@ -9,10 +9,12 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
         public string? Email { get; set; }
 
         [DataType(DataType.Password)]
+        [Required]
         public string? Password { get; set; }
 
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "As senhas não conferem")]
+        [Required]
         public string? ConfirmPassword { get; set; }
 
 
