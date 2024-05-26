@@ -15,13 +15,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         public IActionResult Index()
         {
-           
            return RedirectToAction("Login", "Account");
-
-            
         }
-
-        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

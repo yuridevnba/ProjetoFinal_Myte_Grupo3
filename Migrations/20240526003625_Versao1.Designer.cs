@@ -12,8 +12,8 @@ using ProjetoFinal_Myte_Grupo3.Data;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240525182605_Create")]
-    partial class Create
+    [Migration("20240526003625_Versao1")]
+    partial class Versao1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

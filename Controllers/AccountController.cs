@@ -17,7 +17,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        public AccountController(ApplicationDbContext context,UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
 
             this.userManager = userManager;
@@ -83,8 +83,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(model);
         }
 
-
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -128,37 +126,5 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             return View();
         }
-
-
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
