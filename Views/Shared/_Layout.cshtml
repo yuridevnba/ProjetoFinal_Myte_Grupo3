@@ -18,12 +18,12 @@
         <link rel="stylesheet" href="~/ProjetoFinal_Myte_Grupo3.styles.css" asp-append-version="true" />
     </head>
     <body>
-        <header>
-            @if (User.Identity.IsAuthenticated)
-            {
+        @if (User.Identity.IsAuthenticated)
+        {
+            <header>
                 <nav class="navbar navbar-light bg-danger bg-body-tertiary fixed-top">
                     <div class="container-fluid">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjetoFinal_Myte_Grupo3</a>
+                        <a class="navbar-brand" asp-area="" asp-controller="WorkingHours" asp-action="Index">ProjetoFinal_Myte_Grupo3</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -69,8 +69,8 @@
                         </div>
                     </div>
                 </nav>
-            }
-        </header>
+            </header>
+        }
         <div class="container">
             <main role="main" class="pb-3">
                 @RenderBody()
@@ -79,14 +79,10 @@
         @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script> *@
-
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-
-
-
         @await RenderSectionAsync("Scripts", required: false)
     </body>
 </html>

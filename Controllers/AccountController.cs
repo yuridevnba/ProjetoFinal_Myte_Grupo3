@@ -71,15 +71,11 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             if (ModelState.IsValid)
             {
-
                 var result = await signInManager.PasswordSignInAsync(
                 model.Email, model.Password, model.Rememberme, false);
-
-
-
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "WorkingHours");
                 }
 
                 ModelState.AddModelError(string.Empty, "Login Inválido");

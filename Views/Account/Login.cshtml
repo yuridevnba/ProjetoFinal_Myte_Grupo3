@@ -4,28 +4,26 @@
 }
 <div class="row position-absolute top-50 start-50 translate-middle">
     <div class="col-md-12 center">
-        <h1>Login</h1>
+        @* <h1>Login</h1> *@
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" class="form-control form-control-lg" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="form-floating mb-3">
+                <input asp-for="Email" type="email" class="form-control" style="width: 400px;" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">Email</label>
             </div>
-            <div class="form-group">
-                <label asp-for="Password">Senha</label>
-                <input type="password" asp-for="Password" class="form-control form-control-lg" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="form-floating">
+                <input asp-for="Password" type="password" class="form-control" style="width: 400px; id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
             </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label asp-for="Rememberme">
-                        <input asp-for="Rememberme" />
-                        @Html.DisplayNameFor(m => m.Rememberme)
-                    </label>
+            <div class="form-floating">
+                <div class="form-check mt-2 mb-2">
+                    <input asp-for="Rememberme" class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                    <label class="form-check-label" for="form2Example3">Lembrar de mim</label>
                 </div>
+            <div class="text-center pt-1 mb-5 pb-1">
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn shadow text-white btn-block gradient-custom-2 mb-3">Entrar</button>
+                <a class="text-muted" style="text-decoration: none;" href="#!">Esqueceu a senha?</a>
             </div>
-            <button type="submit" class="btn btn-danger">Entrar</button>
         </form>
     </div>
 </div>
