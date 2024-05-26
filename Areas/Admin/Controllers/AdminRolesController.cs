@@ -45,17 +45,14 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "WorkingHours");
                 }
                 else
                 {
                     Errors(result);
                 }
-
             }
-
             return View(name);
-
         }
 
 
@@ -65,10 +62,7 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", error.Description);
             }
-
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> Update(string id)
@@ -76,8 +70,7 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
             var role = await roleManager.FindByNameAsync("Admin");
             List<IdentityUser> members = new List<IdentityUser>();
-           List<IdentityUser> nonMembers = new List<IdentityUser>();
-
+            List<IdentityUser> nonMembers = new List<IdentityUser>();
 
             foreach (IdentityUser user in userManager.Users)
             {
@@ -94,7 +87,6 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
             });
 
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Update(RoleModification model)

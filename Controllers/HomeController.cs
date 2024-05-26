@@ -15,10 +15,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         public IActionResult Index()
         {
-           
-           return RedirectToAction("Login", "Account");
-
-            
+           return RedirectToAction("Index", "WorkingHours");
         }
 
         
