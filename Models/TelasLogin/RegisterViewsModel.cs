@@ -46,7 +46,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
         public int DepartmentId { get; set; }
 
         [Display(Name = "Nível de Acesso")]
-        public string? AcessLevel { get; set; } //Standard
+        public string? AcessLevel { get; set; } = "Standard"; //Standard
 
         [Display(Name = "Status")]
         public string? StatusEmployee { get; set; } = "Active"; // Inactive
