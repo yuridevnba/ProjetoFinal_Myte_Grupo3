@@ -1,15 +1,19 @@
 ﻿@{
-
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Criar Role";
 }
-
-<h1 class="bg-info text-white">Criar Role</h1>
-<a asp-action="Index" class="btn btn-secondary">Retornar</a>
-<div asp-validation-summary="All" class="text-danger"></div>
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label for="name">Nome:</label>
-        <input name="name" class="form-control" required />
-    </div>
-    <button type="submit" class="btn btn-primary mt-2">Criar</button>
-</form>
+<h1>Criar Role</h1>
+<hr />
+<div>
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group mb-2">
+            <label for="name" class="fw-bolder">Nome</label>
+            <input name="name" class="form-control text-left" required />
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+            <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+        </div>
+    </form>
+</div>

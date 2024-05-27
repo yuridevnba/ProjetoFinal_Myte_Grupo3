@@ -1,66 +1,52 @@
 @model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.RegisterViewsModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Registro de Usuários";
 }
-
-<h2>Register</h2>
-
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Register</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+@Html.AntiForgeryToken()
+<h1>Registro de Usuário</h1>
+<hr />
+@Html.ValidationSummary(true)
+<div class="row">
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                <label class="fw-bolder" asp-for="EmployeeName">Nome</label>
+                @Html.EditorFor(m => m.EmployeeName, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um nome" } })
+                @Html.ValidationMessageFor(m => m.EmployeeName, "")
+            </div>
+            <div class="form-group mb-3">
+                <label class="fw-bolder" asp-for="Email">E-mail</label>
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um e-mail" } })
+                @Html.ValidationMessageFor(m => m.Email, "")
+            </div>
+            <div class="form-group mb-3">
+                <label class="fw-bolder" asp-for="Password">Crie uma senha</label>
+                @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite uma senha" } })
+                @Html.ValidationMessageFor(m => m.Password, "")
+            </div>
+            <label class="fw-bolder" asp-for="ConfirmPassword">Confirme a senha</label>
+            <div class="form-group mb-3">
+                @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Confirme a senha" } })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "")
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Password, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                <label class="fw-bolder" asp-for="HiringDate">Data de Contratação</label>
+                @Html.EditorFor(m => m.HiringDate, new { htmlAttributes = new { @class = "form-control text-left" } })
+                @Html.ValidationMessageFor(m => m.HiringDate, "")
+            </div>
+            <div class="form-group mb-3">
+                <label class="fw-bolder" asp-for="DepartmentId">Departamento</label>
+                @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Escolha uma opção", new { @class = "form-control text-left" })
+                @Html.ValidationMessageFor(m => m.DepartmentId, "")
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.EmployeeName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.EmployeeName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.HiringDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.HiringDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(m => m.HiringDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.DepartmentId, "Department", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Select Department", new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.DepartmentId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Register" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+</div>
+    <div class="form-group">
+        <button type="submit" value="Register" class="btn btn-primary">Enviar</button>
+        @*Outra Rota - Fora do Areas *@
+        <a asp-controller="AdminUsers" asp-action="Index" type="submit" value="Voltar" class="btn btn-secondary">Voltar</a>
+</div>
 }

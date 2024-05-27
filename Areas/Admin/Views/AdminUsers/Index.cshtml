@@ -1,31 +1,30 @@
 ﻿@model IEnumerable<IdentityUser>
 @{
     ViewData["Title"] = "Gerenciar Usuários";
-}
-@{
-
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<br />
-<h1 class="mt-5">Usuários</h1>
+<h1>Gerenciar Usuários</h1>
 <hr />
-@if (Model.Any())
-{
-    <table class="table table-light">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-            </tr>
-        </thead>
-        @foreach (var user in Model)
-        {
-            <tbody>
-            <td>@user.Id</td>
-            <td>@user</td>
-            </tbody>
-        }
-    </table>
-    <a asp-area="" asp-action="Register" asp-controller="Account" class="btn btn-primary" style="width:auto">Registrar</a>
-}
+<div class="mb-2">
+    <a asp-area="" asp-action="Register" asp-controller="Account" class="btn btn-primary">Registrar</a>
+</div>
+<div>
+    @if (Model.Any())
+    {
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+            @foreach (var user in Model)
+            {
+                <tbody>
+                <td>@user.Id</td>
+                <td>@user</td>                
+                </tbody>
+            }
+        </table>
+    }
+</div>

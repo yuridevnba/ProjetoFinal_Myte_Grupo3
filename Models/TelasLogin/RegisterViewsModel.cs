@@ -5,7 +5,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
     public class RegisterViewsModel
     {
         [EmailAddress]
-        [Required]
+        [Required(ErrorMessage = "Campo obrigatório")]
         public string? Email { get; set; }
 
         [DataType(DataType.Password)]
@@ -16,28 +16,14 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
         [Compare("Password", ErrorMessage = "As senhas não conferem")]
         [Required]
         public string? ConfirmPassword { get; set; }
-
-
-
-
-
-
-
-        /// mudanças 
-        /// 
-
-
-
-
-
+        
         [Display(Name = "ID")]
         public int EmployeeId { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Nome")]
         public string? EmployeeName { get; set; }
-
-        
+                
         public DateTime HiringDate { get; set; }
 
         [Display(Name = "Departamento")]
@@ -51,8 +37,5 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
 
         [Display(Name = "Status")]
         public string? StatusEmployee { get; set; } = "Active"; // Inactive
-
-
-       
     }
 }

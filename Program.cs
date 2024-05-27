@@ -20,8 +20,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequiredLength = 10;
@@ -40,14 +38,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
      options.SlidingExpiration = true;
  });
-
-
-
-
-
-
-
-
 
 builder.Services.AddAuthorization(options =>
 {
@@ -77,21 +67,15 @@ await CriarPerfisUsuariosAsync(app);
 
 app.UseAuthorization();
 
-
 app.MapControllerRoute(
     name: "MinhaArea",
     pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
-
-
-
-
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
 
 async Task CriarPerfisUsuariosAsync(WebApplication app)
 {

@@ -4,7 +4,7 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Models
 {
     public class RoleModification
     {
-        [Required]
+        [Required(ErrorMessage = "Campo obrigatório")]
         public string? RoleName { get; set; }
         public string? RoleId { get; set; }
         public string[]? AddIds { get; set; }
