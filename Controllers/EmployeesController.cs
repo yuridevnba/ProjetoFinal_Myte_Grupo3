@@ -19,29 +19,29 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public EmployeesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public EmployeesController(ApplicationDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
-            this.userManager = userManager;
-
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         // GET: Employees
         public async Task<IActionResult> Index(DateTime? startDate, DateTime? endDate, string status)
         {
             var employees = _context.Employee.AsQueryable();
-            
 
             if (startDate.HasValue)
             {
-                employees = employees.Where(e => e.HiringDate >= startDate.Value);
+                employees = employees.Where(e => e.HiringDate.Date >= startDate.Value.Date);
             }
 
             if (endDate.HasValue)
             {
-                employees = employees.Where(e => e.HiringDate <= endDate.Value);
+                employees = employees.Where(e => e.HiringDate.Date <= endDate.Value.Date);
             }
 
             if (!string.IsNullOrEmpty(status))
@@ -56,7 +56,19 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 employees = employees.Where(e => e.StatusEmployee == "Active");
             }
 
-            return View(await employees.ToListAsync());
+            var employeeList = await employees.ToListAsync();
+
+            foreach (var employee in employeeList)
+            {
+                var user = await _userManager.FindByEmailAsync(employee.Email);
+                if (user != null)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+                    employee.AcessLevel = roles.Contains("Admin") ? "Admin" : "Standard";
+                }
+            }
+
+            return View(employeeList);
         }
 
 
@@ -78,9 +90,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         //exportar relatório
-        public IActionResult Export(string[] fields, string sortOrder, string sortDirection)
+        public async Task<IActionResult> Export(string[] fields, string sortOrder, string sortDirection)
         {
-            var employeeData = GetData(fields, sortOrder, sortDirection);
+            var employeeData = await GetDataAsync(fields, sortOrder, sortDirection);
 
             using (XLWorkbook workBook = new XLWorkbook())
             {
@@ -94,7 +106,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
         }
 
-        private DataTable GetData(string[] fields, string sortOrder, string sortDirection)
+        private async Task<DataTable> GetDataAsync(string[] fields, string sortOrder, string sortDirection)
         {
             DataTable dataTable = new DataTable();
             dataTable.TableName = "Relatório Funcionários";
@@ -102,8 +114,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             // Adicionar colunas selecionadas
             foreach (var field in fields)
             {
-                dataTable.Columns.Add(field, typeof(string)); // Você pode ajustar o tipo conforme necessário
+                dataTable.Columns.Add(field, typeof(string));
             }
+
+            var includeAccessLevel = fields.Contains("AcessLevel");
 
             var employees = _context.Employee.Include(e => e.Department).AsQueryable();
 
@@ -113,31 +127,46 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 employees = employees.OrderBy($"{sortOrder} {sortDirection}");
             }
 
-            var employeeData = employees.ToList();
+            var employeeData = await employees.ToListAsync();
 
             if (employeeData.Count > 0)
             {
                 foreach (var employee in employeeData)
                 {
+                    var user = await _userManager.FindByEmailAsync(employee.Email);
+                    string accessLevel = "Standard";
+                    if (user != null)
+                    {
+                        var roles = await _userManager.GetRolesAsync(user);
+                        accessLevel = roles.Contains("Admin") ? "Admin" : "Standard";
+                    }
+
                     var row = dataTable.NewRow();
                     foreach (var field in fields)
                     {
                         if (field == "Department")
                         {
-                            // Adicione aqui a lógica para obter o nome do departamento
-                            row[field] = employee.Department?.DepartmentName; // Altere conforme necessário
+                            row[field] = employee.Department?.DepartmentName; // Ajuste conforme necessário
                         }
                         else
                         {
                             row[field] = employee.GetType().GetProperty(field)?.GetValue(employee, null)?.ToString();
                         }
                     }
+
+                    if (includeAccessLevel)
+                    {
+                        row["AcessLevel"] = accessLevel;
+                    }
+
                     dataTable.Rows.Add(row);
                 }
             }
 
             return dataTable;
         }
+
+
 
         //Verifica se o usuário está ativo para fazer login
         [HttpPost]
@@ -180,16 +209,26 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employee
-                .Include(e => e.Department)
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
+            var employee = await _context.Employee.FindAsync(id);
             if (employee == null)
             {
                 return NotFound();
             }
 
+            var user = await _userManager.FindByEmailAsync(employee.Email);
+            if (user != null)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                ViewData["AccessLevel"] = roles.Contains("Admin") ? "Admin" : "Standard";
+            }
+            else
+            {
+                ViewData["AccessLevel"] = "Standard";
+            }
+
             return View(employee);
         }
+
 
         // GET: Employees/Create
         public IActionResult Create()
@@ -199,24 +238,43 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // POST: Employees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmployeeId,EmployeeName,Email,Password,HiringDate,DepartmentId,AcessLevel,StatusEmployee")] Employee employee)
         {
-            //employee.Email = "aaaa";
-            //employee.Password = "dfda";
-
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Adiciona lógica para definir nível de acesso ao criar um funcionário
+                var user = new IdentityUser { UserName = employee.Email, Email = employee.Email };
+                var result = await _userManager.CreateAsync(user, employee.Password);
+                if (result.Succeeded)
+                {
+                    if (employee.AcessLevel == "Admin")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "Standard");
+                    }
+
+                    employee.IdentityUserId = user.Id;
+                    _context.Add(employee);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", employee.DepartmentId);
             return View(employee);
         }
+
 
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -236,11 +294,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,EmployeeName,Email,Password,HiringDate,DepartmentId,AcessLevel,StatusEmployee")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,EmployeeName,Email,Password,HiringDate,DepartmentId,AccessLevel,StatusEmployee")] Employee employee)
         {
             if (id != employee.EmployeeId)
             {
@@ -251,6 +307,22 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             {
                 try
                 {
+                    var user = await _userManager.FindByIdAsync(employee.IdentityUserId);
+                    if (user != null)
+                    {
+                        var currentRoles = await _userManager.GetRolesAsync(user);
+                        if (currentRoles.Contains("Admin") && employee.AcessLevel != "Admin")
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, "Admin");
+                            await _userManager.AddToRoleAsync(user, "Standard");
+                        }
+                        else if (!currentRoles.Contains("Admin") && employee.AcessLevel == "Admin")
+                        {
+                            await _userManager.RemoveFromRoleAsync(user, "Standard");
+                            await _userManager.AddToRoleAsync(user, "Admin");
+                        }
+                    }
+
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }
@@ -270,6 +342,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", employee.DepartmentId);
             return View(employee);
         }
+
+
+
 
         // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)

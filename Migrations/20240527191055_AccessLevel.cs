@@ -5,7 +5,7 @@
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDb : Migration
+    public partial class AccessLevel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

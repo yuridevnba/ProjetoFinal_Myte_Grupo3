@@ -33,7 +33,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         public int DepartmentId { get; set; }
 
         [Display(Name = "Nível de Acesso")]
-        public string? AcessLevel { get; set; } = "Employee"; //Standard
+        public string? AcessLevel { get; set; } = "Standard";
 
         [Display(Name = "Status")]
         public string? StatusEmployee { get; set; } = "Active"; // Inactive

@@ -12,8 +12,8 @@ using ProjetoFinal_Myte_Grupo3.Data;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240527113432_CreateDb")]
-    partial class CreateDb
+    [Migration("20240527191055_AccessLevel")]
+    partial class AccessLevel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using ProjetoFinal_Myte_Grupo3.Areas.Admin.Models;
 using ProjetoFinal_Myte_Grupo3.Controllers;
+using ProjetoFinal_Myte_Grupo3.Data;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing.Text;
@@ -15,13 +17,15 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
     public class AdminRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
-
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> userManager;
 
-        public AdminRolesController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminRolesController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
+            _context = context;
+
         }
 
         public ViewResult Index() => View(roleManager.Roles);
@@ -80,6 +84,25 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
             });
         }
 
+        private async Task UpdateAcessLevelAsync(string userId)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var roles = await userManager.GetRolesAsync(user);
+                string accessLevel = roles.Contains("Admin") ? "Admin" : "Standard";
+
+                var employee = await _context.Employee.FirstOrDefaultAsync(e => e.IdentityUserId == userId);
+                if (employee != null)
+                {
+                    employee.AcessLevel = accessLevel;
+                    _context.Update(employee);
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Update(RoleModification model)
         {
@@ -97,18 +120,26 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
                         {
                             Errors(result);
                         }
+                        else
+                        {
+                            await UpdateAcessLevelAsync(userId); // Atualiza o nível de acesso
+                        }
                     }
                 }
 
                 foreach (string userId in model.DeleteIds ?? new string[] { })
                 {
                     IdentityUser user = await userManager.FindByIdAsync(userId);
-                    if (User != null)
+                    if (user != null)
                     {
                         result = await userManager.RemoveFromRoleAsync(user, model.RoleName);
                         if (!result.Succeeded)
                         {
                             Errors(result);
+                        }
+                        else
+                        {
+                            await UpdateAcessLevelAsync(userId); // Atualiza o nível de acesso
                         }
                     }
                 }
@@ -123,6 +154,7 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
                 return await Update(model.RoleId);
             }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
