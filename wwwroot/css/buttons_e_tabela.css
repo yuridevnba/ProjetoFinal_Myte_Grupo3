@@ -1,59 +1,4 @@
-﻿/* Configurações exclusivas do index.cshtml de working hours */
-.loaded-wbs {
-    outline: none;
-    pointer-events: none;
-    text-decoration: none;
-    appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-}
-
-/* Configurações para a NavBar */
-.nav_color {
-    background-color: #fd7e14;
-    color: white;
-    padding: 12px 16px 12px 16px;
-}
-.nav_color .navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.5);
-}
-.nav_color .navbar-toggler:hover {
-    border-color: rgba(255, 255, 255, 0.75);
-    background-color: rgba(255, 255, 255, 0.1);
-}
-.nav_color .navbar-toggler:active,
-.nav_color .navbar-toggler:focus {
-    border-color: rgba(255, 255, 255, 1);
-    background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: none !important; 
-}
-.navbar-light .navbar-brand,
-.navbar-light .navbar-nav .nav-link,
-.navbar-light .navbar-brand:hover,
-.navbar-light .navbar-nav .nav-link:hover {
-    background-color: #fd7e14 !important;
-    color: none !important;
-    box-shadow: none !important;
-}
-.nav_color .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
-/*Título e Logo da navbar ------------------------- */
-.texto_logo {
-    vertical-align: middle;
-    margin-top: 3px;
-    color: white;
-    font-size: 22px;
-    font-weight: 600;
-    font-style: normal;
-}
-.logo_e_titulo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
+﻿
 /* Cores para os buttons do Mythree ---------------------------------- */
 .btn-primary {
     background-color: #fd7e14;
@@ -100,7 +45,9 @@
 .form-check-input:focus {
     box-shadow: 0 0 0 0.2rem rgba(253, 126, 20, 0.5);
 }
-/* ----------------------------------------------- */
+
+
+/* Tabela do WorkingHours ----------------------------------------------- */
 
 .table table-bordered {
     border: 2px solid #dee2e6;
@@ -135,15 +82,12 @@ h1.titulo_boasVindas {
     width: 100%;
     margin-bottom: 20px;
 }
-
 .table-striped {
     box-shadow: none !important;
 }
-
 .table > :not(caption) > * > * {
     box-shadow: none !important;
 }
-
 .table thead th {
     vertical-align: middle;
     font-family: Calibri, sans-serif;
@@ -156,26 +100,20 @@ p {
     font-weight: 400;
     margin: 0px;
 }
-
-/* ------------------------- Linha abaixo da tabela */
-.msg_tabela {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0;
-    font-weight: 500;
-    gap: 6px;
+.weekend-column {
+    background-color: #eaeaea !important; /* Tonalidade mais escura */
 }
-/* ----------------------------------------------- */
 
 tfoot {
     background-color: rgba(0, 0, 0, .05);
 }
+
 th, td {
     border: none;
     padding: 8px;
     text-align: center;
 }
+
 input {
     width: 100%;
     border: none;
@@ -185,12 +123,14 @@ input {
     font-family: Calibri, sans-serif;
     margin: 3px;
 }
+
 select {
     border: none;
     background-color: rgba(0, 0, 0, .0);
     padding: 0.375rem 0.75rem; /* Padding padrão do Bootstrap */
     font-family: Calibri, sans-serif;
 }
+
 .title-container {
     padding: 0;
     display: flex;
@@ -198,14 +138,33 @@ select {
     align-items: center;
     margin-top: 200px;
 }
+
 .date-forms-container {
     display: flex;
     gap: 8px;
-} 
+}
+
 .form-group {
     width: 250px;
     margin-bottom: 0;
 }
-.weekend-column {
-    background-color: #eaeaea !important; /* Tonalidade mais escura */
+
+﻿ /* Configurações exclusivas do index.cshtml de working hours */
+.loaded-wbs {
+    outline: none;
+    pointer-events: none;
+    text-decoration: none;
+    appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+/* ------------------------- Linha abaixo da tabela */
+.msg_tabela {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+    font-weight: 500;
+    gap: 6px;
 }

@@ -4,31 +4,45 @@
 }
 <div class="row position-absolute top-50 start-50 translate-middle">
     <div class="col-md-12 center">
-        @* <h1>Login</h1> *@
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Email" type="email" class="form-control text-left" style="width: 400px;" id="floatingInput" placeholder="E-mail">
                 <label for="floatingInput">E-mail</label>
             </div>
-            <div class="form-floating">
-                <input asp-for="Password" type="password" class="form-control text-left" style="width: 400px; id="floatingPassword" placeholder="Senha">
+            <div class="form-floating position-relative">
+                <input asp-for="Password" type="password" class="form-control text-left" style="width: 400px;" id="floatingPassword" placeholder="Senha">
                 <label for="floatingPassword">Senha</label>
+                <button type="button" class="btn btn-outline-secondary position-absolute end-0 top-50 translate-middle-y me-2" onclick="togglePasswordVisibility()">
+                    <i class="fa fa-eye" id="togglePasswordIcon"></i>
+                </button>
             </div>
             <div class="form-floating">
                 <div class="form-check mt-2 mb-2">
                     <input asp-for="Rememberme" class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                    <label class="form-check-label" for="form2Example3">Lembrar de mim</label>
+                    <label class="form-check-label" for="form2Example3">Lembrar-me</label>
                 </div>
-            <div class="text-center pt-1 mb-5 pb-1">
-                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn shadow text-white btn-block gradient-custom-2 mb-3">Entrar</button>
-                <a class="text-muted" style="text-decoration: none;" href="#!">Esqueceu a senha?</a>
-            </div>
+                <div class="text-center pt-1 mb-5 pb-1">
+                    <button type="submit" class="btn shadow text-white btn-block gradient-custom-2 mb-3">Entrar</button>
+                    <a class="text-muted" style="text-decoration: none;" href="#!">Esqueceu a senha?</a>
+                </div>
         </form>
     </div>
 </div>
 
 @section Scripts {
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById("floatingPassword");
+            const passwordIcon = document.getElementById("togglePasswordIcon");
+            const isPasswordVisible = passwordField.type === "text";
+            passwordField.type = isPasswordVisible ? "password" : "text";
+            passwordIcon.classList.toggle("fa-eye", isPasswordVisible);
+            passwordIcon.classList.toggle("fa-eye-slash", !isPasswordVisible);
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
