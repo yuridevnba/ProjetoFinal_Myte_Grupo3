@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
 using ProjetoFinal_Myte_Grupo3.Models.TelasLogin;
+using System.Threading.Tasks;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -92,26 +94,39 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             return View();
         }
-
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)// email e senha e confirmação
-        { //recebe os dados do form    
-
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
             if (ModelState.IsValid)
             {
-
-                var result = await signInManager.PasswordSignInAsync(
-                model.Email, model.Password, model.Rememberme, false);
-
-                if (result.Succeeded)
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user != null)
                 {
-                    return RedirectToAction("Index", "WorkingHours");
-                }
+                    var employee = await _context.Employee.FirstOrDefaultAsync(e => e.Email == model.Email);
+                    if (employee != null && employee.StatusEmployee == "Inactive")
+                    {
+                        ModelState.AddModelError(string.Empty, "Usuário Inativo, para mais informações entre em contato com o administrador");
+                        return View(model);
+                    }
 
-                ModelState.AddModelError(string.Empty, "Login Inválido");
+                    var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.Rememberme, false);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "WorkingHours");
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Login Inválido");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Usuário ou senha incorretos.");
+                }
             }
+
             return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Logout()
