@@ -158,8 +158,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View();
         }
 
-
-
         private int GetCurrentEmployeeId()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
