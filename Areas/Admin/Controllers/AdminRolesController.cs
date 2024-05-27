@@ -45,7 +45,7 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "WorkingHours");
+                    return RedirectToAction("Index", "AdminRoles");
                 }
                 else
                 {
@@ -132,7 +132,7 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Update));
             }
             else
             {
