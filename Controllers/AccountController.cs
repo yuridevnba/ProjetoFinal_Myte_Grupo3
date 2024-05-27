@@ -65,6 +65,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     _context.Employee.Add(employee);
                     await _context.SaveChangesAsync();
 
+                    SendEmail.Send(model.Email,model.Password);
+                    //uzs21363@ilebi.com
+
                     return RedirectToAction("Index", "Employees");
                 }
                 else
