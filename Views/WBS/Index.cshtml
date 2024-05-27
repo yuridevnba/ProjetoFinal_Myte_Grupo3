@@ -4,7 +4,7 @@
 }
 <h1>WBS</h1>
 <hr />
-<button asp-action="Create" class="btn btn-primary mb-2">Criar</button>
+<a asp-action="Create" class="btn btn-primary mb-2">Criar</a>
 <form asp-controller="WBS" asp-action="Index" method="get">
     <div class="row">
         <div class="col-5">
@@ -51,9 +51,9 @@
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    <button class="btn bi bi-pencil-square" asp-action="Edit" asp-route-id="@item.WBSId"></button>
-                    <button class="btn bi bi-list" asp-action="Details" asp-route-id="@item.WBSId"></button>
-                    <button class="btn bi bi-trash" asp-action="Delete" asp-route-id="@item.WBSId"></button>
+                    <a class="btn bi bi-pencil-square" asp-action="Edit" asp-route-id="@item.WBSId"></a>
+                    <a class="btn bi bi-list" asp-action="Details" asp-route-id="@item.WBSId"></a>
+                    <a class="btn bi bi-trash" asp-action="Delete" asp-route-id="@item.WBSId"></a>
                 </td>
             </tr>
         }
