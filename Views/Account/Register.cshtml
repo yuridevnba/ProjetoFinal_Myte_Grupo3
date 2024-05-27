@@ -4,66 +4,24 @@
 }
 @using (Html.BeginForm())
 {
-<<<<<<< HEAD
-@Html.AntiForgeryToken()
-<h1>Registro de Usuário</h1>
-<hr />
-@Html.ValidationSummary(true)
-<div class="row">
-=======
     @Html.AntiForgeryToken()
     <h1>Registro de Usuário</h1>
     <hr />
     @Html.ValidationSummary(true)
     <div class="row">
->>>>>>> main
         <div class="col-md-4">
             <div class="form-group mb-3">
                 <label class="fw-bolder" asp-for="EmployeeName">Nome</label>
                 @Html.EditorFor(m => m.EmployeeName, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um nome" } })
                 @Html.ValidationMessageFor(m => m.EmployeeName, "")
-<<<<<<< HEAD
             </div>
             <div class="form-group mb-3">
                 <label class="fw-bolder" asp-for="Email">E-mail</label>
                 @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um e-mail" } })
                 @Html.ValidationMessageFor(m => m.Email, "")
             </div>
-            <div class="form-group mb-3">
-                <label class="fw-bolder" asp-for="Password">Crie uma senha</label>
-                @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite uma senha" } })
-                @Html.ValidationMessageFor(m => m.Password, "")
-            </div>
-            <label class="fw-bolder" asp-for="ConfirmPassword">Confirme a senha</label>
-            <div class="form-group mb-3">
-                @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Confirme a senha" } })
-                @Html.ValidationMessageFor(m => m.ConfirmPassword, "")
-            </div>
+
         </div>
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label class="fw-bolder" asp-for="HiringDate">Data de Contratação</label>
-                @Html.EditorFor(m => m.HiringDate, new { htmlAttributes = new { @class = "form-control text-left" } })
-                @Html.ValidationMessageFor(m => m.HiringDate, "")
-            </div>
-            <div class="form-group mb-3">
-                <label class="fw-bolder" asp-for="DepartmentId">Departamento</label>
-                @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Escolha uma opção", new { @class = "form-control text-left" })
-                @Html.ValidationMessageFor(m => m.DepartmentId, "")
-=======
-            </div>
-            <div class="form-group mb-3">
-                <label class="fw-bolder" asp-for="Email">E-mail</label>
-                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um e-mail" } })
-                @Html.ValidationMessageFor(m => m.Email, "")
->>>>>>> main
-            </div>
-           
-           
-        </div>
-<<<<<<< HEAD
-</div>
-=======
         <div class="col-md-4">
             <div class="form-group mb-3">
                 <label class="fw-bolder" asp-for="HiringDate">Data de Contratação</label>
@@ -77,14 +35,9 @@
             </div>
         </div>
     </div>
->>>>>>> main
     <div class="form-group">
         <button type="submit" value="Register" class="btn btn-primary">Enviar</button>
-        @*Outra Rota - Fora do Areas *@
-        <a asp-controller="AdminUsers" asp-action="Index" type="submit" value="Voltar" class="btn btn-secondary">Voltar</a>
-<<<<<<< HEAD
-</div>
-=======
+
+        <button asp-area="Admin" asp-controller="AdminUsers" asp-action="Index" class="btn btn-secondary">Voltar</button>
     </div>
->>>>>>> main
 }

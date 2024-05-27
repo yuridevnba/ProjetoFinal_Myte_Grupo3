@@ -5,26 +5,12 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
     public class RegisterViewsModel
     {
         [EmailAddress]
-        [Required(ErrorMessage = "Campo obrigatório")]
+        [Required]
         public string? Email { get; set; }
 
-
-
         [DataType(DataType.Password)]
         [Required]
-
-<<<<<<< HEAD
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "As senhas não conferem")]
-        [Required]
-        public string? ConfirmPassword { get; set; }
-        
-=======
         public string? Password { get; set; } = GerarSenha(10);
-
-
-
-
         public static string GerarSenha(int comprimento)
         {
             const string caracteresPermitidos = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?";
@@ -44,21 +30,13 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
             return new string(senha);
         }
 
-        /// mudanças 
-        /// 
-
-
-
-
-
->>>>>>> main
         [Display(Name = "ID")]
         public int EmployeeId { get; set; }
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Nome")]
         public string? EmployeeName { get; set; }
-                
+
         public DateTime HiringDate { get; set; }
 
         [Display(Name = "Departamento")]

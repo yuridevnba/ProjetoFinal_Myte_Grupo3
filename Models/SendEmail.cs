@@ -15,7 +15,6 @@ namespace ProjetoFinal_Myte_Grupo3.Models
                     emailMessage.From = new MailAddress("mytethee@outlook.com", "Myte");
                     emailMessage.To.Add(toEmail);
                     emailMessage.Subject = "Assunto: Bem-vindo ao Nosso Site MyThee!";
-
                     
                     string body = @"
                         <html>
@@ -47,7 +46,6 @@ namespace ProjetoFinal_Myte_Grupo3.Models
                         smtpClient.Timeout = 60 * 100;
                         smtpClient.UseDefaultCredentials = false;
 
-                        
                         string appPassword = "Euteamo345*"; 
                         smtpClient.Credentials = new NetworkCredential("mytethee@outlook.com", appPassword);
 
@@ -58,7 +56,6 @@ namespace ProjetoFinal_Myte_Grupo3.Models
             }
             catch (SmtpException smtpEx)
             {
-                
                 Console.WriteLine("Erro SMTP: " + smtpEx.Message);
                 if (smtpEx.InnerException != null)
                 {
@@ -67,7 +64,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models
             }
             catch (Exception ex)
             {
-                // Log de erro geral
+                //Log de erro geral
                 Console.WriteLine("Ocorreu um erro ao enviar o email: " + ex.Message);
                 if (ex.InnerException != null)
                 {
@@ -77,7 +74,3 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         }
     }
 }
-
-
-
-
