@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
@@ -86,12 +85,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 }
                 workingHoursByWbsAndDate.Add(hoursList);
             }
-
             for (int dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
             {
                 totalsPerDay[dateIndex] = workingHoursByWbsAndDate.Sum(hoursList => hoursList[dateIndex]);
             }
-
             return (dateRange, wbsList, workingHoursByWbsAndDate, totalsPerDay);
         }
 
@@ -102,6 +99,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             var employee = await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
             ViewBag.EmployeeName = employee?.EmployeeName;
+            ViewBag.EmployeeId = employee?.EmployeeId;
 
             DateTime effectiveStartDate;
             DateTime effectiveEndDate;
@@ -129,14 +127,13 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     workingHoursByWbsAndDate.Add(Enumerable.Repeat(0, 15).ToList());
                 }
             }
-
             ViewBag.DateRange = dateRange;
             ViewBag.WBSList = wbsList;
             ViewBag.AllWBSList = await _context.WBS
                 .ToListAsync();
             ViewBag.WorkingHoursByWbsAndDate = workingHoursByWbsAndDate;
             ViewBag.TotalsPerDay = totalsPerDay;
-
+            
             return View();
         }
 
@@ -157,8 +154,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
             return View();
         }
-
-
 
         private int GetCurrentEmployeeId()
         {
@@ -238,7 +233,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
             await _context.SaveChangesAsync();
         }
-
 
         // GET: WorkingHours/Details/5
         public async Task<IActionResult> Details(int? id)
