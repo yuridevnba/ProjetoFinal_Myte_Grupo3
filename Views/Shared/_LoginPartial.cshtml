@@ -4,8 +4,8 @@
 @if (SignInManager.IsSignedIn(User)) //Verifica se está autenticado.
 {
     <ul class="nav-item">
-        <form asp-controller="account" asp-action="logout" method="post">
-            <button   class="nav-link btn-link py-0"><img style="width:16px" src="~/saida.png"></button>
+        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+            <button class="btn bi bi-power text-dark">Logout</button>
         </form>
     </ul>
 }
