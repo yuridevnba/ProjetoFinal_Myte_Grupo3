@@ -4,6 +4,7 @@
     ViewBag.Title = "Atualizar Role";
 }
 <h1>Atualizar Role</h1>
+<<<<<<< HEAD
 <hr />
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Update" method="post">
@@ -16,6 +17,19 @@
                 <th></th>
             </tr>
         </thead>
+=======
+
+<a asp-action="Index" class="btn btn-secondary">Retornar</a>
+
+@* <div asp-validation-summary="All" class="text-danger"></div> *@
+
+<form asp-action="Update" method="post">
+      <input type="hidden" name="roleName" value="@Model.Role.Name" />
+    <input type="hidden" name="roleId" value="@Model.Role.Id" /> 
+
+    <h2 class="bg-info p-1 text-white">Incluir na Role: @Model.Role.Name</h2>
+    <table class="table table-bordered table-sm">
+>>>>>>> main
         @if (Model.NonMembers.Count() == 0)
         {
          
