@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjetoFinal_Myte_Grupo3.Data;
@@ -11,9 +12,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
     public class AccountController : Controller
     {
         // Injeção de dependência.// facilita registro de usuários, logout
-        private readonly UserManager<IdentityUser> userManager; // crud de usuário login
+        private readonly UserManager<IdentityUser> userManager; //Crud de usuário login
 
-        private readonly SignInManager<IdentityUser> signInManager; // credenciais//login
+        private readonly SignInManager<IdentityUser> signInManager; //Credenciais//login
 
         private readonly ApplicationDbContext _context;
 
@@ -65,7 +66,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     _context.Employee.Add(employee);
                     await _context.SaveChangesAsync();
 
-                    SendEmail.Send(model.Email,model.Password);
+                    SendEmail.Send(model.Email, model.Password);
                     //uzs21363@ilebi.com
 
                     return RedirectToAction("Index", "Employees");
@@ -92,8 +93,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View();
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)// email e senha e confirmação
         { //recebe os dados do form    
@@ -103,8 +102,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
                 var result = await signInManager.PasswordSignInAsync(
                 model.Email, model.Password, model.Rememberme, false);
-
-
 
                 if (result.Succeeded)
                 {
