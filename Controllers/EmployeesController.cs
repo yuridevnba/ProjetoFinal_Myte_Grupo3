@@ -36,12 +36,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             if (startDate.HasValue)
             {
-                employees = employees.Where(e => e.HiringDate >= startDate.Value);
+                employees = employees.Where(e => e.HiringDate.Date >= startDate.Value.Date);
             }
 
             if (endDate.HasValue)
             {
-                employees = employees.Where(e => e.HiringDate <= endDate.Value);
+                employees = employees.Where(e => e.HiringDate.Date <= endDate.Value.Date);
             }
 
             if (!string.IsNullOrEmpty(status))
@@ -70,6 +70,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             return View(employeeList);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
