@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<ProjetoFinal_Myte_Grupo3.Models.Department>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Departamentos";
 }
-<h1>Index</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Departamentos</h1>
+<hr />
+<div class="mb-2">
+    <button class="btn btn-primary" asp-action="Create">Criar</button>
+</div>
 <table class="table">
-    <thead>
+    <thead class="talbe-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.DepartmentName)
@@ -24,9 +24,9 @@
                     @Html.DisplayFor(modelItem => item.DepartmentName)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.DepartmentId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DepartmentId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.DepartmentId">Delete</a>
+                    <button class="btn bi bi-pencil-square" asp-action="Edit" asp-route-id="@item.DepartmentId"></button>
+                    <button class="btn bi bi-list" asp-action="Details" asp-route-id="@item.DepartmentId"></button>
+                    <button class="btn bi bi-trash" asp-action="Delete" asp-route-id="@item.DepartmentId"></button>
                 </td>
             </tr>
         }

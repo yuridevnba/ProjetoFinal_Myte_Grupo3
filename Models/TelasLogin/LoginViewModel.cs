@@ -7,7 +7,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
 
 
         [EmailAddress]
-        [Required]
+        [Required(ErrorMessage = "Campo obrigatório")]
         public string? Email { get; set; }
         public string? Password { get; set; }
         public bool Rememberme { get; set; }

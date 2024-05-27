@@ -10,8 +10,6 @@ using System.Drawing.Text;
 
 namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 {
-
-
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
     public class AdminRolesController : Controller
@@ -22,10 +20,8 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
         public AdminRolesController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-
             this.roleManager = roleManager;
             this.userManager = userManager;
-
         }
 
         public ViewResult Index() => View(roleManager.Roles);
@@ -67,7 +63,6 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-
             var role = await roleManager.FindByNameAsync("Admin");
             List<IdentityUser> members = new List<IdentityUser>();
             List<IdentityUser> nonMembers = new List<IdentityUser>();
@@ -77,15 +72,12 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
                 var list = await userManager.IsInRoleAsync(user, role.Name!) ? members : nonMembers; // ISInRoleAsync retorna true ou false. // ele recebe members ou nonmembers.
                 list.Add(user);
             }
-
             return View(new RoleEdit
             {
                 Role = role,
                 Members = members,
                 NonMembers = nonMembers
-
             });
-
         }
 
         [HttpPost]
@@ -95,18 +87,15 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-
                 foreach (string userId in model.AddIds ?? new string[] { })
                 {
                     IdentityUser user = await userManager.FindByIdAsync(userId);
-
                     if (user != null)
                     {
                         result = await userManager.AddToRoleAsync(user, model.RoleName);
                         if (!result.Succeeded)
                         {
                             Errors(result);
-
                         }
                     }
                 }
@@ -114,19 +103,14 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
                 foreach (string userId in model.DeleteIds ?? new string[] { })
                 {
                     IdentityUser user = await userManager.FindByIdAsync(userId);
-
                     if (User != null)
                     {
                         result = await userManager.RemoveFromRoleAsync(user, model.RoleName);
-
                         if (!result.Succeeded)
                         {
                             Errors(result);
                         }
                     }
-
-
-
                 }
             }
 
@@ -138,38 +122,25 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
             {
                 return await Update(model.RoleId);
             }
-
-
-
         }
 
-
-
         [HttpGet]
-
         public async Task<IActionResult> Delete(string id)
         {
             IdentityRole role = await roleManager.FindByIdAsync(id);
-           
-
             if (role == null)
             {
                 ModelState.AddModelError("", "Role não encontrada");
                 return View("Index", roleManager.Roles);
             }
-
-
             return View(role);
-
-
-
         }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
-            
             if (role != null)
             {
                 IdentityResult result = await roleManager.DeleteAsync(role);
@@ -181,7 +152,6 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
                 {
                     Errors(result);
                 }
-               
             }
             else
             {
@@ -189,16 +159,6 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
             }
             return View("Index",roleManager.Roles);
         }
-
-
-
-
-
-
     }
 }
-
-
-
 // credenciais//login
-

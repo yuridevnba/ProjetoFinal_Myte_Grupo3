@@ -1,39 +1,35 @@
 ﻿ @{
-   
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Gerenciar Roles";
 }
- 
-
-
-<h1 class="mt-5">Roles</h1>
-
+<h1>Gerenciar Roles</h1>
 <hr />
-<table class="table table-light mt-5">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var role in Model)
-        {
+<div class="mb-2">
+    <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Criar</a>
+    <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Update" class="btn btn-primary">Atualizar</a>
+</div>
+<div>
+    <table class="table">
+        <thead class="table-light">
             <tr>
-                <td>@role.Id</td>
-                <td>@role.Name</td>
+                <th>ID</th>
+                <th>Nome</th>
+                <th></th>
             </tr>
-            <td>
-
-                <form asp-action="Delete" asp-route-id="@role.Id" method="get">
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Deletar
-                    </button>
-
-                </form>
-
-            </td>
-        }
-    </tbody>
-</table>
-<a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Registrar</a>
-<a asp-area="Admin" asp-controller="AdminRoles" asp-action="Update" class="btn btn-primary">Editar</a>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td>@role.Id</td>
+                    <td>@role.Name</td>
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@role.Id" method="get">
+                            <button type="submit" class="btn bi bi-trash"></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
