@@ -1,0 +1,81 @@
+﻿/* Cores para o olhinho da senha inicial ---------------------------------- */
+
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: white !important;
+}
+.btn-outline-secondary:focus-visible,
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:focus-within,
+.btn-outline-secondary:active {
+    color: #ffff !important;
+    background-color: #fd7e14 !important;
+    border-color: white !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+/* Removendo sombras e bordas adicionais */
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+    box-shadow: none !important;
+    outline: none !important;
+}
+/* Adicional para garantir que todas as propriedades de sombra sejam removidas */
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active,
+.btn-outline-secondary:focus:active,
+.btn-outline-secondary.active {
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: white !important;
+}
+/* ----------------------------------------------- */
+
+
+/* Configurações para a NavBar */
+.nav_color {
+    background-color: #fd7e14;
+    color: white;
+    padding: 12px 16px 12px 16px;
+}
+.nav_color .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+.nav_color .navbar-toggler:hover {
+    border-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.nav_color .navbar-toggler:active,
+.nav_color .navbar-toggler:focus {
+    border-color: rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: none !important;
+}
+.navbar-light .navbar-brand,
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-brand:hover,
+.navbar-light .navbar-nav .nav-link:hover {
+    background-color: #fd7e14 !important;
+    color: none !important;
+    box-shadow: none !important;
+}
+.nav_color .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+
+/*Título e Logo da navbar ------------------------- */
+.texto_logo {
+    vertical-align: middle;
+    margin-top: 3px;
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+    font-style: normal;
+}
+.logo_e_titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
