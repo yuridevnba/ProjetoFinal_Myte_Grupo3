@@ -5,21 +5,21 @@
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class=" text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a></li>
             </ol>
         </nav>
     </div>
 </nav>
-<div class="card shadow">
+<div class="card shadow bg-light">
     @using (Html.BeginForm())
     {
-        <div class="card-header">
-            @Html.AntiForgeryToken()
-            <h3 class="card-title text-center">Registro de Usuário</h3>
-        </div>
         <div class="card-body">
+            @Html.AntiForgeryToken()
+            <h2 class="card-title text-center mb-4">Registro de Usuário</h2>
+            <hr />
             @Html.ValidationSummary(true)
             <div class="row mb-4">
                 <div class="col">

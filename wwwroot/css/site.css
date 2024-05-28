@@ -21,10 +21,8 @@ body {
     margin-bottom: 60px;
     margin-top: 100px;
     z-index: 1;
-<<<<<<< HEAD
-    /*background-color: #F2F2F2;*/
-=======
 
+    /*background-color: #F2F2F2;*/
     /*Teste de background! Não desativar o comentário --------------------------------------*/
     /*background-image: url('css/img_background_teste2.png');
     background-size: cover;*/ /* Ajusta o tamanho da imagem para cobrir toda a tela */
@@ -32,7 +30,7 @@ body {
     /*background-position: center;*/ /* Centraliza a imagem no fundo */
     /*margin: 0;*/ /* Remove a margem padrão do corpo */
     /*height: 100vh;*/ /* Define a altura do corpo para 100% da altura da janela de visualização */
->>>>>>> main
+
 }
 
 .btn-primary {
@@ -47,7 +45,6 @@ body {
 .text-secondary {
     color: #dcdcdc; /* Cinza claro para inativos */
 }
-
 
 .gradient-custom-2 {
     /* fallback for old browsers */
@@ -69,4 +66,9 @@ body {
         border-top-right-radius: .3rem;
         border-bottom-right-radius: .3rem;
     }
+}
+
+#bread{
+    background-color: #ffffff;
+    margin-left: -2.5rem;
 }

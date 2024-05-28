@@ -2,34 +2,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Gerenciar Roles";
 }
-<h1>Gerenciar Roles</h1>
-<hr />
-<div class="mb-2">
-    <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Criar</a>
-    <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Update" class="btn btn-primary">Atualizar</a>
-</div>
-<div>
-    <table class="table">
-        <thead class="table-light">
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var role in Model)
-            {
-                <tr>
-                    <td>@role.Id</td>
-                    <td>@role.Name</td>
-                    <td>
-                        <form asp-action="Delete" asp-route-id="@role.Id" method="get">
-                            <button type="submit" class="btn bi bi-trash"></button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+            </ol>
+        </nav>
+    </div>
+</nav>
+<div class="card shadow bg-light">
+    <div class="card-body">
+        <h2 class="card-title text-center">Gerenciar Roles</h2>
+        <hr />
+        <div class="mb-2">
+            <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Criar</a>
+            <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Update" class="btn btn-primary">Atualizar</a>
+        </div>
+        <div>
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var role in Model)
+                    {
+                        <tr>
+                            <td>@role.Id</td>
+                            <td>@role.Name</td>
+                            <td>
+                                <form asp-action="Delete" asp-route-id="@role.Id" method="get">
+                                    <button type="submit" class="btn bi bi-trash"></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

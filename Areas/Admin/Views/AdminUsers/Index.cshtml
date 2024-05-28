@@ -3,20 +3,34 @@
     ViewData["Title"] = "Gerenciar Usuários";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="card text-center shadow">
-    <div class="card-header">
-        <h3 class="card-title">Gerenciar Usuários</h3>
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
+            </ol>
+        </nav>
     </div>
+</nav>
+<div class="card text-center shadow bg-light">
     <div class="card-body">
-        <div class="mb-2 text-left">
-            <a asp-area="" asp-action="Register" asp-controller="Account" class="btn btn-primary">Registrar</a>
+        <h2 class="card-title">Gerenciar Usuários</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-1 mt-1">
+                <div class="text-left">
+                    <a asp-area="" asp-action="Register" asp-controller="Account" class="btn btn-primary">Registrar</a>
+                </div>
+            </div>
+            <div class="col-md-5 mb-2 form-outline" data-mdb-input-init>
+                <input type="search" id="emailFilter" class="form-control text-left" data-mdb-input-init placeholder="Filtrar por e-mail" />
+            </div>
         </div>
-        <input type="text" id="emailFilter" class="form-control" placeholder="Filtrar por e-mail" />
-
         @if (Model.Any())
         {
             <table class="table table-light">
-                <thead class="table-secondary">
+                <thead class="table-dark">
                     <tr>
                         <th>ID</th>
                         <th>Email</th>

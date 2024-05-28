@@ -2,18 +2,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Criar Role";
 }
-<h1>Criar Role</h1>
-<hr />
-<div>
-    <form asp-action="Create" method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group mb-2">
-            <label for="name" class="fw-bolder">Nome</label>
-            <input name="name" class="form-control text-left" required />
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-            <a asp-action="Index" class="btn btn-secondary">Voltar</a>
-        </div>
-    </form>
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="areas" asp-controller="AdminRoles" asp-action="Index">Gerenciar Roles</a></li>
+            </ol>
+        </nav>
+    </div>
+</nav>
+<div class="card shadow bg-light">
+    <div class="card-body">
+        <h2 class="card-title text-center">Criar Role</h2>
+        <hr />
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group mb-2">
+                <label for="name" class="mx-1">Nome</label>
+                <input name="name" class="form-control text-left" required />
+            </div>
+            <div class="mx-1">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+            </div>
+        </form>
+    </div>
 </div>
