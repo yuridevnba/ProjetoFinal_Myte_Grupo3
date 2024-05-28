@@ -141,5 +141,21 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchEmails(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return Json(new { success = false, message = "Query cannot be empty" });
+            }
+
+            var emails = await _context.Employee
+                .Where(e => e.Email.Contains(query))
+                .Select(e => e.Email)
+                .ToListAsync();
+
+            return Json(new { success = true, data = emails });
+        }
     }
 }

@@ -89,7 +89,13 @@
     </div>
 </form>
 
-<table class="table">
+<div class="row mb-3">
+    <div class="col-4">
+        <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar funcionário...">
+    </div>
+</div>
+
+<table class="table table-striped" id="employeesTable">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.First().EmployeeName)</th>
@@ -126,3 +132,26 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function () {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.getElementById('employeesTable');
+            tr = table.getElementsByTagName('tr');
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName('td');
+                if (td) {
+                    txtValue = td[0].textContent || td[0].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    }
+                }
+            }
+        });
+    </script>
+}
