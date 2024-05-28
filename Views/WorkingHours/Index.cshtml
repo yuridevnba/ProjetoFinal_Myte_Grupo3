@@ -11,7 +11,7 @@
     var successMessage = TempData["SuccessMessage"] as string;
     var currentTotalSum = 0;
     var employeeName = ViewBag.EmployeeName;
-    var employeeId = ViewBag.EmployeeId; 
+    var employeeId = ViewBag.EmployeeId;
 
     System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
     System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("pt-BR");
@@ -29,8 +29,8 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input type="date" id="dataInicio" name="selectedDate" class="form-control" value="@dateRange[0].ToString("yyyy-MM-dd")">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary">Buscar</button>
+                        <div>
+                            <button type="submit" class="btn btn-primary btn_buscar_tabela">Buscar</button>
                         </div>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                         currentTotalSum = 0;
                         <tr>
                             <td>
-                                <select name="WBSId[]">
+                                <select name="WBSId[]" class="available-wbs">
                                     <option value="0" selected>Selecione sua WBS</option>
                                     @for(var currWbsIndex = 0; currWbsIndex < allWbsList.Count; currWbsIndex++)
                                     {
@@ -161,17 +161,53 @@
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
-                <div class="alert msg_tabela" style="padding: 7px 20px; background-color: #fff3e8;" role="alert">
-                    @errorMessage <i class="fa-solid fa-ban fa" style="color: #f47d14;"></i>
+                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                    <div class="toast-header" style="background-color: #ffe6e6">
+                        <img src="https://img.icons8.com/?size=100&id=59782&format=png&color=FA5252" style="width: 30px; height: 30px;" class="rounded me-2">
+                        <strong class="me-auto" style="color: black; font-size: 16px;">Erro!</strong>
+                        <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body" style="background-color: #ffe6e6; font-weight: 400; font-size: 15px;">
+                        @errorMessage
+                    </div>
                 </div>
             }
 
             @if (!string.IsNullOrEmpty(successMessage))
             {
-                <div class="alert msg_tabela" style="padding: 7px 20px; background-color: #fff3e8; " role="alert">
-                    @successMessage <i class="fa-regular fa-thumbs-up fa" style="color: #f47d14;"></i>
+                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                    <div class="toast-header" style="background-color: #ebffe5">
+                        <img src="https://img.icons8.com/?size=100&id=UrUFNWAeX8fJ&format=png&color=40C057" style="width: 30px; height: 30px;" class="rounded me-2">
+                        <strong class="me-auto" style="color: black; font-size: 16px;">Sucesso!</strong>
+                        <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body" style="background-color: #ebffe5; font-weight: 400; font-size: 15px;">
+                        @successMessage
+                    </div>
                 </div>
             }
         </div>
     </form>
+    @section Scripts {
+        <script>
+            $('.toast').toast('show');
+        </script>
+
+        <script>
+            var selectedValues = [];
+            // Toda vez que a pessoa escolher um WBS numa linha onde não há um selecionado, essa função vai ser chamada
+            $('.available-wbs').change(function () {
+                // Pega o valor selecionado
+                var selectedValue = $(this).val();
+
+                selectedValues.push(selectedValue);
+
+                // Percorre todos os outros selects de WBS e desabilita a opção igual ao que ja foi selecionado
+                $('.available-wbs').not(this).find('option').prop('disabled', false);
+                selectedValues.forEach(function (value) {
+                    $('.available-wbs').not(this).find('option[value="' + value + '"]').prop('disabled', true);
+                });
+            });
+        </script>
+    }
 </body>
