@@ -11,49 +11,45 @@
         <div class="mb-2 text-left">
             <a asp-area="" asp-action="Register" asp-controller="Account" class="btn btn-primary">Registrar</a>
         </div>
+        <input type="text" id="emailFilter" class="form-control" placeholder="Filtrar por e-mail" />
+
         @if (Model.Any())
         {
             <table class="table table-light">
                 <thead class="table-secondary">
                     <tr>
                         <th>ID</th>
-                        <th>Nome</th>
+                        <th>Email</th>
                     </tr>
                 </thead>
-                @foreach (var user in Model)
-                {
-                    <tbody>
-                        <td>@user.Id</td>
-                        <td>@user</td>
-                    </tbody>
-                }
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr class="employee-row">
+                            <td>@user.Id</td>
+                            <td class="email">@user.Email</td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         }
     </div>
 </div>
 
-@* <h3>Gerenciar Usuários</h3>
-<hr />
-<div class="mb-2">
-    <a asp-area="" asp-action="Register" asp-controller="Account" class="btn btn-primary">Registrar</a>
-</div>
-<div>
-    @if (Model.Any())
-    {
-        <table class="table">
-            <thead class="table-light">
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                </tr>
-            </thead>
-            @foreach (var user in Model)
-            {
-                <tbody>
-                <td>@user.Id</td>
-                <td>@user</td>                
-                </tbody>
-            }
-        </table>
-    }
-</div> *@
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#emailFilter').on('input', function () {
+                var filter = $(this).val().toLowerCase();
+                $('.employee-row').each(function () {
+                    var email = $(this).find('.email').text().toLowerCase();
+                    if (email.indexOf(filter) > -1) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    </script>
+}
