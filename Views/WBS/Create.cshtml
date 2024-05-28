@@ -1,43 +1,36 @@
 ﻿@model ProjetoFinal_Myte_Grupo3.Models.WBS
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Criar WBS";
 }
-
-<h1>Create</h1>
-
-<h4>WBS</h4>
+<h1>Criar WBS</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
+            <div class="form-group mb-2">
+                <label asp-for="Code" class="control-label fw-bolder"></label>
+                <input asp-for="Code" class="form-control text-left" placeholder="Digite um Código"/>
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+            <div class="form-group mb-2">
+                <label asp-for="Description" class="control-label fw-bolder"></label>
+                <input asp-for="Description" class="form-control text-left" placeholder="Digite uma Descrição"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
+            <div class="form-group mb-2">
+                <label asp-for="Type" class="control-label fw-bolder"></label>
+                <input asp-for="Type" class="form-control text-left" placeholder="Digite um Tipo"/>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <button type="sumbit" class="btn btn-primary mt-2 text-white">Enviar</button>
+                <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

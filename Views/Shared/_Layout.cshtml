@@ -24,13 +24,13 @@
         <header>
             @if (User.Identity.IsAuthenticated)
             {
-                <nav class="navbar nav_color bg-body-tertiary fixed-top">
+                <nav class="navbar nav_color bg-body-tertiary fixed-top shadow-sm">
                     @* Dados principais da nav *@
                     <div class="container-fluid">
                         <a class="navbar-brand" asp-area="" asp-controller="WorkingHours" asp-action="Index">
                             <div class="logo_e_titulo">
                                 @* Logo e Título *@
-                                <img src="/css/logo_mythree_test.png" width="30" height="30" class="d-inline-block align-top" alt="Logo do site">
+                                <img src="/css/logo_mythree_test.png" width="40" height="40" class="d-inline-block align-top" alt="Logo do site">
                                 <p class="texto_logo">MyThree</p>
                             </div>
                         </a>
@@ -46,7 +46,7 @@
                             <div class="offcanvas-body">
                                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Details" asp-route-id="@employeeId">Dados Pessoais</a>
+                                        <a class="nav-link text-secondary" asp-area="" asp-controller="Employees" asp-action="Details" asp-route-id="@employeeId">Dados Pessoais</a>
                                     </li>
                                     @if (User.IsInRole("Admin"))
                                     {
@@ -54,25 +54,25 @@
                                             <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Users">Acesso de Usuários</a>
                                         </li> *@
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a>
+                                            <a class="nav-link text-secondary" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Registar de Usuário</a>
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="Account" asp-action="Register">Registar de Usuário</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Gerenciar Roles</a>
+                                            <a class="nav-link text-secondary" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Gerenciar Roles</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-area="" asp-controller="WorkingHours" asp-action="Index">Cadastrar Horas</a>
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Cadastrar Horas</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a>
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a>
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-area="" asp-controller="WBS" asp-action="Index">WBS</a>
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="WBS" asp-action="Index">WBS</a>
                                         </li>
                                     }
                                 </ul>
