@@ -2,7 +2,62 @@
 @{
     ViewBag.Title = "Registro de Usuários";
 }
-@using (Html.BeginForm())
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a class=" text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a></li>
+            </ol>
+        </nav>
+    </div>
+</nav>
+<div class="card shadow">
+    @using (Html.BeginForm())
+    {
+        <div class="card-header">
+            @Html.AntiForgeryToken()
+            <h3 class="card-title text-center">Registro de Usuário</h3>
+        </div>
+        <div class="card-body">
+            @Html.ValidationSummary(true)
+            <div class="row mb-4">
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="EmployeeName">Nome</label>
+                        @Html.EditorFor(m => m.EmployeeName, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um nome" } })
+                        @Html.ValidationMessageFor(m => m.EmployeeName, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="HiringDate">Data de Contratação</label>
+                        @Html.EditorFor(m => m.HiringDate, new { htmlAttributes = new { @class = "form-control text-left" } })
+                        @Html.ValidationMessageFor(m => m.HiringDate, "")
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Email">E-mail</label>
+                        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um e-mail" } })
+                        @Html.ValidationMessageFor(m => m.Email, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline">
+                        <label asp-for="DepartmentId">Departamento</label>
+                        @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Escolha uma opção", new { @class = "form-control text-left" })
+                        @Html.ValidationMessageFor(m => m.DepartmentId, "")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mx-4">
+            <button type="submit" value="Register" class="btn btn-primary">Enviar</button>
+
+            <button asp-area="Admin" asp-controller="AdminUsers" asp-action="Index" class="btn btn-secondary">Voltar</button>
+        </div>
+    }
+</div>
+
+@* @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <h1>Registro de Usuário</h1>
@@ -40,4 +95,4 @@
 
         <button asp-area="Admin" asp-controller="AdminUsers" asp-action="Index" class="btn btn-secondary">Voltar</button>
     </div>
-}
+} *@

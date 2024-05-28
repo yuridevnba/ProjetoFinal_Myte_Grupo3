@@ -1,12 +1,8 @@
 ﻿@model ProjetoFinal_Myte_Grupo3.Models.Department
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Departamento";
 }
-
-<h1>Edit</h1>
-
-<h4>Department</h4>
+<h1>Editar Departamento</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,21 +10,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DepartmentId" />
             <div class="form-group">
-                <label asp-for="DepartmentName" class="control-label"></label>
-                <input asp-for="DepartmentName" class="form-control" />
+                <label asp-for="DepartmentName" class="control-label fw-bolder"></label>
+                <input asp-for="DepartmentName" class="form-control text-left" />
                 <span asp-validation-for="DepartmentName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div>
+                <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+                <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
