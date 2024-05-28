@@ -10,9 +10,11 @@
         <div class="col-5">
             <div class="form-group">
                 <label>Type</label><br />
-                <input type="checkbox" name="type" value="chargeability" id="chargeability" />
+                <input type="checkbox" name="type" value="all" id="all" onchange="toggleCheckboxes(this)" />
+                <label for="all">Todos</label><br />
+                <input type="checkbox" name="type" value="chargeability" id="chargeability" class="type-checkbox" />
                 <label for="chargeability">Chargeability</label><br />
-                <input type="checkbox" name="type" value="non-chargeability" id="non-chargeability" />
+                <input type="checkbox" name="type" value="non-chargeability" id="non-chargeability" class="type-checkbox" />
                 <label for="non-chargeability">Non-chargeability</label>
             </div>
         </div>
