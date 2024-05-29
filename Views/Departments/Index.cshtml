@@ -7,7 +7,14 @@
 <div class="mb-2">
     <a class="btn btn-primary" asp-action="Create">Criar</a>
 </div>
-<table class="table">
+
+<div class="row mb-3">
+    <div class="col-4">
+        <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar Departamento...">
+    </div>
+</div>
+
+<table class="table" id="table">
     <thead class="talbe-light">
         <tr>
             <th>
@@ -32,3 +39,26 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function () {
+            var input, filter, table, tr, td, i, departmentName;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.querySelector('table');
+            tr = table.getElementsByTagName('tr');
+
+            for (i = 0; i < tr.length; i++) {
+                departmentName = tr[i].getElementsByTagName('td')[0];
+                if (departmentName) {
+                    if ((departmentName.textContent || departmentName.innerText).toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
+                }
+            }
+        });
+    </script>
+}
