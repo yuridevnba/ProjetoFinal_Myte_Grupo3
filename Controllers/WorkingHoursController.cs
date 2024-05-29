@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
 using System.Security.Claims;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using System.IO;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -376,6 +380,44 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         private bool WorkingHourExists(int id)
         {
             return _context.WorkingHour.Any(e => e.WorkingHourId == id);
+        }
+
+        public async Task<IActionResult> GeneratePdfReport()
+        {
+            var employeeId = GetCurrentEmployeeId();
+            var employee = await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+            var workingHours = await _context.WorkingHour
+                                             .Where(wh => wh.EmployeeId == employeeId)
+                                             .Include(wh => wh.WBS)
+                                             .ToListAsync();
+
+            if (employee == null)
+            {
+                return NotFound("Employee not found.");
+            }
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                PdfWriter writer = new PdfWriter(ms);
+                PdfDocument pdf = new PdfDocument(writer);
+                Document document = new Document(pdf);
+
+                document.Add(new Paragraph($"Resumo do Funcionário: {employee.EmployeeName}"));
+                document.Add(new Paragraph($"ID: {employee.EmployeeId}"));
+                document.Add(new Paragraph($"Data de Contratação: {employee.HiringDate.ToString("dd/MM/yyyy")}"));
+                document.Add(new Paragraph($"Departamento: {employee.Department?.DepartmentName}"));
+                document.Add(new Paragraph(" "));
+                document.Add(new Paragraph("Horas Trabalhadas:"));
+
+                foreach (var wh in workingHours)
+                {
+                    document.Add(new Paragraph($"Data: {wh.WorkedDate.ToString("dd/MM/yyyy")} - Horas: {wh.WorkedHours} - WBS: {wh.WBS?.Code}"));
+                }
+
+                document.Close();
+                byte[] fileBytes = ms.ToArray();
+                return File(fileBytes, "application/pdf", "Resumo_Funcionario.pdf");
+            }
         }
     }
 }
