@@ -42,6 +42,10 @@
         </div>
     </div>
 
+    <form method="get" asp-controller="WorkingHours" asp-action="GeneratePdfReport">
+        <button type="submit" class="btn btn-secondary"><i class="bi bi-printer"></i></button>
+    </form>
+
     <form id="saveHoursForm" method="post" action="@Url.Action("SaveWorkingHours", "WorkingHours")">
         <table class="table table-striped">
             <thead>
@@ -80,9 +84,8 @@
                             var isWeekend = date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
                             <td class="@(isWeekend ? "weekend-column" : "")">
                                 <input type="@(isWeekend ? "hidden" : "text")"
-                                    name="Hours[@wbsIndex][@dateIndex]"
-                                    value="@hours"
-                                >
+                                       name="Hours[@wbsIndex][@dateIndex]"
+                                       value="@hours">
                             </td>
                         }
                         @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -103,7 +106,7 @@
                             <td>
                                 <select name="WBSId[]" class="available-wbs">
                                     <option value="0" selected>Selecione sua WBS</option>
-                                    @for(var currWbsIndex = 0; currWbsIndex < allWbsList.Count; currWbsIndex++)
+                                    @for (var currWbsIndex = 0; currWbsIndex < allWbsList.Count; currWbsIndex++)
                                     {
                                         var wbs = allWbsList[currWbsIndex];
                                         var doesItExists = wbsList.Any(existingWbs => existingWbs.Code == wbs.Code);
@@ -120,11 +123,9 @@
                                 var date = dateRange[dateIndex];
                                 var isWeekend = date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
                                 <td class="@(isWeekend ? "weekend-column" : "")">
-                                    <input
-                                        type="@(isWeekend ? "hidden" : "text")"
-                                        name="Hours[@wbsIndex][@dateIndex]"
-                                        value="@hours"
-                                    >
+                                    <input type="@(isWeekend ? "hidden" : "text")"
+                                           name="Hours[@wbsIndex][@dateIndex]"
+                                           value="@hours">
                                 </td>
                             }
                             @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
