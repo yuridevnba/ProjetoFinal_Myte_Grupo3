@@ -24,7 +24,14 @@
     </div>
 </form>
 
-<table class="table table-striped">
+<div class="row mb-3">
+    <div class="col-4">
+        <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar WBS...">
+    </div>
+</div>
+
+
+<table class="table table-striped" id="wbsTable">
     <thead class="thead-dark">
         <tr>
             <th>
@@ -53,11 +60,36 @@
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
-                    <a class="btn bi bi-pencil-square" asp-action="Edit" asp-route-id="@item.WBSId"></a>
-                    <a class="btn bi bi-list" asp-action="Details" asp-route-id="@item.WBSId"></a>
-                    <a class="btn bi bi-trash" asp-action="Delete" asp-route-id="@item.WBSId"></a>
+                    <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.WBSId"></a>
+                    <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.WBSId"></a>
+                    <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.WBSId"></a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function () {
+            var input, filter, table, tr, td, i, code, description;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.getElementById('wbsTable');
+            tr = table.getElementsByTagName('tr');
+
+            for (i = 0; i < tr.length; i++) {
+                code = tr[i].getElementsByTagName('td')[0];
+                description = tr[i].getElementsByTagName('td')[1];
+                if (code || description) {
+                    if ((code.textContent || code.innerText).toUpperCase().indexOf(filter) > -1 ||
+                        (description.textContent || description.innerText).toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
+                }
+            }
+        });
+    </script>
+}

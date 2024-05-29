@@ -2,7 +2,7 @@
 
 namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
 {
-    public class RegisterViewsModel
+    public class  RegisterViewsModel
     {
         [EmailAddress]
         [Required]

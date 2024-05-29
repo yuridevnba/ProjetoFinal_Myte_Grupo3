@@ -43,6 +43,13 @@
         </div>
     </div>
 
+    <form method="get" asp-controller="WorkingHours" asp-action="GeneratePdfReport">
+       @*  <input type="date" name="selectedDate" value="@dateRange[0].ToString("yyyy-MM-dd")" /> *@
+        <button type="submit" class="btn btn-secondary"><i class="bi bi-printer"></i></button>
+    </form>
+
+
+
     <form id="saveHoursForm" method="post" action="@Url.Action("SaveWorkingHours", "WorkingHours")">
         <input type="hidden" id="isEditable" name="isEditable" value="@isEditable" />
         <table class="table table-striped">
@@ -84,7 +91,7 @@
                                 <input type="@(isWeekend ? "hidden" : "text")"
                                        name="Hours[@wbsIndex][@dateIndex]"
                                        value="@hours"
-                                @(isEditable ? "" : "disabled")>    
+                                        @(isEditable ? "" : "disabled")>    
                             </td>
                         }
                         @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -125,7 +132,7 @@
                                     <input type="@(isWeekend ? "hidden" : "text")"
                                            name="Hours[@wbsIndex][@dateIndex]"
                                            value="@hours"
-                                    @(isEditable ? "" : "disabled")>
+                                            @(isEditable ? "" : "disabled")>
                                 </td>
                             }
                             @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)

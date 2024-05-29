@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
 using ProjetoFinal_Myte_Grupo3.Models.TelasLogin;
+using ProjetoFinal_Myte_Grupo3.Services;
 using System.Threading.Tasks;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
@@ -20,12 +22,16 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        public AccountController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        private readonly RegistersService registersService;
+
+        public AccountController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RegistersService registersService)
         {
 
             this.userManager = userManager;
             this.signInManager = signInManager;
             _context = context;
+            this.registersService = registersService;
+
 
         }
         public IActionResult Register()
@@ -67,8 +73,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
                     _context.Employee.Add(employee);
                     await _context.SaveChangesAsync();
+                    
 
-                    SendEmail.Send(model.Email, model.Password);
+                    SendEmail.Send(model.Email, model.Password, "welcome");
+
                     //uzs21363@ilebi.com
 
                     return RedirectToAction("Index", "Employees");
@@ -110,10 +118,54 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     }
 
                     var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.Rememberme, false);
-
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Index", "WorkingHours");
+                    }
+
+                    ModelState.AddModelError(string.Empty, "Login Inválido");
+                    }
+                    else
+                    {
+                    ModelState.AddModelError(string.Empty, "Usuário ou senha incorretos.");
+                    }
+                }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult EsqueceuSenha()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EsqueceuSenha(LoginViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var userr = await userManager.FindByEmailAsync(model.Email);
+                var employee = await _context.Employee.FirstOrDefaultAsync(e => e.Email == model.Email);
+
+                if (userr != null && employee != null)
+                {
+                    
+
+
+                    var novaSenha = registersService.GerarSenha(10);
+                    var resetToken = await userManager.GeneratePasswordResetTokenAsync(userr); // gera um token de redifinição de senha.
+                    var result = await userManager.ResetPasswordAsync(userr, resetToken, novaSenha); // reseta a senha dele, colocando a nova senha.
+
+                    //var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.Rememberme, false);
+
+                    if (result.Succeeded)
+                    {
+                        employee.Password = novaSenha;
+                        await _context.SaveChangesAsync();
+                        SendEmail.Send(model.Email, novaSenha, "reset");
+
+                        return RedirectToAction("Login", "Account");
                     }
 
                     ModelState.AddModelError(string.Empty, "Login Inválido");
@@ -125,8 +177,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
 
             return View(model);
-        }
 
+        }
 
         [HttpPost]
         public async Task<IActionResult> Logout()

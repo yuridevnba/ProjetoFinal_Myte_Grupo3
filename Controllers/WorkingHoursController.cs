@@ -8,6 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using System.IO;
+using iText.Kernel.Geom;
+using iText.IO.Image;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -397,7 +403,115 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return _context.WorkingHour.Any(e => e.WorkingHourId == id);
         }
 
+        public async Task<IActionResult> GeneratePdfReport(DateTime? selectedDate)
+        {
+            var employeeId = GetCurrentEmployeeId();
+            var employee = await _context.Employee.Include(e => e.Department) 
+                                 .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+
+            if (employee == null)
+            {
+                return NotFound("Employee not found.");
+            }
+
+            DateTime effectiveStartDate;
+            DateTime effectiveEndDate;
+
+            if (selectedDate.HasValue)
+            {
+                var selectedSlice = GetSliceFromDate(selectedDate.Value);
+                effectiveStartDate = selectedSlice.StartDate;
+                effectiveEndDate = selectedSlice.EndDate;
+            }
+            else
+            {
+                var currentSlice = GetSliceFromDate(DateTime.Today);
+                effectiveStartDate = currentSlice.StartDate;
+                effectiveEndDate = currentSlice.EndDate;
+            }
+
+            var workingHours = await _context.WorkingHour
+                                             .Where(wh => wh.EmployeeId == employeeId && wh.WorkedDate >= effectiveStartDate && wh.WorkedDate <= effectiveEndDate)
+                                             .Include(wh => wh.WBS)
+                                             .ToListAsync();
+
+            var dateRange = Enumerable.Range(0, (int)(effectiveEndDate - effectiveStartDate).TotalDays + 1)
+                                      .Select(offset => effectiveStartDate.AddDays(offset))
+                                      .ToList();
+
+            var wbsList = workingHours.Select(wh => wh.WBS).Distinct().ToList();
+            var workingHoursByWbsAndDate = new List<List<int>>();
+
+            foreach (var wbs in wbsList)
+            {
+                var hoursList = new List<int>();
+                foreach (var date in dateRange)
+                {
+                    var hours = workingHours
+                                .Where(wh => wh.WBSId == wbs.WBSId && wh.WorkedDate.Date == date.Date)
+                                .Sum(wh => wh.WorkedHours);
+                    hoursList.Add(hours);
+                }
+                workingHoursByWbsAndDate.Add(hoursList);
+            }
+
+            // Calculate the total hours for the entire period
+            int totalHoursForPeriod = workingHours.Sum(wh => wh.WorkedHours);
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                PdfWriter writer = new PdfWriter(ms);
+                PdfDocument pdf = new PdfDocument(writer);
+                Document document = new Document(pdf, PageSize.A4.Rotate());
+                document.SetMargins(20, 20, 20, 20);
+
+                string imagePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/css/logo_mythree_test.png");
+
+                ImageData imageData = ImageDataFactory.Create(imagePath);
+                Image image = new Image(imageData).ScaleAbsolute(50, 50);
+
+                document.Add(image);
+                document.Add(new Paragraph(""));
+                document.Add(new Paragraph(""));
+                document.Add(new Paragraph($"Resumo do Funcionário: {employee.EmployeeName}").SetFontSize(12));
+                document.Add(new Paragraph($"ID do Funcionário: {employee.EmployeeId}").SetFontSize(12));
+                document.Add(new Paragraph($"Data de Contratação: {employee.HiringDate.ToString("dd/MM/yyyy")}").SetFontSize(12));
+                document.Add(new Paragraph($"Departamento: {employee.Department?.DepartmentName}").SetFontSize(12));
+                document.Add(new Paragraph(" ").SetFontSize(12));
+                document.Add(new Paragraph("Horas Trabalhadas:").SetFontSize(12));
+
+                
+                var table = new Table(dateRange.Count + 2); 
+                table.SetFontSize(8); 
+                table.AddHeaderCell(new Cell().Add(new Paragraph("Código WBS").SetFontSize(8)));
+                foreach (var date in dateRange)
+                {
+                    table.AddHeaderCell(new Cell().Add(new Paragraph(date.ToString("dd/MM/yyyy")).SetFontSize(8)));
+                }
+                table.AddHeaderCell(new Cell().Add(new Paragraph("Total").SetFontSize(8)));
+
+                for (int i = 0; i < wbsList.Count; i++)
+                {
+                    var wbs = wbsList[i];
+                    table.AddCell(new Cell().Add(new Paragraph(wbs.Code).SetFontSize(8)));
+                    int totalHours = 0;
+                    for (int j = 0; j < dateRange.Count; j++)
+                    {
+                        int hours = workingHoursByWbsAndDate[i][j];
+                        table.AddCell(new Cell().Add(new Paragraph(hours.ToString()).SetFontSize(8)));
+                        totalHours += hours;
+                    }
+                    table.AddCell(new Cell().Add(new Paragraph(totalHours.ToString()).SetFontSize(9)));
+                }
+
+                document.Add(table);
+                document.Add(new Paragraph(" ").SetFontSize(12));
+                document.Add(new Paragraph($"Total de horas da quinzena: {totalHoursForPeriod}").SetFontSize(12));
+
+                document.Close();
+                byte[] fileBytes = ms.ToArray();
+                return File(fileBytes, "application/pdf", "Resumo_Funcionario.pdf");
+            }
+        }
     }
 }
-
-
