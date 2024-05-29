@@ -133,8 +133,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(model);
         }
 
-<<<<<<< HEAD
-=======
         [HttpGet]
         public IActionResult EsqueceuSenha()
         {
@@ -182,16 +180,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         }
 
-
-
-
-
-
-
-
-
-
->>>>>>> main
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
