@@ -149,7 +149,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
-                TempData["SuccessMessage"] = " Sucesso! Suas horas foram salvas! ";
+                TempData["SuccessMessage"] = "Suas horas foram salvas! ";
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -195,6 +195,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                           $" O somatório total de horas para a data {kvp.Key.ToString("yyyy-MM-dd")} deve ser maior que 8! ";
                     return false;
                 }
+                if (kvp.Value > 12)
+                {
+                    TempData["ErrorMessage"] =
+                          $" O somatório total de horas para a data {kvp.Key.ToString("yyyy-MM-dd")} não deve ser maior que 12! ";
+                    return false;
+                }
             }
             return true;
         }
@@ -211,7 +217,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     if (hours > 0 && wbsId != 0)
                     {
                         var existingWorkingHour = await _context.WorkingHour
-                                                              .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
+                            .FirstOrDefaultAsync(wh => wh.WBSId == wbsId && wh.WorkedDate == date && wh.EmployeeId == employeeId);
                         if (existingWorkingHour != null)
                         {
                             existingWorkingHour.WorkedHours = hours;
