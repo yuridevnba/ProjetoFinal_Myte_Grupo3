@@ -3,7 +3,7 @@
     ViewBag.Title = "Login de Usuário";
 }
 <div class="row position-absolute top-50 start-50 translate-middle">
-    <div class="col-md-12 center border shadow rounded-3 bg-light">
+    <div class="col-md-12 center border shadow bg-light" style="border-radius: 1rem;">
         <form class="p-3" method="post">
             @* Ajustar a Logo *@
             <h3 class="text-center mt-5">MyThree</h3>
@@ -30,22 +30,22 @@
                 </div>
         </form>
         </<div>
+        </div>
     </div>
-</div>
-@section Scripts {
-    <script>
-        function togglePasswordVisibility() {
-            const passwordField = document.getElementById("floatingPassword");
-            const passwordIcon = document.getElementById("togglePasswordIcon");
-            const isPasswordVisible = passwordField.type === "text";
-            passwordField.type = isPasswordVisible ? "password" : "text";
-            passwordIcon.classList.toggle("fa-eye", isPasswordVisible);
-            passwordIcon.classList.toggle("fa-eye-slash", !isPasswordVisible);
-        }
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    @section Scripts {
+        <script>
+            function togglePasswordVisibility() {
+                const passwordField = document.getElementById("floatingPassword");
+                const passwordIcon = document.getElementById("togglePasswordIcon");
+                const isPasswordVisible = passwordField.type === "text";
+                passwordField.type = isPasswordVisible ? "password" : "text";
+                passwordIcon.classList.toggle("fa-eye", isPasswordVisible);
+                passwordIcon.classList.toggle("fa-eye-slash", !isPasswordVisible);
+            }
+        </script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
 }
