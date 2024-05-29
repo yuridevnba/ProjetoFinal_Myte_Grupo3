@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
@@ -46,7 +50,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     return slice;
                 }
             }
-            //Se a seleção da data não é de uma fatia, retorne para a primeira fatia padrão (default)
+            // Se a seleção da data não é de uma fatia, retorne para a primeira fatia padrão (default)
             return slices.FirstOrDefault();
         }
 
@@ -101,6 +105,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         public async Task<IActionResult> Index(DateTime? selectedDate)
         {
+            if (selectedDate == null)
+            {
+                selectedDate = DateTime.Today;
+            }
 
             var employeeId = GetCurrentEmployeeId();
 
@@ -141,6 +149,15 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             ViewBag.WorkingHoursByWbsAndDate = workingHoursByWbsAndDate;
             ViewBag.TotalsPerDay = totalsPerDay;
 
+            if (workingHoursByWbsAndDate.Any(row => row.Any(hour => hour != 0)))
+            {
+                TempData["IsEditable"] = false;
+            }
+            else
+            {
+                TempData["IsEditable"] = true;
+            }
+
             return View();
         }
 
@@ -156,7 +173,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
-                TempData["SuccessMessage"] = "Suas horas foram salvas! ";
+                TempData["SuccessMessage"] = "Suas horas foram salvas!";
+                TempData["IsEditable"] = false; // Bloquear a edição após salvar
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -495,9 +513,5 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 return File(fileBytes, "application/pdf", "Resumo_Funcionario.pdf");
             }
         }
-
-
-
     }
-
 }
