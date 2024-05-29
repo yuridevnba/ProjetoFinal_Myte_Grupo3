@@ -72,3 +72,7 @@ body {
     background-color: #ffffff;
     margin-left: -2.5rem;
 }
+
+.no-caret::after{
+    display: none;
+}

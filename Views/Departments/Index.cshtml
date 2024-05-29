@@ -24,9 +24,9 @@
                     @Html.DisplayFor(modelItem => item.DepartmentName)
                 </td>
                 <td>
-                    <a class="btn bi bi-pencil-square" asp-action="Edit" asp-route-id="@item.DepartmentId"></a>
-                    <a class="btn bi bi-list" asp-action="Details" asp-route-id="@item.DepartmentId"></a>
-                    <a class="btn bi bi-trash" asp-action="Delete" asp-route-id="@item.DepartmentId"></a>
+                    <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.DepartmentId"></a>
+                    <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.DepartmentId"></a>
+                    <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.DepartmentId"></a>
                 </td>
             </tr>
         }

@@ -110,23 +110,20 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     }
 
                     var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.Rememberme, false);
-
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Index", "WorkingHours");
                     }
 
                     ModelState.AddModelError(string.Empty, "Login Inválido");
-                }
-                else
-                {
+                    }
+                    else
+                    {
                     ModelState.AddModelError(string.Empty, "Usuário ou senha incorretos.");
+                    }
                 }
-            }
-
             return View(model);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Logout()
