@@ -8,6 +8,8 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using System.IO;
+using iText.Kernel.Geom;
+using iText.IO.Image;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -66,8 +68,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 var wbsId = workingHour.WBSId;
                 var resultadoDaBusca = workedWbsIds.FindIndex(workedWbsId => workedWbsId == wbsId);
 
-                if (resultadoDaBusca == -1) {
-                    workedWbsIds.Add(wbsId); 
+                if (resultadoDaBusca == -1)
+                {
+                    workedWbsIds.Add(wbsId);
                 }
             });
 
@@ -126,7 +129,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             if (workingHoursByWbsAndDate.Count < 4)
             {
-                for (var remainingLoops = 4 -  workingHoursByWbsAndDate.Count; remainingLoops > 0; remainingLoops--)
+                for (var remainingLoops = 4 - workingHoursByWbsAndDate.Count; remainingLoops > 0; remainingLoops--)
                 {
                     workingHoursByWbsAndDate.Add(Enumerable.Repeat(0, 15).ToList());
                 }
@@ -137,7 +140,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 .ToListAsync();
             ViewBag.WorkingHoursByWbsAndDate = workingHoursByWbsAndDate;
             ViewBag.TotalsPerDay = totalsPerDay;
-            
+
             return View();
         }
 
@@ -382,42 +385,119 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return _context.WorkingHour.Any(e => e.WorkingHourId == id);
         }
 
-        public async Task<IActionResult> GeneratePdfReport()
+        public async Task<IActionResult> GeneratePdfReport(DateTime? selectedDate)
         {
             var employeeId = GetCurrentEmployeeId();
-            var employee = await _context.Employee.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
-            var workingHours = await _context.WorkingHour
-                                             .Where(wh => wh.EmployeeId == employeeId)
-                                             .Include(wh => wh.WBS)
-                                             .ToListAsync();
+            var employee = await _context.Employee.Include(e => e.Department) 
+                                 .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
 
             if (employee == null)
             {
                 return NotFound("Employee not found.");
             }
 
+            DateTime effectiveStartDate;
+            DateTime effectiveEndDate;
+
+            if (selectedDate.HasValue)
+            {
+                var selectedSlice = GetSliceFromDate(selectedDate.Value);
+                effectiveStartDate = selectedSlice.StartDate;
+                effectiveEndDate = selectedSlice.EndDate;
+            }
+            else
+            {
+                var currentSlice = GetSliceFromDate(DateTime.Today);
+                effectiveStartDate = currentSlice.StartDate;
+                effectiveEndDate = currentSlice.EndDate;
+            }
+
+            var workingHours = await _context.WorkingHour
+                                             .Where(wh => wh.EmployeeId == employeeId && wh.WorkedDate >= effectiveStartDate && wh.WorkedDate <= effectiveEndDate)
+                                             .Include(wh => wh.WBS)
+                                             .ToListAsync();
+
+            var dateRange = Enumerable.Range(0, (int)(effectiveEndDate - effectiveStartDate).TotalDays + 1)
+                                      .Select(offset => effectiveStartDate.AddDays(offset))
+                                      .ToList();
+
+            var wbsList = workingHours.Select(wh => wh.WBS).Distinct().ToList();
+            var workingHoursByWbsAndDate = new List<List<int>>();
+
+            foreach (var wbs in wbsList)
+            {
+                var hoursList = new List<int>();
+                foreach (var date in dateRange)
+                {
+                    var hours = workingHours
+                                .Where(wh => wh.WBSId == wbs.WBSId && wh.WorkedDate.Date == date.Date)
+                                .Sum(wh => wh.WorkedHours);
+                    hoursList.Add(hours);
+                }
+                workingHoursByWbsAndDate.Add(hoursList);
+            }
+
+            // Calculate the total hours for the entire period
+            int totalHoursForPeriod = workingHours.Sum(wh => wh.WorkedHours);
+
             using (MemoryStream ms = new MemoryStream())
             {
                 PdfWriter writer = new PdfWriter(ms);
                 PdfDocument pdf = new PdfDocument(writer);
-                Document document = new Document(pdf);
+                Document document = new Document(pdf, PageSize.A4.Rotate());
+                document.SetMargins(20, 20, 20, 20);
 
-                document.Add(new Paragraph($"Resumo do Funcionário: {employee.EmployeeName}"));
-                document.Add(new Paragraph($"ID: {employee.EmployeeId}"));
-                document.Add(new Paragraph($"Data de Contratação: {employee.HiringDate.ToString("dd/MM/yyyy")}"));
-                document.Add(new Paragraph($"Departamento: {employee.Department?.DepartmentName}"));
-                document.Add(new Paragraph(" "));
-                document.Add(new Paragraph("Horas Trabalhadas:"));
+                string imagePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/css/logo_mythree_test.png");
 
-                foreach (var wh in workingHours)
+                ImageData imageData = ImageDataFactory.Create(imagePath);
+                Image image = new Image(imageData).ScaleAbsolute(50, 50);
+
+                document.Add(image);
+                document.Add(new Paragraph(""));
+                document.Add(new Paragraph(""));
+                document.Add(new Paragraph($"Resumo do Funcionário: {employee.EmployeeName}").SetFontSize(12));
+                document.Add(new Paragraph($"ID do Funcionário: {employee.EmployeeId}").SetFontSize(12));
+                document.Add(new Paragraph($"Data de Contratação: {employee.HiringDate.ToString("dd/MM/yyyy")}").SetFontSize(12));
+                document.Add(new Paragraph($"Departamento: {employee.Department?.DepartmentName}").SetFontSize(12));
+                document.Add(new Paragraph(" ").SetFontSize(12));
+                document.Add(new Paragraph("Horas Trabalhadas:").SetFontSize(12));
+
+                
+                var table = new Table(dateRange.Count + 2); 
+                table.SetFontSize(8); 
+                table.AddHeaderCell(new Cell().Add(new Paragraph("Código WBS").SetFontSize(8)));
+                foreach (var date in dateRange)
                 {
-                    document.Add(new Paragraph($"Data: {wh.WorkedDate.ToString("dd/MM/yyyy")} - Horas: {wh.WorkedHours} - WBS: {wh.WBS?.Code}"));
+                    table.AddHeaderCell(new Cell().Add(new Paragraph(date.ToString("dd/MM/yyyy")).SetFontSize(8)));
                 }
+                table.AddHeaderCell(new Cell().Add(new Paragraph("Total").SetFontSize(8)));
+
+                for (int i = 0; i < wbsList.Count; i++)
+                {
+                    var wbs = wbsList[i];
+                    table.AddCell(new Cell().Add(new Paragraph(wbs.Code).SetFontSize(8)));
+                    int totalHours = 0;
+                    for (int j = 0; j < dateRange.Count; j++)
+                    {
+                        int hours = workingHoursByWbsAndDate[i][j];
+                        table.AddCell(new Cell().Add(new Paragraph(hours.ToString()).SetFontSize(8)));
+                        totalHours += hours;
+                    }
+                    table.AddCell(new Cell().Add(new Paragraph(totalHours.ToString()).SetFontSize(9)));
+                }
+
+                document.Add(table);
+                document.Add(new Paragraph(" ").SetFontSize(12));
+                document.Add(new Paragraph($"Total de horas da quinzena: {totalHoursForPeriod}").SetFontSize(12));
 
                 document.Close();
                 byte[] fileBytes = ms.ToArray();
                 return File(fileBytes, "application/pdf", "Resumo_Funcionario.pdf");
             }
         }
+
+
+
     }
+
 }
