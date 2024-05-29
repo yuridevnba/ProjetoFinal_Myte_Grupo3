@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -40,7 +44,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     return slice;
                 }
             }
-            //Se a seleção da data não é de uma fatia, retorne para a primeira fatia padrão (default)
+            // Se a seleção da data não é de uma fatia, retorne para a primeira fatia padrão (default)
             return slices.FirstOrDefault();
         }
 
@@ -62,8 +66,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 var wbsId = workingHour.WBSId;
                 var resultadoDaBusca = workedWbsIds.FindIndex(workedWbsId => workedWbsId == wbsId);
 
-                if (resultadoDaBusca == -1) {
-                    workedWbsIds.Add(wbsId); 
+                if (resultadoDaBusca == -1)
+                {
+                    workedWbsIds.Add(wbsId);
                 }
             });
 
@@ -94,6 +99,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         public async Task<IActionResult> Index(DateTime? selectedDate)
         {
+            if (selectedDate == null)
+            {
+                selectedDate = DateTime.Today;
+            }
 
             var employeeId = GetCurrentEmployeeId();
 
@@ -122,7 +131,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             if (workingHoursByWbsAndDate.Count < 4)
             {
-                for (var remainingLoops = 4 -  workingHoursByWbsAndDate.Count; remainingLoops > 0; remainingLoops--)
+                for (var remainingLoops = 4 - workingHoursByWbsAndDate.Count; remainingLoops > 0; remainingLoops--)
                 {
                     workingHoursByWbsAndDate.Add(Enumerable.Repeat(0, 15).ToList());
                 }
@@ -133,7 +142,16 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 .ToListAsync();
             ViewBag.WorkingHoursByWbsAndDate = workingHoursByWbsAndDate;
             ViewBag.TotalsPerDay = totalsPerDay;
-            
+
+            if (workingHoursByWbsAndDate.Any(row => row.Any(hour => hour != 0)))
+            {
+                TempData["IsEditable"] = false;
+            }
+            else
+            {
+                TempData["IsEditable"] = true;
+            }
+
             return View();
         }
 
@@ -149,7 +167,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
-                TempData["SuccessMessage"] = "Suas horas foram salvas! ";
+                TempData["SuccessMessage"] = "Suas horas foram salvas!";
+                TempData["IsEditable"] = false; // Bloquear a edição após salvar
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -377,5 +396,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             return _context.WorkingHour.Any(e => e.WorkingHourId == id);
         }
+
     }
 }
+
+
