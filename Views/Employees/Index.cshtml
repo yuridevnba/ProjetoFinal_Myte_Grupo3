@@ -124,9 +124,9 @@
                     <span class="@(item.StatusEmployee == "Active" ? "text-warning" : "text-secondary")">@((item.StatusEmployee == "Active" ? "Ativo" : "Inativo"))</span>
                 </td>
                 <td>
-                    <a class="btn bi bi-pencil-square" asp-action="Edit" asp-route-id="@item.EmployeeId" class="btn btn-warning"></a>
-                    <a class="btn bi bi-list" asp-action="Details" asp-route-id="@item.EmployeeId" class="btn btn-info"></a>
-                    <a class="btn bi bi-trash" asp-action="Delete" asp-route-id="@item.EmployeeId" class="btn btn-danger"></a>
+                    <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.EmployeeId" class="btn btn-warning"></a>
+                    <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.EmployeeId" class="btn btn-info"></a>
+                    <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.EmployeeId" class="btn btn-danger"></a>
                 </td>
             </tr>
         }
