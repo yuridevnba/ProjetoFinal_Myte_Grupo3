@@ -52,14 +52,18 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // POST: Departments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DepartmentId,DepartmentName")] Department department)
         {
             if (ModelState.IsValid)
             {
+                if (_context.Department.Any(d => d.DepartmentName == department.DepartmentName))
+                {
+                    ModelState.AddModelError("DepartmentName", "Já existe um departamento com este nome.");
+                    return View(department);
+                }
+
                 _context.Add(department);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,8 +88,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // POST: Departments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("DepartmentId,DepartmentName")] Department department)
@@ -97,6 +99,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             if (ModelState.IsValid)
             {
+                if (_context.Department.Any(d => d.DepartmentName == department.DepartmentName && d.DepartmentId != department.DepartmentId))
+                {
+                    ModelState.AddModelError("DepartmentName", "Já existe um departamento com este nome.");
+                    return View(department);
+                }
+
                 try
                 {
                     _context.Update(department);
