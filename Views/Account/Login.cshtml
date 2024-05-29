@@ -26,7 +26,10 @@
                 </div>
                 <div class="text-center pt-1 mb-5 pb-1">
                     <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn shadow text-white btn-block gradient-custom-2 mb-3">Entrar</button>
-                    <a class="text-muted" style="text-decoration: none;" href="#!">Esqueceu a senha?</a>
+                   @*  <a class="text-muted" style="text-decoration: none;" href="#!">Esqueceu a senha?</a> *@
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary"  asp-controller="Account" asp-action="EsqueceuSenha">Esqueceu a Senha?</a>
+                    </li>
                 </div>
         </form>
         </<div>
