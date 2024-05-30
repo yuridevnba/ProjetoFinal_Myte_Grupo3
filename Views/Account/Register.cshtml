@@ -13,13 +13,14 @@
         </nav>
     </div>
 </nav>
-<div class="card shadow bg-light">
+<div class="card shadow bg-light rounded-3">
     @using (Html.BeginForm())
     {
+        <div class="card-header card_color">
+            <h2 class="card-title text-center text-white mt-0 mb-0">Registro de Usuário</h2>
+        </div>
         <div class="card-body">
             @Html.AntiForgeryToken()
-            <h2 class="card-title text-center mb-4">Registro de Usuário</h2>
-            <hr />
             @Html.ValidationSummary(true)
             <div class="row mb-4">
                 <div class="col">

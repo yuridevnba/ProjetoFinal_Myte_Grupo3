@@ -8,6 +8,19 @@ html {
   }
 }
 
+@media(min-width: 1440px)
+{
+    .dropdown {
+        margin-left: 76rem;
+    }
+}
+
+@media(min-width: 1176px) and (max-width: 1440px) {
+    .dropdown {
+        margin-left: 60rem;
+    }
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -21,7 +34,6 @@ body {
     margin-bottom: 60px;
     margin-top: 100px;
     z-index: 1;
-    background-color: linear-gradient(to right, #ee7724,#d8363a, #dd3675, #b44593);
     
     /*background-color: #F2F2F2;*/
     /*Teste de background! Não desativar o comentário --------------------------------------*/
@@ -75,4 +87,8 @@ body {
 
 .no-caret::after{
     display: none;
+}
+
+.card_color {
+    background-color: #E15031;
 }

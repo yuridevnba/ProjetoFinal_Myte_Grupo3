@@ -33,7 +33,7 @@
                         <a class="navbar-brand" href="#">
                             <div class="logo_e_titulo">
                                 <img src="/css/logo_mythree_test.png" width="40" height="40" class="d-inline-block align-top" alt="Logo do site">
-                                <p class="texto_logo">MyThree</p>
+                                <a asp-area="" asp-controller="WorkingHours" asp-action="Index" class="texto_logo link-opacity-100-hover">MyThree</a>
                             </div>
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -79,12 +79,11 @@
                     <nav class="navbar navbar-expand-lg nav_color fixed-top shadow-sm">
                         <div class="container-fluid">
                             <a class="navbar-brand" asp-area="" asp-controller="WorkingHours" asp-action="Index">
-                                <div class="logo_e_titulo">
-                                    <img src="/css/logo_mythree_test.png" width="40" height="40" class="d-inline-block align-top" alt="Logo do site">
-                                    <p class="texto_logo">MyThree</p>
+                                <div class="logotitulo">
+                                    <p class="texto_logo mx-1"><img src="/css/logo_mythree_test.png" width="40" height="40" class="d-inline-block align-top" alt="Logo do site">MyThree</p>
                                 </div>
                             </a>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 60rem;">
+                            <div class="collapse navbar-collapse nav-drop" id="navbarSupportedContent">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle no-caret d-flex align-items-center " href="#" id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src="/Img/user.png" class="rounded-circle" height="40" alt="Black and White Portrait of a Man" loading="lazy" />

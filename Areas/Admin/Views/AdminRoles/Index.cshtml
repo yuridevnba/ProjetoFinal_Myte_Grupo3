@@ -11,24 +11,25 @@
         </nav>
     </div>
 </nav>
-<div class="card shadow bg-light">
+<div class="card shadow bg-light rounded-3">
+    <div class="card-header card_color">
+        <h2 class="card-title text-center text-white mt-0 mb-0">Gerenciar Roles</h2>
+    </div>
     <div class="card-body">
-        <h2 class="card-title text-center">Gerenciar Roles</h2>
-        <hr />
         <div class="mb-2">
             <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Criar</a>
             <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Update" class="btn btn-primary">Atualizar</a>
         </div>
         <div>
-            <table class="table">
-                <thead class="table-dark">
+            <table class="table table-light">
+                <thead class="table_color">
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-borderless">
                     @foreach (var role in Model)
                     {
                         <tr>
