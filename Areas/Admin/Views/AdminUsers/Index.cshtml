@@ -3,6 +3,13 @@
     ViewData["Title"] = "Gerenciar Usuários";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<html>
+    <head</head>
+<style>
+    body{
+        background-image: url('/wwwroot/css/avanade_bg.png');
+    }
+</style>
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
@@ -13,10 +20,11 @@
         </nav>
     </div>
 </nav>
-<div class="card text-center shadow bg-light">
+<div class="card text-center shadow bg-light rounded-3">
+    <div class="card-header card_color">
+        <h2 class="card-title text-white mt-0 mb-0">Gerenciar Usuários</h2>
+    </div>
     <div class="card-body">
-        <h2 class="card-title">Gerenciar Usuários</h2>
-        <hr />
         <div class="row">
             <div class="col-md-1 mt-1">
                 <div class="text-left">
@@ -30,13 +38,13 @@
         @if (Model.Any())
         {
             <table class="table table-light">
-                <thead class="table-dark">
+                <thead class="table-light">
                     <tr>
                         <th>ID</th>
                         <th>Email</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-borderless">
                     @foreach (var user in Model)
                     {
                         <tr class="employee-row">
@@ -67,3 +75,4 @@
         });
     </script>
 }
+</html>

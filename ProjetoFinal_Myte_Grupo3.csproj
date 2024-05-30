@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Account\TelaAdmin.cshtml" />
+    <Content Remove="wwwroot\Img\user.png" />
     <Content Remove="wwwroot\user.png" />
   </ItemGroup>
 
