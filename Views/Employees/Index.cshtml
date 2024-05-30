@@ -1,12 +1,31 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IEnumerable<ProjetoFinal_Myte_Grupo3.Models.Employee>
-
-<h1>Todos os Funcionários</h1>
-
-<p>
-    <a asp-action="Register" asp-controller="Account" asp-area="" class="btn btn-primary">Criar Novo</a>
-    <button class="btn btn-secondary" data-toggle="modal" data-target="#exportModal">Exportar</button>
-</p>
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+            </ol>
+        </nav>
+    </div>
+</nav>
+<div class="card text-center shadow bg-light rounded-3">
+    <div class="card-header card_color">
+        <h2 class="card-title text-white mt-0 mb-0">Funcionários</h2>
+    </div>
+    <div class="card-body">
+        <div class="text-left">
+            <a asp-action="Register" asp-controller="Account" asp-area="" class="btn btn-primary">Criar Novo</a>
+            <button class="btn btn-secondary" data-toggle="modal" data-target="#exportModal">Exportar</button>
+        </div>
+        <div class="row">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal para exportação -->
 <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
@@ -20,18 +39,90 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>Campos a incluir:</label>
-                        <div>
-                            <input type="checkbox" name="fields" value="EmployeeName" checked /> Nome<br />
-                            <input type="checkbox" name="fields" value="Email"  /> Email<br />
-                            <input type="checkbox" name="fields" value="HiringDate" /> Data de Contratação<br />
-                            <input type="checkbox" name="fields" value="Department" checked /> Departamento<br />
-                            <input type="checkbox" name="fields" value="AcessLevel" /> Nível de Acesso<br />
-                            <input type="checkbox" name="fields" value="StatusEmployee" /> Status<br />
-                        </div>
+                    <div class="row">
+                        <div class="form-group text-left">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDisabled" disabled>
+                                <label class="form-check-label" for="flexSwitchCheckDisabled">Disabled switch checkbox input</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" checked disabled>
+                                <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked switch checkbox input</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="sortOrder">Ordenar por:</label>
+                                <select name="sortOrder" class="form-control">
+                                    <option value="EmployeeName">Nome</option>
+                                    <option value="Email">Email</option>
+                                    <option value="HiringDate">Data de Contratação</option>
+                                    <option value="Department">Departamento</option>
+                                    <option value="AcessLevel">Nível de Acesso</option>
+                                    <option value="StatusEmployee">Status</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sortDirection">Direção:</label>
+                                <select name="sortDirection" class="form-control">
+                                    <option value="asc">Crescente</option>
+                                    <option value="desc">Decrescente</option>
+                                </select>
+                            </div>
                     </div>
-                    <div class="form-group">
+                        @* <div class="row">
+                            <div class="col-md-6" style="margin-right: 2rem;">
+                                <dl>
+                                    <dd>Nome:</dd>
+                                </dl>
+                                <dl>
+                                    <dd>E-mail:</dd>
+                                </dl>
+                                <dl>
+                                    <dd>Data de Contratação:</dd>
+                                </dl>
+                                <dl>
+                                    <dd>Departamento:</dd>
+                                </dl>
+                                <dl>
+                                    <dd>Nível de Acesso:</dd>
+                                </dl>
+                                <dl>
+                                    <dd>Status:</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-4" style="margin-right: -8rem;">
+                                <dl>
+                                    <dd><input type="checkbox" name="fields" value="EmployeeName" checked /></dd>
+                                </dl>
+                                <dl>
+                                    <dl><input type="checkbox" name="fields" value="Email" /></dl>
+                                </dl>
+                                <dl>
+                                    <dd><input type="checkbox" name="fields" value="HiringDate" /></dd>
+                                </dl>
+                                <dl>
+                                    <dd><input type="checkbox" name="fields" value="Department" checked /></dd>
+                                </dl>
+                                <dl>
+                                    <dd><input type="checkbox" name="fields" value="AcessLevel" /></dd>
+                                </dl>
+                                <dl>
+                                    <dd><input type="checkbox" name="fields" value="StatusEmployee" /></dd>
+                                </dl>
+                            </div>
+                        </div> *@
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Exportar</button>
+                    </div>
+
+                    @* <div class="form-group">
                         <label for="sortOrder">Ordenar por:</label>
                         <select name="sortOrder" class="form-control">
                             <option value="EmployeeName">Nome</option>
@@ -48,7 +139,7 @@
                             <option value="asc">Crescente</option>
                             <option value="desc">Decrescente</option>
                         </select>
-                    </div>
+                    </div> *@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

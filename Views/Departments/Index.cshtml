@@ -2,44 +2,58 @@
 @{
     ViewData["Title"] = "Departamentos";
 }
-<h1>Departamentos</h1>
-<hr />
-<div class="mb-2">
-    <a class="btn btn-primary" asp-action="Create">Criar</a>
-</div>
-
-<div class="row mb-3">
-    <div class="col-4">
-        <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar Departamento...">
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a></li>
+            </ol>
+        </nav>
+    </div>
+</nav>
+<div class="card shadow bg-light rounded-3">
+    <div class="card-header card_color">
+        <h2 class="card-title text-center mb-0 mt-0 text-white">Departamentos</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-1 mt-1">
+                <div class="text-left">
+                    <a class="btn btn-primary" asp-action="Create">Criar</a>
+                </div>
+            </div>
+            <div class="col-md-5 mb-2 form-outline" data-mdb-input-init style="margin-left: -1.8rem;">
+                <input type="search" id="searchInput" class="form-control text-left" data-mdb-input-init placeholder="Pesquisar Departamento">
+            </div>
+        </div>
+        <table class="table table-light">
+            <thead class="talbe-light">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DepartmentName)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepartmentName)
+                        </td>
+                        <td>
+                            <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.DepartmentId"></a>
+                            <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.DepartmentId"></a>
+                            <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.DepartmentId"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-
-<table class="table" id="table">
-    <thead class="talbe-light">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DepartmentName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartmentName)
-                </td>
-                <td>
-                    <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.DepartmentId"></a>
-                    <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.DepartmentId"></a>
-                    <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.DepartmentId"></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
 @section Scripts {
     <script>
         document.getElementById('searchInput').addEventListener('input', function () {
