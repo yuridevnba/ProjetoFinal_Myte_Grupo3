@@ -1,20 +1,23 @@
 ﻿/* Cores para o olhinho da senha inicial ---------------------------------- */
 
 .btn-outline-secondary {
-    color: #6c757d;
-    border-color: white !important;
+    color: #6c757d; /* Cor do texto cinza */
+    background-color: white; /* Fundo branco */
+    border: 1px solid white !important; /* Borda branca */
 }
+
 .btn-outline-secondary:focus-visible,
 .btn-outline-secondary:hover,
 .btn-outline-secondary:focus,
 .btn-outline-secondary:focus-within,
 .btn-outline-secondary:active {
-    color: #ffff !important;
-    background-color: #fd7e14 !important;
-    border-color: white !important;
-    outline: none !important;
-    box-shadow: none !important;
+    color: #6c757d !important; /* Mantém a cor do texto cinza */
+    background-color: white !important; /* Mantém o fundo branco */
+    border-color: white !important; /* Borda branca */
+    outline: none !important; /* Remove o contorno */
+    box-shadow: none !important; /* Remove a sombra */
 }
+
 /* Removendo sombras e bordas adicionais */
 .btn-outline-secondary:focus,
 .btn-outline-secondary:active {
