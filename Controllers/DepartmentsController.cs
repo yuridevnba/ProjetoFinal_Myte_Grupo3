@@ -136,28 +136,30 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             var department = await _context.Department
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
-            if (department == null)
+            if (department != null)
             {
-                return NotFound();
+                _context.Department.Remove(department);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
             return View(department);
         }
 
-        // POST: Departments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var department = await _context.Department.FindAsync(id);
-            if (department != null)
-            {
-                _context.Department.Remove(department);
-            }
+        //// POST: Departments/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var department = await _context.Department.FindAsync(id);
+        //    if (department != null)
+        //    {
+        //        _context.Department.Remove(department);
+        //    }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool DepartmentExists(int id)
         {

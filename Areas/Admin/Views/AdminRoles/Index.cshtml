@@ -74,11 +74,11 @@
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
                 $(document).ready(function () {
-                    // Captura o clique no botão de confirmação no modal
+                   
                     $('.confirmDelete').on('click', function () {
-                        // Obtém o ID do item do atributo data-id do botão
+                        
                         const itemId = $(this).data('id');
-                        // Submete o formulário correspondente
+                        
                         $('#deleteForm-' + itemId).submit();
                     });
                 });
