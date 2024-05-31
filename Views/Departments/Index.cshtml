@@ -65,85 +65,6 @@
                         </td>
                     </tr>
 
-                    
-
-                    <!-- Modal de confirmação -->
-                    <div class="modal fade" id="modal-@item.DepartmentId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-@item.DepartmentId" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="modalLabel-@item.DepartmentId">Confirmar Exclusão </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Tem certeza de que deseja excluir  @item.DepartmentName?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                    <!-- Botão que realmente envia o formulário -->
-                                    <button type="button" class="btn btn-primary confirmDelete" data-id="@item.DepartmentId">Confirmar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <form asp-action="Delete" asp-route-id="@item.DepartmentId" method="get" id="deleteForm-@item.DepartmentId" class="d-none">
-                        <input type="hidden" name="id" value="@item.DepartmentId" />
-                    </form>
-
-                    @* <form asp-action="Delete">
-                        <input type="hidden" asp-for="DepartmentId" />
-                        <button type="submit" class="btn btn-primary mt-2 text-white">Excluir</button>
-                        <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
-                    </form> *@
-
-
-
-
-
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                    <script>
-                        $(document).ready(function () {
-
-                            $('.confirmDelete').on('click', function () {
-
-                                const itemId = $(this).data('id');
-
-                                $('#deleteForm-' + itemId).submit();
-                            });
-                        });
-                    </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<<<<<<< HEAD
-
-=======
 <!--Modal para Excluir-->
 @* <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -179,7 +100,6 @@
         </div>
     </div>
 </div> *@
->>>>>>> main
 
 @section Scripts {
     <script>
