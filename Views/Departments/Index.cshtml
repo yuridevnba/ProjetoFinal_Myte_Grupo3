@@ -35,6 +35,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.DepartmentName)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmployeeCount)
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -44,6 +47,9 @@
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.DepartmentName)
+                        </td>
+                        <td>
+                            @item.EmployeeCount
                         </td>
                         <td>
                             <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.DepartmentId"></a>
@@ -78,7 +84,7 @@
                                 </dt>
                                 <!--Puxar o DepartmentName-->
                                 <dd class="col-sm-10">
-                                    
+
                                 </dd>
                             </dl>
                         </div>
