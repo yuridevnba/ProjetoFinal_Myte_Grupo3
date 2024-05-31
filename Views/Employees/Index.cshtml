@@ -14,16 +14,85 @@
         <h2 class="card-title text-white mt-0 mb-0">Funcionários</h2>
     </div>
     <div class="card-body">
-        <div class="text-left">
+        <div class="text-left mb-3">
             <a asp-action="Register" asp-controller="Account" asp-area="" class="btn btn-primary">Criar Novo</a>
             <button class="btn btn-secondary" data-toggle="modal" data-target="#exportModal">Exportar</button>
         </div>
         <div class="row">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="col-md-12">
+                <form asp-controller="Employees" asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label class="mb-0" style="margin-left: -3rem;" for="startDate">Data de Início:</label>
+                                <input type="date" id="startDate" name="startDate" class="form-control" style="width: 12rem;" />
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group" style="margin-left: 1rem;">
+                                <label class="mb-0" style="margin-left: -3rem;" for="endDate">Data de Fim:</label>
+                                <input type="date" id="endDate" name="endDate" class="form-control" style="width: 12rem;" />
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group" style="margin-left: 2.2rem;">
+                                <label class="mb-0" style="margin-left: -3rem;" for="status">Status:</label>
+                                <div class="input-group">
+                                    <select id="status" name="status" class="form-control" style="margin-top: 0.2rem;" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                        <option value="Active" selected>Ativo</option>
+                                        <option value="Inactive">Inativo</option>
+                                        <option value="Todos">Todos</option>
+                                    </select>
+                                    <button class="btn btn-outline btn-primary" style="margin-top: 0.2rem;" type="submit" id="button-addon2">Filtrar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 mt-4" style="margin-left: 3rem;">
+                            <input type="search" id="searchInput" class="form-control text-left" style="width: 22rem;" data-mdb-input-init placeholder="Pesquisar funcionário">
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
+        <table class="table table-striped table-light" id="employeesTable">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.First().EmployeeName)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Password)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().HiringDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().AcessLevel)</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                        <td>@item.HiringDate.ToString("dd/MM/yyyy")</td>
+                        <td>@Html.DisplayFor(modelItem => item.AcessLevel)</td>
+                        <td>
+                            <form asp-controller="Employees" asp-action="ToggleStatus" method="post" style="display:inline;">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="switch" id="flexSwitchCheckChecked" type="hidden" name="id" value="@item.EmployeeId" />
+                                    <input class="form-check-input" role="switch" id="flexSwitchCheckChecked" type="checkbox" name="isActive" @(item.StatusEmployee == "Active" ? "checked" : "") onchange="this.form.submit()" />
+                                    <span class="text-dark @(item.StatusEmployee == "Active" ? "text-warning" : "text-secondary")">@((item.StatusEmployee == "Active" ? "Ativo" : "Inativo"))</span>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.EmployeeId" class="btn btn-warning"></a>
+                            <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.EmployeeId" class="btn btn-info"></a>
+                            <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.EmployeeId" class="btn btn-danger"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -40,190 +109,60 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="form-group text-left">
+                        <div class="form-group text-left mb-2" style="margin-left: 1.5rem;">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                                <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="fields" value="EmployeeName" />
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Nome</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDisabled" disabled>
-                                <label class="form-check-label" for="flexSwitchCheckDisabled">Disabled switch checkbox input</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="fields" value="Email">
+                                <label class="form-check-label" for="flexSwitchCheckChecked">E-mail</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" checked disabled>
-                                <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked switch checkbox input</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDisabled" name="fields" value="HiringDate">
+                                <label class="form-check-label" for="flexSwitchCheckDisabled">Data de Contratação</label>
                             </div>
-                            <div class="form-group">
-                                <label for="sortOrder">Ordenar por:</label>
-                                <select name="sortOrder" class="form-control">
-                                    <option value="EmployeeName">Nome</option>
-                                    <option value="Email">Email</option>
-                                    <option value="HiringDate">Data de Contratação</option>
-                                    <option value="Department">Departamento</option>
-                                    <option value="AcessLevel">Nível de Acesso</option>
-                                    <option value="StatusEmployee">Status</option>
-                                </select>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" name="fields" value="Department">
+                                <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Departamento</label>
                             </div>
-                            <div class="form-group">
-                                <label for="sortDirection">Direção:</label>
-                                <select name="sortDirection" class="form-control">
-                                    <option value="asc">Crescente</option>
-                                    <option value="desc">Decrescente</option>
-                                </select>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" name="fields" value="AcessLevel">
+                                <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Nível de Acesso</label>
                             </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" name="fields" value="StatusEmployee">
+                                <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Status</label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="sortOrder">Ordenar por:</label>
+                            <select name="sortOrder" class="form-control">
+                                <option value="EmployeeName">Nome</option>
+                                <option value="Email">Email</option>
+                                <option value="HiringDate">Data de Contratação</option>
+                                <option value="Department">Departamento</option>
+                                <option value="AcessLevel">Nível de Acesso</option>
+                                <option value="StatusEmployee">Status</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="sortDirection">Direção:</label>
+                            <select name="sortDirection" class="form-control">
+                                <option value="asc">Crescente</option>
+                                <option value="desc">Decrescente</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Exportar</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        </div>
                     </div>
-                        @* <div class="row">
-                            <div class="col-md-6" style="margin-right: 2rem;">
-                                <dl>
-                                    <dd>Nome:</dd>
-                                </dl>
-                                <dl>
-                                    <dd>E-mail:</dd>
-                                </dl>
-                                <dl>
-                                    <dd>Data de Contratação:</dd>
-                                </dl>
-                                <dl>
-                                    <dd>Departamento:</dd>
-                                </dl>
-                                <dl>
-                                    <dd>Nível de Acesso:</dd>
-                                </dl>
-                                <dl>
-                                    <dd>Status:</dd>
-                                </dl>
-                            </div>
-                            <div class="col-md-4" style="margin-right: -8rem;">
-                                <dl>
-                                    <dd><input type="checkbox" name="fields" value="EmployeeName" checked /></dd>
-                                </dl>
-                                <dl>
-                                    <dl><input type="checkbox" name="fields" value="Email" /></dl>
-                                </dl>
-                                <dl>
-                                    <dd><input type="checkbox" name="fields" value="HiringDate" /></dd>
-                                </dl>
-                                <dl>
-                                    <dd><input type="checkbox" name="fields" value="Department" checked /></dd>
-                                </dl>
-                                <dl>
-                                    <dd><input type="checkbox" name="fields" value="AcessLevel" /></dd>
-                                </dl>
-                                <dl>
-                                    <dd><input type="checkbox" name="fields" value="StatusEmployee" /></dd>
-                                </dl>
-                            </div>
-                        </div> *@
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        <button type="submit" class="btn btn-primary">Exportar</button>
-                    </div>
-
-                    @* <div class="form-group">
-                        <label for="sortOrder">Ordenar por:</label>
-                        <select name="sortOrder" class="form-control">
-                            <option value="EmployeeName">Nome</option>
-                            <option value="Email">Email</option>
-                            <option value="HiringDate">Data de Contratação</option>
-                            <option value="Department">Departamento</option>
-                            <option value="AcessLevel">Nível de Acesso</option>
-                            <option value="StatusEmployee">Status</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sortDirection">Direção:</label>
-                        <select name="sortDirection" class="form-control">
-                            <option value="asc">Crescente</option>
-                            <option value="desc">Decrescente</option>
-                        </select>
-                    </div> *@
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-primary">Exportar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<form asp-controller="Employees" asp-action="Index" method="get">
-    <div class="row mb-3">
-        <div class="col-4">
-            <div class="form-group">
-                <label for="startDate">Data de Início</label>
-                <input type="date" id="startDate" name="startDate" class="form-control" />
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="endDate">Data de Fim</label>
-                <input type="date" id="endDate" name="endDate" class="form-control" />
-            </div>
-        </div>
-        <div class="col-2">
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select id="status" name="status" class="form-control">
-                    <option value="Active" selected>Ativo</option>
-                    <option value="Inactive">Inativo</option>
-                    <option value="Todos">Todos</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-2 align-self-end">
-            <button type="submit" class="btn btn-primary">Filtrar</button>
-        </div>
-    </div>
-</form>
-
-<div class="row mb-3">
-    <div class="col-4">
-        <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar funcionário...">
-    </div>
-</div>
-
-<table class="table table-striped" id="employeesTable">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.First().EmployeeName)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Email)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Password)</th>
-            <th>@Html.DisplayNameFor(model => model.First().HiringDate)</th>
-            <th>@Html.DisplayNameFor(model => model.First().AcessLevel)</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                <td>@Html.DisplayFor(modelItem => item.Password)</td>
-                <td>@item.HiringDate.ToString("dd/MM/yyyy")</td>
-                <td>@Html.DisplayFor(modelItem => item.AcessLevel)</td>
-                <td>
-                    <form asp-controller="Employees" asp-action="ToggleStatus" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@item.EmployeeId" />
-                        <input type="checkbox" name="isActive" @(item.StatusEmployee == "Active" ? "checked" : "") onchange="this.form.submit()" />
-                    </form>
-                    <span class="@(item.StatusEmployee == "Active" ? "text-warning" : "text-secondary")">@((item.StatusEmployee == "Active" ? "Ativo" : "Inativo"))</span>
-                </td>
-                <td>
-                    <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.EmployeeId" class="btn btn-warning"></a>
-                    <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.EmployeeId" class="btn btn-info"></a>
-                    <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.EmployeeId" class="btn btn-danger"></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
 @section Scripts {
     <script>
         document.getElementById('searchInput').addEventListener('input', function () {
