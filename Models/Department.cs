@@ -12,6 +12,9 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         [Display(Name = "Departamento")]
         public string? DepartmentName { get; set; }
 
+        [Display(Name = "Quantidade de Funcionários")]
+        public int EmployeeCount { get; set; }
+
         public ICollection<Employee>? Employee { get; set; }
     }
 }
