@@ -165,32 +165,38 @@ namespace ProjetoFinal_Myte_Grupo3.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Role não encontrada");
                 return View("Index", roleManager.Roles);
             }
-            return View(role);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var role = await roleManager.FindByIdAsync(id);
-            if (role != null)
-            {
-                IdentityResult result = await roleManager.DeleteAsync(role);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    Errors(result);
-                }
-            }
             else
             {
-                ModelState.AddModelError("", "Role não encontrada");
+                IdentityResult result = await roleManager.DeleteAsync(role);
+                return RedirectToAction("Index");
             }
-            return View("Index",roleManager.Roles);
+            
+            
         }
+
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(string id)
+        //{
+        //    var role = await roleManager.FindByIdAsync(id);
+        //    if (role != null)
+        //    {
+        //        IdentityResult result = await roleManager.DeleteAsync(role);
+        //        if (result.Succeeded)
+        //        {
+        //            return RedirectToAction("Index");
+        //        }
+        //        else
+        //        {
+        //            Errors(result);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError("", "Role não encontrada");
+        //    }
+        //    return View("Index",roleManager.Roles);
+        //}
     }
 }
 // credenciais//login
