@@ -30,10 +30,13 @@
             </div>
         </div>
         <table class="table table-light">
-            <thead class="talbe-light">
+            <thead class="table-light">
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.DepartmentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmployeeCount)
                     </th>
                     <th></th>
                 </tr>
@@ -46,53 +49,44 @@
                             @Html.DisplayFor(modelItem => item.DepartmentName)
                         </td>
                         <td>
+                            @item.EmployeeCount
+                        </td>
+                        <td>
                             <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.DepartmentId"></a>
                             <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.DepartmentId"></a>
-                            @* <a class="btn bi bi-trash" data-toggle="modal" data-target="#exportModal"></a> *@
-                            <a class="btn bi bi-trash" title="excluir" asp-action="delete" asp-route-id="@item.DepartmentId"></a>
+                            <button type="button" class="btn bi bi-trash" data-bs-toggle="modal" data-bs-target="#modal-@item.DepartmentId" data-id="@item.DepartmentId"></button>
                         </td>
                     </tr>
+
+                    <!-- Modal de confirmação -->
+                    <div class="modal fade" id="modal-@item.DepartmentId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-@item.DepartmentId" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="modalLabel-@item.DepartmentId">Confirmar Exclusão </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Tem certeza de que deseja excluir  @item.DepartmentName?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <button type="button" class="btn btn-primary confirmDelete" data-id="@item.DepartmentId">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" asp-route-id="@item.DepartmentId" method="get" id="deleteForm-@item.DepartmentId" class="d-none">
+                        <input type="hidden" name="id" value="@item.DepartmentId" />
+                    </form>
                 }
             </tbody>
         </table>
     </div>
 </div>
 
-<!--Modal para Excluir-->
-@* <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form asp-controller="Departments" asp-action="Delete" method="post">
-                <div class="modal-header">
-                   <h5 class="modal-title" id="exportModalLabel">Excluir Departamento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                    <div class="modal-body">
-                        <h6>Tem certeza que deseja excluir esse Departamento?</h6>
-                        <div>
-                            <dl class="row">
-                                <dt class="col-sm-2">
-                                    Departamento:
-                                </dt>
-                                <!--Puxar o DepartmentName-->
-                                <dd class="col-sm-10">
-                                    
-                                </dd>
-                            </dl>
-                        </div>
-                        <!--Linkar o DepartmentId correto-->
-                        <form asp-action="Delete">
-                        <input type="hidden" @* asp-for="" />
-                            <button type="submit" class="btn btn-primary mt-2 text-white">Excluir</button>
-                            <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
-                        </form>
-                    </div>
-            </form>
-        </div>
-    </div>
-</div> *@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @section Scripts {
     <script>
@@ -113,6 +107,13 @@
                     }
                 }
             }
+        });
+
+        $(document).ready(function () {
+            $('.confirmDelete').on('click', function () {
+                const itemId = $(this).data('id');
+                $('#deleteForm-' + itemId).submit();
+            });
         });
     </script>
 }

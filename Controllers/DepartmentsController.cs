@@ -24,7 +24,16 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Department.ToListAsync());
+            var departments = await _context.Department
+                .Include(d => d.Employee)
+                .ToListAsync();
+
+            foreach (var department in departments)
+            {
+                department.EmployeeCount = department.Employee?.Count(e => e.StatusEmployee == "Active") ?? 0;
+            }
+
+            return View(departments);
         }
 
         // GET: Departments/Details/5
@@ -36,14 +45,19 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
 
             var department = await _context.Department
+                .Include(d => d.Employee)
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
+
             if (department == null)
             {
                 return NotFound();
             }
 
+            department.EmployeeCount = department.Employee?.Count(e => e.StatusEmployee == "Active") ?? 0;
+
             return View(department);
         }
+
 
         // GET: Departments/Create
         public IActionResult Create()
@@ -136,28 +150,30 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
             var department = await _context.Department
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
-            if (department == null)
+            if (department != null)
             {
-                return NotFound();
+                _context.Department.Remove(department);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
             return View(department);
         }
 
-        // POST: Departments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var department = await _context.Department.FindAsync(id);
-            if (department != null)
-            {
-                _context.Department.Remove(department);
-            }
+        //// POST: Departments/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var department = await _context.Department.FindAsync(id);
+        //    if (department != null)
+        //    {
+        //        _context.Department.Remove(department);
+        //    }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool DepartmentExists(int id)
         {
