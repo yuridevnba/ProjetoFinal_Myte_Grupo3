@@ -2,73 +2,88 @@
 @{
     ViewData["Title"] = "WBS";
 }
-<h1>WBS</h1>
-<hr />
-<a asp-action="Create" class="btn btn-primary mb-2">Criar</a>
-<form asp-controller="WBS" asp-action="Index" method="get">
-    <div class="row">
-        <div class="col-5">
-            <div class="form-group">
-                <label>Type</label><br />
-                <input type="checkbox" name="type" value="all" id="all" onchange="toggleCheckboxes(this)" />
-                <label for="all">Todos</label><br />
-                <input type="checkbox" name="type" value="chargeability" id="chargeability" class="type-checkbox" />
-                <label for="chargeability">Chargeability</label><br />
-                <input type="checkbox" name="type" value="non-chargeability" id="non-chargeability" class="type-checkbox" />
-                <label for="non-chargeability">Non-chargeability</label>
-            </div>
-        </div>
-        <div class="col-2">
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </div>
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+            </ol>
+        </nav>
     </div>
-</form>
-
-<div class="row mb-3">
-    <div class="col-4">
-        <input type="text" id="searchInput" class="form-control" placeholder="Pesquisar WBS...">
+</nav>
+<div class="card shadow bg-light rounded-3">
+    <div class="card-header card_color">
+        <h2 class="card-title text-center mb-0 mt-0 text-white">WBS</h2>
+    </div>
+    <div class="card-body">
+        <a asp-action="Create" class="btn btn-primary mb-2">Criar</a>
+        <form asp-controller="WBS" asp-action="Index" method="get">
+            <div class="row mt-3">
+                <div class="col-2">
+                    <div class="form-check form-switch mx-3">
+                        <input class="form-check-input" type="checkbox" name="type" role="switch" value="all" id="flexSwitchCheckChecked" onchange="toggleCheckboxes(this)" />
+                        <label for="all">Todos</label><br />
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-check form-switch" style="margin-left: -4rem;">
+                        <input class="form-check-input" type="checkbox" name="type" role="switch" value="chargeability" id="flexSwitchCheckChecked" onchange="toggleCheckboxes(this)" />
+                        <label for="chargeability">Chargeability</label><br />
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-check form-switch" style="margin-left: -6rem;">
+                        <input class="form-check-input" type="checkbox" name="type" role="switch" value="non-chargeability" id="flexSwitchCheckChecked" onchange="toggleCheckboxes(this)" />
+                        <label for="non-chargeability">Non-chargeability</label>
+                    </div>
+                </div>
+                <div class="col-2" style="margin-left: -7rem; margin-top: -0.3rem;">
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </div>
+                <div class="col-4" style="margin-left: 5rem; margin-top: -0.6rem;">
+                    <input type="text" id="searchInput" class="form-control text-left" placeholder="Pesquisar WBS">
+                </div>
+            </div>
+        </form>
+        <table class="table table-light" id="wbsTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Code)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Type)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.WBSId"></a>
+                            <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.WBSId"></a>
+                            <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.WBSId"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-
-
-<table class="table table-striped" id="wbsTable">
-    <thead class="thead-dark">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Code)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Code)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.WBSId"></a>
-                    <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.WBSId"></a>
-                    <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.WBSId"></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
 @section Scripts {
     <script>
         document.getElementById('searchInput').addEventListener('input', function () {

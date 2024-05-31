@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Gerenciar Roles";
+    ViewBag.Title = "Gerenciar Administradores";
 }
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
@@ -13,11 +13,11 @@
 </nav>
 <div class="card shadow bg-light rounded-3">
     <div class="card-header card_color">
-        <h2 class="card-title text-center text-white mt-0 mb-0">Gerenciar Roles</h2>
+        <h2 class="card-title text-center text-white mt-0 mb-0">Gerenciar Administradores</h2>
     </div>
     <div class="card-body">
         <div class="mb-2">
-            <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Criar</a>
+            @* <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Criar</a> *@
             <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Update" class="btn btn-primary">Atualizar</a>
         </div>
         <div>
@@ -37,9 +37,7 @@
                             <td>@role.Name</td>
                             <td>
                                 <!-- Botão que aciona o modal -->
-                                <button type="button" class="btn btn-primary openModal" data-bs-toggle="modal" data-bs-target="#modal-@role.Id" data-id="@role.Id">
-                                    Excluir
-                                </button>
+                                <button type="button" class="btn bi bi-trash openModal" data-bs-toggle="modal" data-bs-target="#modal-@role.Id" data-id="@role.Id"></button>
 
                                 <!-- Modal de confirmação -->
                                 <div class="modal fade" id="modal-@role.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-@role.Id" aria-hidden="true">
@@ -49,11 +47,10 @@
                                                 <h1 class="modal-title fs-5" id="modalLabel-@role.Id">Confirmar Exclusão </h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
+                                            <div class="modal-body text-left">
                                                 Tem certeza de que deseja excluir  @role.Name?
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                            <div class="text-left mb-3 mx-3">
                                                 <!-- Botão que realmente envia o formulário -->
                                                 <button type="button" class="btn btn-primary confirmDelete" data-id="@role.Id">Confirmar</button>
                                             </div>
