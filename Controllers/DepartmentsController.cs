@@ -24,8 +24,18 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Department.ToListAsync());
+            var departments = await _context.Department
+                .Include(d => d.Employee)
+                .ToListAsync();
+
+            foreach (var department in departments)
+            {
+                department.EmployeeCount = department.Employee?.Count(e => e.StatusEmployee == "Active") ?? 0;
+            }
+
+            return View(departments);
         }
+
 
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)
