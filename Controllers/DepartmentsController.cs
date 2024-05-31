@@ -36,7 +36,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(departments);
         }
 
-
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -46,14 +45,19 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
 
             var department = await _context.Department
+                .Include(d => d.Employee)
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
+
             if (department == null)
             {
                 return NotFound();
             }
 
+            department.EmployeeCount = department.Employee?.Count(e => e.StatusEmployee == "Active") ?? 0;
+
             return View(department);
         }
+
 
         // GET: Departments/Create
         public IActionResult Create()
