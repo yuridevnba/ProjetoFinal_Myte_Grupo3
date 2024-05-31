@@ -149,15 +149,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             ViewBag.WorkingHoursByWbsAndDate = workingHoursByWbsAndDate;
             ViewBag.TotalsPerDay = totalsPerDay;
 
-            if (workingHoursByWbsAndDate.Any(row => row.Any(hour => hour != 0)))
-            {
-                TempData["IsEditable"] = false;
-            }
-            else
-            {
-                TempData["IsEditable"] = true;
-            }
-
             return View();
         }
 
@@ -174,7 +165,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 }
                 await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
                 TempData["SuccessMessage"] = "Suas horas foram salvas!";
-                TempData["IsEditable"] = false; // Bloquear a edição após salvar
                 return RedirectToAction(nameof(Index));
             }
             return View();
