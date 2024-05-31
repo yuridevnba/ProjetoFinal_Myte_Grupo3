@@ -2,19 +2,36 @@
 @{
     ViewData["Title"] = "Detalhes Departamento";
 }
-<h1>Detalhes Departamento</h1>
-<hr />
-<div>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            Departamento:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DepartmentName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <button class="btn btn-primary mt-2" asp-action="Edit" asp-route-id="@Model?.DepartmentId">Enviar</button>
-    <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a></li>
+            </ol>
+        </nav>
+    </div>
+</nav>
+<div class="card text-center shadow bg-light rounded-3">
+    <div class="card-header card_color">
+        <h2 class="card-title text-white mt-0 mb-0">Detalhes Departamento</h2>
+    </div>
+    <div class="card-body">
+        <div class="row text-left">
+            <dl class="col-12">
+                <div class="row">
+                    <dt class="col-3">
+                        Departamento:
+                    </dt>
+                    <dd class="col-5" style="margin-left: -9rem;">
+                        @Html.DisplayFor(model => model.DepartmentName)
+                    </dd>
+                </div>
+            </dl>
+        </div>
+        <div class="text-left">
+            <button class="btn btn-primary mt-2" asp-action="Edit" asp-route-id="@Model?.DepartmentId">Enviar</button>
+            <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
+        </div>
+    </div>
 </div>
