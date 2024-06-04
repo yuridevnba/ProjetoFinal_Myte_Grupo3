@@ -113,7 +113,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     var employee = await _context.Employee.FirstOrDefaultAsync(e => e.Email == model.Email);
                     if (employee != null && employee.StatusEmployee == "Inactive")
                     {
-                        ModelState.AddModelError(string.Empty, "Usuário Inativo, para mais informações entre em contato com o administrador");
+                        ModelState.AddModelError(string.Empty, "Conta Inativa. Entre em contato com o administrador");
                         return View(model);
                     }
 
