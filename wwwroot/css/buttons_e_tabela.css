@@ -47,6 +47,40 @@
 }
 
 
+/* Cores para o check do Switch ---------------------------------- */
+
+.form-check-input {
+    --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23CFCFCF'/%3e%3c/svg%3e") !important;
+    background-image: var(--bs-form-switch-bg) !important;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(225, 80, 49, 0.25) !important;
+    border-color: #E15031 !important;
+    background-image: var(--bs-form-switch-bg) !important;
+}
+
+.form-check-input:checked {
+    background-color: #E15031 !important;
+    border-color: #E15031 !important;
+    --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23FFFFFF'/%3e%3c/svg%3e") !important;
+    background-image: var(--bs-form-switch-bg) !important;
+}
+
+.form-check-input:checked:focus {
+    box-shadow: 0 0 0 0.25rem rgba(225, 80, 49, 0.25) !important;
+    border-color: #E15031 !important;
+    --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23FFFFFF'/%3e%3c/svg%3e") !important;
+    background-image: var(--bs-form-switch-bg) !important;
+}
+
+.form-check-input:hover {
+    background-color: rgba(225, 80, 49, 0.1) !important;
+    border-color: #E15031 !important;
+    background-image: var(--bs-form-switch-bg) !important;
+}
+
+
 /* Tabela do WorkingHours ----------------------------------------------- */
 
 .table table-bordered {
@@ -68,7 +102,7 @@ h1.titulo_boasVindas {
     font-family: Calibri, sans-serif;
     font-weight: 900;
     font-size: 16px;
-    padding: 16px !important;
+    padding: 10px !important;
 }
 #linhaTotais,
 #totalGeral,
@@ -77,10 +111,14 @@ h1.titulo_boasVindas {
     font-family: Calibri, sans-serif;
     vertical-align: baseline;
 }
+.table td,
+.table th {
+    padding: 4px;
+}
 .table {
     border-collapse: collapse;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 .table-striped {
     box-shadow: none !important;
@@ -118,7 +156,6 @@ input {
     background-color: rgba(0, 0, 0, .0);
     padding: 0.375rem 0.3rem; /* Padding padrão do Bootstrap */
     font-family: Calibri, sans-serif;
-    margin: 3px;
 }
 select {
     border: none;
@@ -126,11 +163,15 @@ select {
     padding: 0.375rem 0.75rem; /* Padding padrão do Bootstrap */
     font-family: Calibri, sans-serif;
 }
+.wbs_nomeDela {
+    text-align: revert;
+}
 .title-container {
     padding: 0;
     display: flex;
     justify-content: space-between;
-    margin-top: 200px;
+    margin-top: 150px;
+    margin-bottom: 20px;
 }
 .date-forms-container {
     display: flex;
@@ -140,9 +181,6 @@ select {
 .form-group {
     width: 250px;
     margin-bottom: 0;
-}
-.btn_buscar_tabela {
-    margin-top: 3px;
 }
 
 ﻿ /* Configurações exclusivas do index.cshtml de working hours */
@@ -161,5 +199,8 @@ select {
     justify-content: space-between;
     margin-bottom: 0;
     font-weight: 500;
-    gap: 6px;
+}
+#editWorkingHoursText {
+    margin-left: 10px;
+    text-decoration: underline;
 }
