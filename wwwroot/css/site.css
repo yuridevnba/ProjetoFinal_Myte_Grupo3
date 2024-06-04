@@ -19,17 +19,8 @@ html {
 
 body {
     margin-bottom: 60px;
-    margin-top: 100px;
+    margin-top: 50px;
     z-index: 1;
-    
-    /*background-color: #F2F2F2;*/
-    /*Teste de background! Não desativar o comentário --------------------------------------*/
-    /*background-image: url('css/img_background_teste2.png');
-    background-size: cover;*/ /* Ajusta o tamanho da imagem para cobrir toda a tela */
-    /*background-repeat: no-repeat;*/ /* Evita que a imagem se repita */
-    /*background-position: center;*/ /* Centraliza a imagem no fundo */
-    /*margin: 0;*/ /* Remove a margem padrão do corpo */
-    /*height: 100vh;*/ /* Define a altura do corpo para 100% da altura da janela de visualização */
 }
 
 .btn-primary {
