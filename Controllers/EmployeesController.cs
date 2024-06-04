@@ -12,6 +12,7 @@ using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
 using System.Linq.Dynamic.Core;
 using Microsoft.AspNetCore.Identity;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -30,6 +31,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // GET: Employees
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(DateTime? startDate, DateTime? endDate, string status)
         {
             var employees = _context.Employee.Include(e => e.Department)
@@ -230,7 +232,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(employee);
         }
 
-
+        [Authorize(Roles = "Admin")]
         // GET: Employees/Create
         public IActionResult Create()
         {
@@ -238,6 +240,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Employees/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -297,7 +300,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // POST: Employees/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,EmployeeName,Email,Password,HiringDate,DepartmentId,AccessLevel,StatusEmployee")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,EmployeeName,Email,Password,HiringDate,DepartmentId,AccessLevel,StatusEmployee,IdentityUserId")] Employee employee)
         {
             if (id != employee.EmployeeId)
             {
@@ -322,10 +325,17 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                             await _userManager.RemoveFromRoleAsync(user, "Standard");
                             await _userManager.AddToRoleAsync(user, "Admin");
                         }
+
+
+                        var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user); // gera um token de redifinição de senha.
+                        var result = await _userManager.ResetPasswordAsync(user, resetToken, employee.Password!);
+
+                        _context.Update(employee);
+                        await _context.SaveChangesAsync();
                     }
 
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -338,7 +348,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = employee.EmployeeId });
+
             }
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", employee.DepartmentId);
             return View(employee);
@@ -346,7 +357,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
 
 
-
+        [Authorize(Roles = "Admin")]
         // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -366,6 +377,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(employee);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

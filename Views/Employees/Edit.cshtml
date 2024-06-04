@@ -1,4 +1,5 @@
 ﻿@model ProjetoFinal_Myte_Grupo3.Models.Employee
+@using Microsoft.AspNetCore.Identity
 
 @{
     ViewData["Title"] = "Editar Funcionário";
@@ -23,31 +24,52 @@
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="EmployeeId" />
-                    <div class="form-group text-left">
-                        <label asp-for="EmployeeName" class="control-label"></label>
-                        <input asp-for="EmployeeName" class="form-control text-left" />
-                        <span asp-validation-for="EmployeeName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group text-left">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control text-left" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group text-left">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control text-left" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group text-left">
-                        <label asp-for="HiringDate" class="control-label"></label>
-                        <input asp-for="HiringDate" class="form-control text-left" />
-                        <span asp-validation-for="HiringDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group text-left">
-                        <label asp-for="DepartmentId" class="control-label"></label>
-                        <select asp-for="DepartmentId" class="form-control text-left" asp-items="ViewBag.DepartmentId"></select>
-                        <span asp-validation-for="DepartmentId" class="text-danger"></span>
-                    </div>
+
+
+                    @if (User.IsInRole("Admin"))
+                    {
+
+                        <div class="form-group text-left">
+                            <label asp-for="EmployeeName" class="control-label"></label>
+
+                            <input asp-for="EmployeeName" class="form-control text-left"  />
+                            <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-left">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control text-left"  />
+
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group text-left">
+                            <label asp-for="IdentityUserId" class="control-label"></label>
+                            <input asp-for="IdentityUserId" class="form-control text-left" />
+                            <span asp-validation-for="IdentityUserId" class="text-danger"></span>
+                        </div>
+
+
+
+
+
+
+
+                        <div class="form-group text-left">
+                            <label asp-for="HiringDate" class="control-label"></label>
+
+                            <input asp-for="HiringDate" class="form-control text-left"  />
+                            <span asp-validation-for="HiringDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-left">
+                            <label asp-for="DepartmentId" class="control-label"></label>
+
+                            <select asp-for="DepartmentId" class="form-control text-left" asp-items="ViewBag.DepartmentId"></select>
+                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                        </div>
+
+
+                    }
+
                     @* <div class="form-group">
                     <label asp-for="AcessLevel" class="control-label"></label>
                     <input asp-for="AcessLevel" class="form-control" />
@@ -58,6 +80,89 @@
                     <input asp-for="StatusEmployee" class="form-control" />
                     <span asp-validation-for="StatusEmployee" class="text-danger"></span>
                     </div> *@
+
+
+
+
+
+                    <div class="form-group text-left">
+                        @* <label asp-for="EmployeeName" class="control-label"></label> *@
+
+                        <input asp-for="EmployeeName" class="form-control text-left" value="@Model.EmployeeName" type="hidden"/>
+                        <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group text-left">
+                        @* <label asp-for="Email" class="control-label"></label> *@
+                        <input asp-for="Email" class="form-control text-left" value="@Model.Email" type="hidden" />
+
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group text-left">
+                        @* <label asp-for="IdentityUserId" class="control-label"></label> *@
+                        <input asp-for="IdentityUserId" class="form-control text-left" value="@Model.IdentityUserId" type="hidden" />
+                        <span asp-validation-for="IdentityUserId" class="text-danger"></span>
+                    </div>
+
+
+
+
+
+
+
+                    <div class="form-group text-left">
+                        @* <label asp-for="HiringDate" class="control-label"></label> *@
+
+                        <input asp-for="HiringDate" class="form-control text-left" value="@Model.HiringDate" type="hidden" />
+                        <span asp-validation-for="HiringDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group text-left">
+                        @* <label asp-for="DepartmentId" class="control-label"></label> *@
+
+                        @* <select asp-for="DepartmentId" class="form-control text-left" asp-items="ViewBag.DepartmentId" value="@Model.DepartmentId" type="hidden"></select> *@
+                        <input asp-for="DepartmentId" class="form-control text-left" value="@Model.DepartmentId" type="hidden" />
+                        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="form-group text-left">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control text-left" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+
+
+
+
                     <div class="form-group text-left mt-3">
                         <button type="submit" class="btn btn-primary mt-2 text-white">Salvar</button>
                         <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
