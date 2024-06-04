@@ -20,7 +20,7 @@
 
 <body>
     <div class="container title-container">
-        <h1 class="titulo_boasVindas"><i class="fa fa-user" style="color: #fd7e14;"></i> Bem-vindo, <span style="color: #fd7e14;">@employeeName!</span></h1>
+        <h1 class="titulo_boasVindas"><i class="fa fa-user" style="color: #E15031;"></i> Bem-vindo, <span style="color: #E15031;">@employeeName!</span></h1>
         <div class="date-forms-container">
             <form method="post" asp-controller="WorkingHours" asp-action="Index">
                 <input type="hidden" name="selectedDate" value="@dateRange[0].AddDays(-15).ToString("yyyy-MM-dd")">
@@ -31,7 +31,7 @@
                     <div class="input-group">
                         <input type="date" id="dataInicio" name="selectedDate" class="form-control" value="@dateRange[0].ToString("yyyy-MM-dd")">
                         <div>
-                            <button type="submit" class="btn btn-primary btn_buscar_tabela">Buscar</button>
+                            <button type="submit" class="btn btn-primary">Buscar</button>
                         </div>
                     </div>
                 </div>
@@ -41,14 +41,10 @@
                 <button type="submit" class="btn btn-link"><i class="fas fa-chevron-right"></i></button>
             </form>
         </div>
+        <form method="get" asp-controller="WorkingHours" asp-action="GeneratePdfReport">
+            <button type="submit" class="btn btn-primary" style="padding: 10px"><i class="bi bi-printer"></i></button>
+        </form>
     </div>
-
-    <form method="get" asp-controller="WorkingHours" asp-action="GeneratePdfReport">
-       @*  <input type="date" name="selectedDate" value="@dateRange[0].ToString("yyyy-MM-dd")" /> *@
-        <button type="submit" class="btn btn-secondary"><i class="bi bi-printer"></i></button>
-    </form>
-
-
 
     <form id="saveHoursForm" method="post" action="@Url.Action("SaveWorkingHours", "WorkingHours")">
         <table class="table table-striped">
@@ -76,9 +72,9 @@
                     currentTotalSum = 0;
                     var wbs = wbsList[wbsIndex];
                     <tr>
-                        <td>
+                        <td class="wbs_nomeDela">
                             <select id="select-index-@(wbsIndex)" name="WBSId[]" class="loaded-wbs" @(isEditable ? "" : "disabled")>
-                                <option value="@wbs.WBSId">@wbs.Code</option>
+                                <option value="@wbs.WBSId">@(wbs.Code) - @(wbs.Description)</option>
                             </select>
                         </td>
                         @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -90,7 +86,7 @@
                                 <input type="@(isWeekend ? "hidden" : "text")"
                                        name="Hours[@wbsIndex][@dateIndex]"
                                        value="@hours"
-                                        @(isEditable ? "" : "disabled")>
+                                @(isEditable ? "" : "disabled")>
                             </td>
                         }
                         @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -117,7 +113,7 @@
                                         var doesItExists = wbsList.Any(existingWbs => existingWbs.Code == wbs.Code);
                                         @if (!doesItExists)
                                         {
-                                            <option value="@wbs.WBSId">@wbs.Code</option>
+                                            <option value="@wbs.WBSId">@(wbs.Code) - @(wbs.Description)</option>
                                         }
                                     }
                                 </select>
@@ -131,7 +127,7 @@
                                     <input type="@(isWeekend ? "hidden" : "text")"
                                            name="Hours[@wbsIndex][@dateIndex]"
                                            value="@hours"
-                                            @(isEditable ? "" : "disabled")>
+                                    @(isEditable ? "" : "disabled")>
                                 </td>
                             }
                             @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -170,11 +166,11 @@
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
-                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="false">
                     <div class="toast-header" style="background-color: #ffe6e6">
                         <img src="https://img.icons8.com/?size=100&id=59782&format=png&color=FA5252" style="width: 30px; height: 30px;" class="rounded me-2">
                         <strong class="me-auto" style="color: black; font-size: 16px;">Erro!</strong>
-                        <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body" style="background-color: #ffe6e6; font-weight: 400; font-size: 15px;">
                         @errorMessage
@@ -184,11 +180,11 @@
 
             @if (!string.IsNullOrEmpty(successMessage))
             {
-                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="false">
                     <div class="toast-header" style="background-color: #ebffe5">
                         <img src="https://img.icons8.com/?size=100&id=UrUFNWAeX8fJ&format=png&color=40C057" style="width: 30px; height: 30px;" class="rounded me-2">
                         <strong class="me-auto" style="color: black; font-size: 16px;">Sucesso!</strong>
-                        <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body" style="background-color: #ebffe5; font-weight: 400; font-size: 15px;">
                         @successMessage
@@ -239,7 +235,7 @@
                     value: $('#select-index-3').val(),
                 },
             ];
-            
+
             // Toda vez que o usuário escolher um WBS no select, essa função vai ser chamada
             $('.available-wbs').change(function () {
                 // Pega o valor do select alterado pelo usuário
@@ -255,7 +251,7 @@
                     id: selectId,
                     value: selectValue
                 };
-                
+
                 // Habilita todas as opções temporariamente (Funciona como um "reset" para nossa lógica de desabilitar opções)
                 $('.available-wbs').not(this).find('option').prop('disabled', false);
 

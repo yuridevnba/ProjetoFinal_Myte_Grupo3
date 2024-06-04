@@ -78,18 +78,15 @@
     font-weight: bold;
     font-style: normal;
 }
-
 .logo_e_titulo {
     display: flex;
     align-items: center;
     gap: 10px;
     width: 20rem;
 }
-
 .logo_e_titulo img{
     margin-right: -1.5rem;
 }
-
 .logo_e_titulo a:hover {
     color: white;
     text-decoration: none;
@@ -106,7 +103,6 @@
         margin-left: 2rem;
     }
 }
-
 @media(min-width: 1440px) {
     .logo_e_titulo {
         margin-left: -85rem;
