@@ -137,7 +137,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models
             {
                 using (MailMessage emailMessage = new MailMessage())
                 {
-                    emailMessage.From = new MailAddress("mytethee@outlook.com", "Myte");
+                    emailMessage.From = new MailAddress("mytethree@outlook.com", "Myte");
                     emailMessage.To.Add(toEmail);
                     emailMessage.Subject = "Assunto: Bem-vindo ao Nosso Site MyThee!";
 
@@ -154,7 +154,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models
                         smtpClient.UseDefaultCredentials = false;
 
                         string appPassword = "Euteamo345*";
-                        smtpClient.Credentials = new NetworkCredential("mytethee@outlook.com", appPassword);
+                        smtpClient.Credentials = new NetworkCredential("mytethree@outlook.com", appPassword);
 
                         smtpClient.Send(emailMessage);
                         Console.WriteLine("Email enviado com sucesso para " + toEmail);

@@ -35,9 +35,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
  {
      options.Cookie.Name = "AspNetCore.Cookies";
 
-     options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+     options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
 
-     options.SlidingExpiration = true;
+     options.SlidingExpiration = true; // renova o tempo a cada solicitação
+
+     options.LoginPath = "/Account/Login";
  });
 
 builder.Services.AddAuthorization(options =>
