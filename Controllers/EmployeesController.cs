@@ -32,7 +32,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // GET: Employees
         public async Task<IActionResult> Index(DateTime? startDate, DateTime? endDate, string status)
         {
-            var employees = _context.Employee.AsQueryable();
+            var employees = _context.Employee.Include(e => e.Department)
+                                             .AsQueryable();
 
             if (startDate.HasValue)
             {

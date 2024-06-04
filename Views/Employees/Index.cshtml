@@ -60,6 +60,7 @@
                     <th>@Html.DisplayNameFor(model => model.First().EmployeeName)</th>
                     <th>@Html.DisplayNameFor(model => model.First().Email)</th>
                     <th>@Html.DisplayNameFor(model => model.First().Password)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Department.DepartmentName)</th>
                     <th>@Html.DisplayNameFor(model => model.First().HiringDate)</th>
                     <th>@Html.DisplayNameFor(model => model.First().AcessLevel)</th>
                     <th>Status</th>
@@ -73,6 +74,7 @@
                         <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Department.DepartmentName)</td>
                         <td>@item.HiringDate.ToString("dd/MM/yyyy")</td>
                         <td>@Html.DisplayFor(modelItem => item.AcessLevel)</td>
                         <td>
