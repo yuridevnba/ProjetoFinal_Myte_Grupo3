@@ -272,6 +272,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
+                        return RedirectToAction(nameof(Error));
                     }
                 }
             }
@@ -285,13 +286,13 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             var employee = await _context.Employee.FindAsync(id);
             if (employee == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", employee.DepartmentId);
             return View(employee);
@@ -341,7 +342,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 {
                     if (!EmployeeExists(employee.EmployeeId))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error));
                     }
                     else
                     {
@@ -359,22 +360,25 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         [Authorize(Roles = "Admin")]
         // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Error(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var employee = await _context.Employee
-                .Include(e => e.Department)
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            //var employee = await _context.Employee
+            //    .Include(e => e.Department)
+            //    .FirstOrDefaultAsync(m => m.EmployeeId == id);
+            //if (employee == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(employee);
+            //return RedirectToAction(nameof(Index));
+
+
+            return RedirectToAction("Error", "Account");
         }
 
         [Authorize(Roles = "Admin")]
@@ -384,13 +388,22 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var employee = await _context.Employee.FindAsync(id);
-            if (employee != null)
+            var user = await _userManager.FindByIdAsync(employee.IdentityUserId!);
+            if (employee != null && user != null)
             {
                 _context.Employee.Remove(employee);
+                var result = await _userManager.DeleteAsync(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+            else
+            {
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Error));
+
+            }
+           
         }
 
         private bool EmployeeExists(int id)
