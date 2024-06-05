@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Mono.TextTemplating;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
 using ProjetoFinal_Myte_Grupo3.Models.TelasLogin;
@@ -74,12 +75,28 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                         DepartmentId = model.DepartmentId,
                         AcessLevel = model.AcessLevel,
                         StatusEmployee = model.StatusEmployee,
-                        Password = model.Password
+                        Password = model.Password,
                     };
 
                     _context.Employee.Add(employee);
                     await _context.SaveChangesAsync();
-                    
+
+                    var infos = new InfosEmployee
+                    {
+                        Salary = model.Salary,
+                        Position = model.Position,
+                        Cpf = model.Cpf,
+                        Phone = model.Phone,
+                        Cep = model.Cep,
+                        Adress = model.Adress,
+                        Number = model.Number,
+                        City = model.City,
+                        State = model.State,
+                        EmployeeId = employee.EmployeeId,
+                    };
+
+                    _context.InfosEmployee.Add(infos);
+                    await _context.SaveChangesAsync();
 
                     SendEmail.Send(model.Email, model.Password, "welcome");
 

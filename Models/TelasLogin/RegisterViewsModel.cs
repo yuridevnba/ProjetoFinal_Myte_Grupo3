@@ -2,7 +2,7 @@
 
 namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
 {
-    public class  RegisterViewsModel
+    public class  RegisterViewsModel : InfosEmployee
     {
         [EmailAddress]
         [Required]
@@ -37,6 +37,8 @@ namespace ProjetoFinal_Myte_Grupo3.Models.TelasLogin
         [Display(Name = "Nome")]
         public string? EmployeeName { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime HiringDate { get; set; }
 
         [Display(Name = "Departamento")]

@@ -5,7 +5,7 @@
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     /// <inheritdoc />
-    public partial class Versao20 : Migration
+    public partial class Date : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

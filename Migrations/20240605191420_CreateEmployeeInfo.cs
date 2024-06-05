@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDb : Migration
+    public partial class CreateEmployeeInfo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,8 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                 {
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,6 +215,34 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InfosEmployee",
+                columns: table => new
+                {
+                    InfosEmployeeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Salary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cpf = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cep = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Adress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InfosEmployee", x => x.InfosEmployeeId);
+                    table.ForeignKey(
+                        name: "FK_InfosEmployee_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employee",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WorkingHour",
                 columns: table => new
                 {
@@ -297,6 +326,11 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InfosEmployee_EmployeeId",
+                table: "InfosEmployee",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WorkingHour_EmployeeId",
                 table: "WorkingHour",
                 column: "EmployeeId");
@@ -324,6 +358,9 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "InfosEmployee");
 
             migrationBuilder.DropTable(
                 name: "WorkingHour");
