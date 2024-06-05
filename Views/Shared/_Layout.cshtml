@@ -27,15 +27,14 @@
             {
                 @if (User.IsInRole("Admin"))
                 {
-                    <nav class="navbar nav_color fixed-top shadow-sm">
+                    <nav class="navbar bg-body-tertiary fixed-top shadow-sm">
                         <div class="container-fluid">
                         <a class="navbar-brand" href="#">
                             <div class="logo_e_titulo">
-                                <img src="/css/logo_mythree_test.png" width="40" height="40" class="d-inline-block align-top" alt="Logo do site">
-                                <a asp-area="" asp-controller="WorkingHours" asp-action="Index" class="texto_logo link-opacity-100-hover">MyThree</a>
+                                <a asp-area="" asp-controller="WorkingHours" asp-action="Index"><img src="~/css/logo-login.png" width="120rem" class="d-inline-block align-top" alt="Logo do site"></a>
                             </div>
                         </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -51,9 +50,9 @@
                                         <li class="nav-item">
                                             <a class="nav-link text-secondary" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Gerenciar Administradores</a>
                                         </li>
-                                    <li class="nav-item">
+                                    @* <li class="nav-item">
                                         <a class="nav-link text-secondary" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a>
-                                    </li>
+                                    </li> *@
                                     <li class="nav-item">
                                         <a class="nav-link text-secondary" asp-area="" asp-controller="Account" asp-action="Register">Registrar Usuário</a>
                                     </li>
@@ -110,6 +109,14 @@
                 @RenderBody()
             </main>
         </div>
+        <footer class="text-center mb-auto" style="background-color: #E15031; font-weight: bold;">
+            <!-- Copyright -->
+            <div class="text-center text-white p-2">
+                © 2024 Copyright
+                <a class="text-white" href="https://mdbootstrap.com/" style="text-decoration: none;">MyThree</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

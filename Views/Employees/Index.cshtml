@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IEnumerable<ProjetoFinal_Myte_Grupo3.Models.Employee>
+<br />
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
@@ -89,10 +90,9 @@
                         <td>
                             <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.EmployeeId" class="btn btn-warning"></a>
                             <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.EmployeeId" class="btn btn-info"></a>
+                            @*<a class="btn bi bi-trash" title="Excluir" data-bs-toggle="modal" data-bs-target="#employeeModal" data-id="@item.EmployeeId"></a>*@
+                            @* <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.EmployeeId" class="btn btn-danger"></a> *@
                             <button type="button" class="btn bi bi-trash openModal" data-bs-toggle="modal" data-bs-target="#modal-@item.EmployeeId" data-id="@item.EmployeeId"></button>
-
-
-
 
                             <!-- Modal de confirmação -->
                             <div class="modal fade" id="modal-@item.EmployeeId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-@item.EmployeeId" aria-hidden="true">
@@ -117,13 +117,21 @@
                             <form asp-action="Delete" asp-route-id="@item.EmployeeId" method="post" id="deleteForm-@item.EmployeeId" class="d-none">
                                 <input type="hidden" name="id" value="@item.EmployeeId" />
                             </form>
-
-
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+    </div>
+</div>
+<br />
+<br />
+
+<!-- Modal para excluir-->
+<div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="employeeModalContent">
+        </div>
     </div>
 </div>
 
@@ -143,7 +151,7 @@
                     <div class="row">
                         <div class="form-group text-left mb-2" style="margin-left: 1.5rem;">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="fields" value="EmployeeName" />
+                                <input checked class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="fields" value="EmployeeName" />
                                 <label class="form-check-label" for="flexSwitchCheckDefault">Nome</label>
                             </div>
                             <div class="form-check form-switch">
@@ -187,7 +195,7 @@
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Exportar</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            @* <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button> *@
                         </div>
                     </div>
                 </div>
@@ -216,9 +224,6 @@
             }
         });
 
-
-       
-   
         $(document).ready(function () {
 
             $('.confirmDelete').on('click', function () {
