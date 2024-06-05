@@ -1,8 +1,10 @@
 html {
-  font-size: 14px;
-  margin: 0;
-  padding: 0;
-  height: 100%;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    /*height: 100%;*/
+    /*position: relative;
+    min-height: 100%;*/
 }
 
 @media (min-width: 768px) {
@@ -13,11 +15,6 @@ html {
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
 }
 
 body {
@@ -46,6 +43,12 @@ body {
     background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
 
 @media (min-width: 768px) {
