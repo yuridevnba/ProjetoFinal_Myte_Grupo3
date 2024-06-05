@@ -24,6 +24,8 @@ namespace ProjetoFinal_Myte_Grupo3.Models
 
         [Required(ErrorMessage = "Campo obrigatório")]
         [Display(Name = "Data De Contratação")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime HiringDate { get; set; }
 
         [Display(Name = "Departamento")]

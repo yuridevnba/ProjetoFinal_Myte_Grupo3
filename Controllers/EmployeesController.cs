@@ -207,6 +207,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var employees = _context.Employee.Include(e => e.Department)
+                                             .AsQueryable();
             if (id == null)
             {
                 return NotFound();
@@ -248,6 +250,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             if (ModelState.IsValid)
             {
+                employee.HiringDate = employee.HiringDate.Date;
+
                 // Adiciona lógica para definir nível de acesso ao criar um funcionário
                 var user = new IdentityUser { UserName = employee.Email, Email = employee.Email };
                 var result = await _userManager.CreateAsync(user, employee.Password);
