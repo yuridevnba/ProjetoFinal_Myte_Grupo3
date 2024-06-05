@@ -6,11 +6,10 @@
 </div>
 <div class="modal-body">
     Tem certeza de que deseja excluir esse Departamento @Model.DepartmentName?
-</div>
-<div class="modal-footer">
-@*     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> *@
-    <form asp-action="Delete" method="post">
-        <input type="hidden" name="id" value="@Model.DepartmentId" />
-        <button type="submit" class="btn btn-primary">Excluir</button>
-    </form>
+    <div class="text-right mt-3">
+        <form asp-action="Delete" method="post">
+            <input type="hidden" name="id" value="@Model.DepartmentId" />
+            <button type="submit" class="btn btn-primary">Excluir</button>
+        </form>
+    </div>
 </div>

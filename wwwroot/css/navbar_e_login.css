@@ -73,26 +73,26 @@
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-
-/*Título e Logo da navbar ------------------------- */
-.texto_logo {
-    vertical-align: middle;
-    margin-right: 70rem;
-    margin-top: 3px;
-    color: white;
-    font-size: 25px;
-    font-weight: bold;
-    font-style: normal;
-}
-.logo_e_titulo {
+.logo_nav {
     display: flex;
     align-items: center;
-    gap: 10px;
-    width: 20rem;
+    flex-direction: row; /* Garante que as divs fiquem lado a lado */
 }
-.logo_e_titulo img{
-    margin-right: -1.5rem;
+
+.logo_nav > * {
+    flex-grow: 1; /* Faz com que as divs filhas ocupem todo o espaço disponível */
+    flex-shrink: 0; /* Impede que as divs filhas diminuam de tamanho */
 }
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #e9ecef !important;
+}
+
+
+/*.nav_dropp {*/
+/*justify-content: space-between;*/
+/*margin-right: -88rem;*/
+/*}*/
 
 /*Button de Login*/
 .btn_login:hover {

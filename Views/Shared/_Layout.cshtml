@@ -73,15 +73,14 @@
                     </nav>
                 }else
                 {
-                    <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm">
                         <div class="container-fluid">
                             <a class="navbar-brand" asp-area="" asp-controller="WorkingHours" asp-action="Index">
-                                <img src="~/css/logo-login.png" width="120rem" class="d-inline-block align-top" alt="Logo do site">
-                                @* <div class="logotitulo">
-                                    <p class="texto_logo mx-1"><img src="/css/logo_mythree_test.png" width="40" height="40" class="d-inline-block align-top" alt="Logo do site">MyThree</p>
-                                </div> *@
+                                <div>
+                                    <img src="~/css/logo-login.png" width="120rem" class="d-inline-block align-top" alt="Logo do site">
+                                </div>
                             </a>
-                            <div class="collapse navbar-collapse nav-drop" id="navbarSupportedContent">
+                            <div class="collapse navbar-collapse nav-drop" id="navbarSupportedContent" style="justify-content: flex-end;">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle no-caret d-flex align-items-center " href="#" id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src="~/css/icons8-usuário-64.png" class="rounded-circle" height="35" alt="Imagem de Usuario" loading="lazy" />
@@ -104,13 +103,13 @@
             }  
         </header>
         <div class="container">
-            <main role="main" class="pb-3">
+            <main role="main" class="main_layout">
                 @RenderBody()
             </main>
         </div>
-        <footer class="footer navbar-bottom" style="background-color: #E15031; font-weight: bold;">
+        <footer class="footer_" style="background-color: #E15031; font-weight: bold;">
             <!-- Copyright -->
-            <div class="text-center text-white p-2">
+            <div class="">
                 © 2024 Copyright
                 <a class="text-white" href="https://github.com/yuridevnba/ProjetoFinal_Myte_Grupo3.git" style="text-decoration: none;">MyThree</a>
             </div>
