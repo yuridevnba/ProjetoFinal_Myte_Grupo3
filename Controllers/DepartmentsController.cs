@@ -152,7 +152,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
             if (department == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Account");
             }
 
             return PartialView("_DeleteModal", department);

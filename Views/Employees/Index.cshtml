@@ -89,7 +89,36 @@
                         <td>
                             <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.EmployeeId" class="btn btn-warning"></a>
                             <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.EmployeeId" class="btn btn-info"></a>
-                            <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.EmployeeId" class="btn btn-danger"></a>
+                            <button type="button" class="btn bi bi-trash openModal" data-bs-toggle="modal" data-bs-target="#modal-@item.EmployeeId" data-id="@item.EmployeeId"></button>
+
+
+
+
+                            <!-- Modal de confirmação -->
+                            <div class="modal fade" id="modal-@item.EmployeeId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-@item.EmployeeId" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="modalLabel-@item.EmployeeId">Confirmar Exclusão </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-left">
+                                            Tem certeza de que deseja excluir  @item.EmployeeName?
+                                        </div>
+                                        <div class="text-left mb-3 mx-3">
+                                            <!-- Botão que realmente envia o formulário -->
+                                            <button type="button" class="btn btn-primary confirmDelete" data-id="@item.EmployeeId">Confirmar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Formulário de exclusão, ele era aspFor ou seja ele só pegava. -->
+                            <form asp-action="Delete" asp-route-id="@item.EmployeeId" method="post" id="deleteForm-@item.EmployeeId" class="d-none">
+                                <input type="hidden" name="id" value="@item.EmployeeId" />
+                            </form>
+
+
                         </td>
                     </tr>
                 }
@@ -97,6 +126,7 @@
         </table>
     </div>
 </div>
+
 
 <!-- Modal para exportação -->
 <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
@@ -185,5 +215,29 @@
                 }
             }
         });
+
+
+       
+   
+        $(document).ready(function () {
+
+            $('.confirmDelete').on('click', function () {
+                console.log("oi teste")
+                const itemId = $(this).data('id');
+
+                $('#deleteForm-' + itemId).submit();
+            });
+        });
+   
+
+
+
+
+
+
+
+
+
+
     </script>
 }

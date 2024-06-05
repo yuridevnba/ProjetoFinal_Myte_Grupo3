@@ -34,6 +34,12 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
 
         }
+        public IActionResult Error()
+        {
+
+            
+            return View();
+        }
         public IActionResult Register()
         {
 
