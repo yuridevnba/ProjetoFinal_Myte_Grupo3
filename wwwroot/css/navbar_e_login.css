@@ -38,10 +38,16 @@
 
 /* Configurações para a NavBar */
 .nav_color {
-    background: linear-gradient(to right, #ee7724,#d8363a, #dd3675, #b44593);
+    /*background: linear-gradient(to right, #ee7724,#d8363a, #dd3675, #b44593);*/
+    background-color: #f85106; /*#f85106 #f1f1f1*/
     color: white;
     padding: 12px 16px 12px 16px;
 }
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
 .nav_color .navbar-toggler {
     border-color: rgba(255, 255, 255, 0.5);
 }

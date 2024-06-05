@@ -1,15 +1,18 @@
 ﻿@model ProjetoFinal_Myte_Grupo3.Models.Employee
 @using Microsoft.AspNetCore.Identity
-
 @{
     ViewData["Title"] = "Editar Funcionário";
 }
+<br />
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol id="bread" class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                @if(User.IsInRole("Admin")){
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
+                }
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-action="Details" asp-route-id="@Model.EmployeeId">Detalhes</a></li>
             </ol>
         </nav>
     </div>
@@ -48,12 +51,6 @@
                             <span asp-validation-for="IdentityUserId" class="text-danger"></span>
                         </div>
 
-
-
-
-
-
-
                         <div class="form-group text-left">
                             <label asp-for="HiringDate" class="control-label"></label>
 
@@ -66,8 +63,6 @@
                             <select asp-for="DepartmentId" class="form-control text-left" asp-items="ViewBag.DepartmentId"></select>
                             <span asp-validation-for="DepartmentId" class="text-danger"></span>
                         </div>
-
-
                     }
 
                     @* <div class="form-group">
@@ -80,10 +75,6 @@
                     <input asp-for="StatusEmployee" class="form-control" />
                     <span asp-validation-for="StatusEmployee" class="text-danger"></span>
                     </div> *@
-
-
-
-
 
                     <div class="form-group text-left">
                         @* <label asp-for="EmployeeName" class="control-label"></label> *@
@@ -104,12 +95,6 @@
                         <span asp-validation-for="IdentityUserId" class="text-danger"></span>
                     </div>
 
-
-
-
-
-
-
                     <div class="form-group text-left">
                         @* <label asp-for="HiringDate" class="control-label"></label> *@
 
@@ -124,54 +109,32 @@
                         <span asp-validation-for="DepartmentId" class="text-danger"></span>
                     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <div class="form-group text-left">
                         <label asp-for="Password" class="control-label"></label>
                         <input asp-for="Password" class="form-control text-left" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
-
-
-
-
                     <div class="form-group text-left mt-3">
                         <button type="submit" class="btn btn-primary mt-2 text-white">Salvar</button>
-                        <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
+                            @if(User.IsInRole("Admin"))
+                            {
+                            <a class="btn btn-secondary mt-2" asp-controller="Employees" asp-action="Index">Voltar</a>
+                        }else
+                        {
+                        <a class="btn btn-secondary mt-2" asp-controller="WorkingHours" asp-action="Index">Voltar</a>
+                        }
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<br />
+<br />
+<br />
+<br />
+<br />
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

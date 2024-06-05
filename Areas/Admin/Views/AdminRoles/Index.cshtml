@@ -2,84 +2,91 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Gerenciar Administradores";
 }
-<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <nav aria-label="breadcrumb">
-            <ol id="bread" class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
-            </ol>
-        </nav>
-    </div>
-</nav>
-<div class="card shadow bg-light rounded-3">
-    <div class="card-header card_color">
-        <h2 class="card-title text-center text-white mt-0 mb-0">Gerenciar Administradores</h2>
-    </div>
-    <div class="card-body">
-        <div class="mb-2">
-            @* <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Criar</a> *@
-            <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Update" class="btn btn-primary">Atualizar</a>
+    <br />
+    <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol id="bread" class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                </ol>
+            </nav>
         </div>
-        <div>
-            <table class="table table-light">
-                <thead class="table_color">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class="table-borderless">
-                    @foreach (var role in Model)
-                    {
+    </nav>
+    <div class="card shadow bg-light rounded-3">
+        <div class="card-header card_color">
+            <h2 class="card-title text-center text-white mt-0 mb-0">Gerenciar Administradores</h2>
+        </div>
+        <div class="card-body">
+            <div class="mb-2">
+                @* <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Create" class="btn btn-primary">Criar</a> *@
+                <a asp-area="Admin" asp-controller="AdminRoles" asp-action="Update" class="btn btn-primary">Atualizar</a>
+            </div>
+            <div>
+                <table class="table table-light">
+                    <thead class="table_color">
                         <tr>
-                            <td>@role.Id</td>
-                            <td>@role.Name</td>
-                            <td>
-                                <!-- Botão que aciona o modal -->
-                                <button type="button" class="btn bi bi-trash openModal" data-bs-toggle="modal" data-bs-target="#modal-@role.Id" data-id="@role.Id"></button>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-borderless">
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td>@role.Id</td>
+                                <td>@role.Name</td>
+                                <td>
+                                    <!-- Botão que aciona o modal -->
+                                    <button type="button" class="btn bi bi-trash openModal" data-bs-toggle="modal" data-bs-target="#modal-@role.Id" data-id="@role.Id"></button>
 
-                                <!-- Modal de confirmação -->
-                                <div class="modal fade" id="modal-@role.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-@role.Id" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="modalLabel-@role.Id">Confirmar Exclusão </h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-left">
-                                                Tem certeza de que deseja excluir  @role.Name?
-                                            </div>
-                                            <div class="text-left mb-3 mx-3">
-                                                <!-- Botão que realmente envia o formulário -->
-                                                <button type="button" class="btn btn-primary confirmDelete" data-id="@role.Id">Confirmar</button>
+                                    <!-- Modal de confirmação -->
+                                    <div class="modal fade" id="modal-@role.Id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-@role.Id" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="modalLabel-@role.Id">Confirmar Exclusão </h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-left">
+                                                    <p>Tem certeza de que deseja excluir essa Política @role.Name?</p>
+                                                </div>
+                                                <div class="text-left mb-3 mx-3">
+                                                    <!-- Botão que realmente envia o formulário -->
+                                                    <button type="button" class="btn btn-primary confirmDelete" data-id="@role.Id">Confirmar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Formulário de exclusão, ele era aspFor ou seja ele só pegava. -->
-                                <form asp-action="Delete" asp-route-id="@role.Id" method="get" id="deleteForm-@role.Id" class="d-none">
-                                    <input type="hidden" name="id" value="@role.Id" />
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                    <!-- Formulário de exclusão, ele era aspFor ou seja ele só pegava. -->
+                                    <form asp-action="Delete" asp-route-id="@role.Id" method="get" id="deleteForm-@role.Id" class="d-none">
+                                        <input type="hidden" name="id" value="@role.Id" />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script>
-                $(document).ready(function () {
-                   
-                    $('.confirmDelete').on('click', function () {
-                        
-                        const itemId = $(this).data('id');
-                        
-                        $('#deleteForm-' + itemId).submit();
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+
+                        $('.confirmDelete').on('click', function () {
+
+                            const itemId = $(this).data('id');
+
+                            $('#deleteForm-' + itemId).submit();
+                        });
                     });
-                });
-            </script>
+                </script>
+            </div>
         </div>
     </div>
-</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

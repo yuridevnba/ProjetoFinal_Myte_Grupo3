@@ -2,12 +2,15 @@
 @{
     ViewData["Title"] = "Detalhes Funcionário";
 }
+<br />
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol id="bread" class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
+                @if(User.IsInRole("Admin")){
+                    <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
+                }
             </ol>
         </nav>
     </div>
@@ -59,7 +62,15 @@
         </div>
         <div class="text-left">
             <a class="btn btn-primary mt-2 text-white" asp-action="Edit" asp-route-id="@Model?.EmployeeId">Editar</a>
-            <a class="btn btn-secondary mt-2" asp-controller="WorkingHours" asp-action="Index">Voltar</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="btn btn-secondary mt-2" asp-controller="Employees" asp-action="Index">Voltar</a>
+            }
+            else
+            {
+                <a class="btn btn-secondary mt-2" asp-controller="WorkingHours" asp-action="Index">Voltar</a>
+            }
         </div>
     </div>
 </div>
+<br />

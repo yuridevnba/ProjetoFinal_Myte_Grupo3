@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Departamentos";
 }
+<br />
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
@@ -58,7 +59,8 @@
                         <td>
                             <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.DepartmentId"></a>
                             <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.DepartmentId"></a>
-                            <button type="button" class="btn bi bi-trash" title="Excluir" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.DepartmentId"></button>
+                            <a class="btn bi bi-trash" title="Excluir" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.DepartmentId"></a>
+                            @* <button type="button" class="btn bi bi-trash" title="Excluir" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.DepartmentId"></button> *@
                         </td>
                     </tr>
                 }
@@ -66,15 +68,20 @@
         </table>
     </div>
 </div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
-<!-- Modal -->
+<!-- Modal para excluir-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id="deleteModalContent">
         </div>
     </div>
 </div>
-
 @section Scripts {
     <script>
         $('#deleteModal').on('show.bs.modal', function (event) {

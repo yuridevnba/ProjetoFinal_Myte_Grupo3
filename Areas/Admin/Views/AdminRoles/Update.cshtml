@@ -3,13 +3,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Atualizar Role";
 }
+<br />
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol id="bread" class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item"><a class="text-secondary" asp-area="areas" asp-controller="AdminRoles" asp-action="Index">Gerenciar Roles</a></li>
-                <li class="breadcrumb-item"><a class="text-secondary" asp-area="areas" asp-controller="AdminRoles" asp-action="Create">Criar Roles</a></li>
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Gerenciar Administradores</a></li>
             </ol>
         </nav>
     </div>
@@ -23,7 +23,7 @@
         <form asp-action="Update" method="post">
         <div class="mb-2 mx-3">
             <button type="submit" class="btn btn-primary">Salvar</button>
-            <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+            @* <a asp-action="Index" class="btn btn-secondary">Voltar</a> *@
         </div>
             <input type="hidden" name="roleName" value="@Model.Role.Name" />
             <input type="hidden" name="roleId" value="@Model.Role.Id" />
@@ -85,3 +85,5 @@
         </form>
     </div>
 </div>
+<br />
+<br />
