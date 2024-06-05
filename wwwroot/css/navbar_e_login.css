@@ -93,31 +93,8 @@
 .logo_e_titulo img{
     margin-right: -1.5rem;
 }
-.logo_e_titulo a:hover {
-    color: white;
-    text-decoration: none;
-}
 
-@media(min-width: 1176px) and (max-width: 1440px) {
-    .logo_e_titulo {
-        margin-left: -47rem;
-    }
-    .dropdown {
-        margin-left: 56rem;
-    }
-    .logotitulo{
-        margin-left: 2rem;
-    }
-}
-@media(min-width: 1440px) {
-    .logo_e_titulo {
-        margin-left: -85rem;
-    }
-    .dropdown {
-        margin-left: 92rem;
-    }
-
-    .logotitulo{
-        margin-left: 4rem;
-    }
+/*Button de Login*/
+.btn_login:hover {
+    box-shadow: #adb5bd 0.3rem 0.3rem 0.5rem !important;
 }
