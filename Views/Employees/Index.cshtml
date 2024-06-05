@@ -39,12 +39,12 @@
                             <div class="form-group" style="margin-left: 2.2rem;">
                                 <label class="mb-0" style="margin-left: -3rem;" for="status">Status:</label>
                                 <div class="input-group">
-                                    <select id="status" name="status" class="form-control" style="margin-top: 0.2rem;" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                    <select id="status" name="status" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
                                         <option value="Active" selected>Ativo</option>
                                         <option value="Inactive">Inativo</option>
                                         <option value="Todos">Todos</option>
                                     </select>
-                                    <button class="btn btn-outline btn-primary" style="margin-top: 0.2rem;" type="submit" id="button-addon2">Filtrar</button>
+                                    <button class="btn btn-outline btn-primary" type="submit" id="button-addon2">Filtrar</button>
                                 </div>
                             </div>
                         </div>
@@ -105,9 +105,9 @@
                                         <div class="modal-body text-left">
                                             Tem certeza de que deseja excluir  @item.EmployeeName?
                                         </div>
-                                        <div class="text-left mb-3 mx-3">
+                                        <div class="text-right mb-3 mx-3">
                                             <!-- Botão que realmente envia o formulário -->
-                                            <button type="button" class="btn btn-primary confirmDelete" data-id="@item.EmployeeId">Confirmar</button>
+                                            <button type="button" class="btn btn-primary confirmDelete" data-id="@item.EmployeeId">Excluir</button>
                                         </div>
                                     </div>
                                 </div>
@@ -233,16 +233,5 @@
                 $('#deleteForm-' + itemId).submit();
             });
         });
-   
-
-
-
-
-
-
-
-
-
-
     </script>
 }
