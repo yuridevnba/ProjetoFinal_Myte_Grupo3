@@ -8,7 +8,7 @@ namespace ProjetoFinal_Myte_Grupo3.Models
         public int InfosEmployeeId { get; set; }
 
         [Display(Name = "Salário")]
-        public string? Salary { get; set; }
+        public decimal Salary { get; set; }
 
         [Display(Name = "Cargo")]
         public string? Position { get; set; }
