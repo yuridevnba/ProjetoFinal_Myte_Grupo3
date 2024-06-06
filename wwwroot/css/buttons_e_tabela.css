@@ -169,9 +169,10 @@ select {
     padding: 0;
     display: flex;
     justify-content: space-between;
-    margin-top: 150px;
+    margin-top: 70px;
     margin-bottom: 20px;
 }
+
 .date-forms-container {
     display: flex;
     gap: 8px;
