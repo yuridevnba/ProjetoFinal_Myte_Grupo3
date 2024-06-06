@@ -11,7 +11,6 @@ using ProjetoFinal_Myte_Grupo3.Models;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class WBSController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,6 +20,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(string[] type)
         {
             IQueryable<WBS> types = _context.WBS;
@@ -36,6 +36,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
 
         // GET: WBS/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -54,6 +55,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // GET: WBS/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -63,6 +65,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("WBSId,Code,Description,Type")] WBS wBS)
         {
             if (wBS.Code != null && wBS.CodeExists(_context, wBS.Code))
@@ -80,6 +83,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // GET: WBS/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,6 +103,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("WBSId,Code,Description,Type")] WBS wBS)
         {
             if (id != wBS.WBSId)
@@ -135,6 +140,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // GET: WBS/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -155,6 +161,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // POST: WBS/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var wBS = await _context.WBS.FindAsync(id);
@@ -170,6 +177,19 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         private bool WBSExists(int id)
         {
             return _context.WBS.Any(e => e.WBSId == id);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> WBSStandard(string[] type)
+        {
+            IQueryable<WBS> types = _context.WBS;
+
+            if (type != null && type.Length > 0 && !type.Contains("all"))
+            {
+                types = types.Where(t => type.Contains(t.Type));
+            }
+
+            return View(await types.ToListAsync());
         }
     }
 }
