@@ -1,0 +1,16 @@
+﻿@model ProjetoFinal_Myte_Grupo3.Models.Employee
+
+<div class="modal-header">
+    <h1 class="modal-title fs-5" id="employeeModalLabel">Confirmar Exclusão</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    Tem certeza de que deseja excluir esse Funcionário @Model.EmployeeName?
+</div>
+<div class="modal-footer">
+@*     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> *@
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.EmployeeId" />
+        <button type="submit" class="btn btn-primary">Excluir</button>
+    </form>
+</div>

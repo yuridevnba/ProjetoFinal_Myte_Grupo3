@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,7 +16,14 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         public IActionResult Index()
         {
-           return RedirectToAction("Login", "Account");
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Lógica adicional para a ação Index
+            return RedirectToAction("Index", "WorkingHours");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

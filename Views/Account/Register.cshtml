@@ -2,13 +2,13 @@
 @{
     ViewBag.Title = "Registro de Usuários";
 }
+<br />
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol id="bread" class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
-                <li class="breadcrumb-item"><a class="text-secondary" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a></li>
             </ol>
         </nav>
     </div>
@@ -34,7 +34,28 @@
                         @Html.EditorFor(m => m.HiringDate, new { htmlAttributes = new { @class = "form-control text-left" } })
                         @Html.ValidationMessageFor(m => m.HiringDate, "")
                     </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Position">Cargo</label>
+                        @Html.EditorFor(m => m.Position, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o cargo" } })
+                        @Html.ValidationMessageFor(m => m.Position, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Cpf">CPF</label>
+                        @Html.EditorFor(m => m.Cpf, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o CPF do funcionário" } })
+                        @Html.ValidationMessageFor(m => m.Cpf, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Cep">CEP</label>
+                        <div class="input-group">
+                            @Html.EditorFor(m => m.Cep, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o CEP" } })
+                            <button id="ButtonCEP" class="btn btn-primary" type="button">Pesquisar</button>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Cep, "")
+                    </div>
 
+                    <div class="alert alert-danger" role="alert" id="cepAlert" style="display: none;">
+                        CEP inválido. Por favor, verifique e tente novamente.
+                    </div>
                 </div>
                 <div class="col">
                     <div data-mdb-input-init class="form-outline mb-2">
@@ -42,10 +63,48 @@
                         @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um e-mail" } })
                         @Html.ValidationMessageFor(m => m.Email, "")
                     </div>
-                    <div data-mdb-input-init class="form-outline">
+                    <div data-mdb-input-init class="form-outline mb-2">
                         <label asp-for="DepartmentId">Departamento</label>
                         @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Escolha uma opção", new { @class = "form-control text-left" })
                         @Html.ValidationMessageFor(m => m.DepartmentId, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Salary">Salário</label>
+                        @Html.EditorFor(m => m.Salary, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o salário" } })
+                        @Html.ValidationMessageFor(m => m.Salary, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Phone">Telefone</label>
+                        @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o telefone" } })
+                        @Html.ValidationMessageFor(m => m.Phone, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Adress">Endereço</label>
+                        @Html.EditorFor(m => m.Adress, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o endereço" } })
+                        @Html.ValidationMessageFor(m => m.Adress, "")
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -1.5rem;">
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Number">Número</label>
+                        @Html.EditorFor(m => m.Number, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o número" } })
+                        @Html.ValidationMessageFor(m => m.Number, "")
+                    </div>
+                </div>
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="City">Cidade</label>
+                        @Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Cidade" } })
+                        @Html.ValidationMessageFor(m => m.City, "")
+                    </div>
+                </div>
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="State">Estado</label>
+                        @Html.EditorFor(m => m.State, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Estado" } })
+                        @Html.ValidationMessageFor(m => m.State, "")
                     </div>
                 </div>
             </div>
@@ -53,47 +112,48 @@
         <div class="form-group mx-4">
             <button type="submit" value="Register" class="btn btn-primary">Enviar</button>
 
-            <button asp-area="Admin" asp-controller="AdminUsers" asp-action="Index" class="btn btn-secondary">Voltar</button>
+            <button asp-area="" asp-controller="Employees" asp-action="Index" class="btn btn-secondary">Voltar</button>
         </div>
     }
 </div>
+<br />
+<br />
 
-@* @using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <h1>Registro de Usuário</h1>
-    <hr />
-    @Html.ValidationSummary(true)
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label class="fw-bolder" asp-for="EmployeeName">Nome</label>
-                @Html.EditorFor(m => m.EmployeeName, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um nome" } })
-                @Html.ValidationMessageFor(m => m.EmployeeName, "")
-            </div>
-            <div class="form-group mb-3">
-                <label class="fw-bolder" asp-for="Email">E-mail</label>
-                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um e-mail" } })
-                @Html.ValidationMessageFor(m => m.Email, "")
-            </div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var cepInput = document.querySelector("input[name='Cep']");
+            if (cepInput) {
+                $("#ButtonCEP").click(function () {
+                    var cep = cepInput.value.replace(/\D/g, '');
+                    if (cep.length === 8) {
+                        fetchCepData(cep);
+                    } else {
+                        document.getElementById("cepAlert").style.display = "block"; 
+                    }
+                });
+            }
+        });
 
-        </div>
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label class="fw-bolder" asp-for="HiringDate">Data de Contratação</label>
-                @Html.EditorFor(m => m.HiringDate, new { htmlAttributes = new { @class = "form-control text-left" } })
-                @Html.ValidationMessageFor(m => m.HiringDate, "")
-            </div>
-            <div class="form-group mb-3">
-                <label class="fw-bolder" asp-for="DepartmentId">Departamento</label>
-                @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Escolha uma opção", new { @class = "form-control text-left" })
-                @Html.ValidationMessageFor(m => m.DepartmentId, "")
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <button type="submit" value="Register" class="btn btn-primary">Enviar</button>
+        function fetchCepData(cep) {
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.erro) {
+                        document.querySelector("input[name='City']").value = data.localidade;
+                        document.querySelector("input[name='State']").value = data.uf;
+                        document.querySelector("input[name='Adress']").value = data.logradouro;
+                        document.getElementById("cepAlert").style.display = "none"; 
+                    } else {
+                        document.getElementById("cepAlert").style.display = "block";
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar o CEP:', error);
+                    alert("Erro ao buscar o CEP.");
+                });
+        }
+    </script>
+}
 
-        <button asp-area="Admin" asp-controller="AdminUsers" asp-action="Index" class="btn btn-secondary">Voltar</button>
-    </div>
-} *@
+

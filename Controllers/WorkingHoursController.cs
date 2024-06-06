@@ -149,32 +149,22 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             ViewBag.WorkingHoursByWbsAndDate = workingHoursByWbsAndDate;
             ViewBag.TotalsPerDay = totalsPerDay;
 
-            if (workingHoursByWbsAndDate.Any(row => row.Any(hour => hour != 0)))
-            {
-                TempData["IsEditable"] = false;
-            }
-            else
-            {
-                TempData["IsEditable"] = true;
-            }
-
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveWorkingHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates)
+        public async Task<IActionResult> SaveWorkingHours(List<int> WBSSelectedIdList, List<List<int>> Hours, List<DateTime> Dates)
         {
             var employeeId = GetCurrentEmployeeId();
             if (ModelState.IsValid)
             {
-                var dailyTotalHours = CalculateDailyTotalHours(WBSId, Hours, Dates);
+                var dailyTotalHours = CalculateDailyTotalHours(WBSSelectedIdList, Hours, Dates);
                 if (!ValidateTotalHours(dailyTotalHours))
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
+                await SaveOrUpdateWorkingHours(WBSSelectedIdList, Hours, Dates, employeeId);
                 TempData["SuccessMessage"] = "Suas horas foram salvas!";
-                TempData["IsEditable"] = false; // Bloquear a edição após salvar
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -230,13 +220,13 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return true;
         }
 
-        private async Task SaveOrUpdateWorkingHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates, int employeeId)
+        private async Task SaveOrUpdateWorkingHours(List<int> WBSSelectedIdList, List<List<int>> Hours, List<DateTime> Dates, int employeeId)
         {
-            for (int i = 0; i < WBSId.Count; i++)
+            for (int i = 0; i < WBSSelectedIdList.Count; i++)
             {
                 for (int j = 0; j < Dates.Count; j++)
                 {
-                    var wbsId = WBSId[i];
+                    var wbsId = WBSSelectedIdList[i];
                     var date = Dates[j];
                     var hours = Hours[i][j];
                     if (hours > 0 && wbsId != 0)
@@ -465,10 +455,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 Document document = new Document(pdf, PageSize.A4.Rotate());
                 document.SetMargins(20, 20, 20, 20);
 
-                string imagePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/css/logo_mythree_test.png");
+                string imagePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/css/logo-login.png");
 
                 ImageData imageData = ImageDataFactory.Create(imagePath);
-                Image image = new Image(imageData).ScaleAbsolute(50, 50);
+                Image image = new Image(imageData).ScaleAbsolute(110, 60);
 
                 document.Add(image);
                 document.Add(new Paragraph(""));

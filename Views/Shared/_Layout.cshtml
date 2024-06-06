@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/buttons_e_tabela.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/navbar_e_login.css" asp-append-version="true" />
@@ -28,70 +27,73 @@
             {
                 @if (User.IsInRole("Admin"))
                 {
-                    <nav class="navbar nav_color fixed-top shadow-sm">
+                    <nav class="navbar bg-body-tertiary fixed-top shadow-sm">
                         <div class="container-fluid">
-                        <a class="navbar-brand" href="#">
-                            <div class="logo_e_titulo">
-                                <img src="/css/logo_mythree_test.png" width="40" height="40" class="d-inline-block align-top" alt="Logo do site">
-                                <a asp-area="" asp-controller="WorkingHours" asp-action="Index" class="texto_logo link-opacity-100-hover">MyThree</a>
-                            </div>
-                        </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                            <div class="offcanvas-header" style="margin-top: -2rem;">
-                                <button type="button" class="btn-close mx-3" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                <partial name="_LoginPartial" />
-                            </div>
-                            <div class="offcanvas-body">
-                                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                    <li>
-                                        <a class="nav-link text-secondary" asp-area="" asp-controller="Employees" asp-action="Details" asp-route-id="@employeeId">Dados Pessoais</a>
-                                    </li> 
-                                    <li class="nav-item">
-                                        <a class="nav-link text-secondary" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-secondary" asp-area="" asp-controller="Account" asp-action="Register">Registrar Usuário</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-secondary" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Gerenciar Roles</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Cadastrar Horas</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-secondary" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-secondary" asp-area="" asp-controller="WBS" asp-action="Index">WBS</a>
-                                    </li>
-                                </ul>
+                            <a class="navbar-brand" asp-area="" asp-controller="WorkingHours" asp-action="Index">
+                                <img src="~/css/logo-login.png" width="120rem" class="d-inline-block align-top" alt="Logo do site">
+                            </a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                                <div class="offcanvas-header" style="margin-top: -2rem;">
+                                    <button type="button" class="btn-close mx-3" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                    <partial name="_LoginPartial" />
+                                </div>
+                                <div class="offcanvas-body">
+                                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                        <li>
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="Employees" asp-action="Details" asp-route-id="@employeeId">Dados Pessoais</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-secondary" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Gerenciar Administradores</a>
+                                        </li>
+                                @* <li class="nav-item">
+                                <a class="nav-link text-secondary" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Gerenciar Usuários</a>
+                                </li> *@
+                                        <li class="nav-item">
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="Account" asp-action="Register">Registrar Usuário</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Cadastrar Horas</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="WBS" asp-action="Index">WBS</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-secondary" asp-area="" asp-controller="Report" asp-action="Index">Relatório</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </nav>
                 }else
                 {
-                    <nav class="navbar navbar-expand-lg nav_color fixed-top shadow-sm">
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm">
                         <div class="container-fluid">
                             <a class="navbar-brand" asp-area="" asp-controller="WorkingHours" asp-action="Index">
-                                <div class="logotitulo">
-                                    <p class="texto_logo mx-1"><img src="/css/logo_mythree_test.png" width="40" height="40" class="d-inline-block align-top" alt="Logo do site">MyThree</p>
+                                <div>
+                                    <img src="~/css/logo-login.png" width="120rem" class="d-inline-block align-top" alt="Logo do site">
                                 </div>
                             </a>
-                            <div class="collapse navbar-collapse nav-drop" id="navbarSupportedContent">
+                            <div class="collapse navbar-collapse nav-drop" id="navbarSupportedContent" style="justify-content: flex-end;">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle no-caret d-flex align-items-center " href="#" id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="/Img/user.png" class="rounded-circle" height="40" alt="Black and White Portrait of a Man" loading="lazy" />
+                                        <img src="~/css/icons8-usuário-64.png" class="rounded-circle" height="35" alt="Imagem de Usuario" loading="lazy" />
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                                         <li>
                                             <a class="dropdown-item text-secondary" asp-area="" asp-controller="Employees" asp-action="Details" asp-route-id="@employeeId">Dados Pessoais</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-secondary" asp-area="" asp-controller="WBS" asp-action="WBSStandard">WBS</a>
                                         </li>
                                         <li>
                                             <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
@@ -107,10 +109,18 @@
             }  
         </header>
         <div class="container">
-            <main role="main" class="pb-3">
+            <main role="main" class="main_layout">
                 @RenderBody()
             </main>
         </div>
+        <footer class="footer_" style="background-color: #E15031; font-weight: bold;">
+            <!-- Copyright -->
+            <div class="">
+                © 2024 Copyright
+                <a class="text-white" href="https://github.com/yuridevnba/ProjetoFinal_Myte_Grupo3.git" style="text-decoration: none;">MyThree</a>
+            </div>
+            <!-- Copyright -->
+        </footer> 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -38,10 +38,16 @@
 
 /* Configurações para a NavBar */
 .nav_color {
-    background: linear-gradient(to right, #ee7724,#d8363a, #dd3675, #b44593);
+    /*background: linear-gradient(to right, #ee7724,#d8363a, #dd3675, #b44593);*/
+    background-color: #f85106; /*#f85106 #f1f1f1*/
     color: white;
     padding: 12px 16px 12px 16px;
 }
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
 .nav_color .navbar-toggler {
     border-color: rgba(255, 255, 255, 0.5);
 }
@@ -67,55 +73,28 @@
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-
-/*Título e Logo da navbar ------------------------- */
-.texto_logo {
-    vertical-align: middle;
-    margin-right: 70rem;
-    margin-top: 3px;
-    color: white;
-    font-size: 25px;
-    font-weight: bold;
-    font-style: normal;
-}
-
-.logo_e_titulo {
+.logo_nav {
     display: flex;
     align-items: center;
-    gap: 10px;
-    width: 20rem;
+    flex-direction: row; /* Garante que as divs fiquem lado a lado */
 }
 
-.logo_e_titulo img{
-    margin-right: -1.5rem;
+.logo_nav > * {
+    flex-grow: 1; /* Faz com que as divs filhas ocupem todo o espaço disponível */
+    flex-shrink: 0; /* Impede que as divs filhas diminuam de tamanho */
 }
 
-.logo_e_titulo a:hover {
-    color: white;
-    text-decoration: none;
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #e9ecef !important;
 }
 
-@media(min-width: 1176px) and (max-width: 1440px) {
-    .logo_e_titulo {
-        margin-left: -47rem;
-    }
-    .dropdown {
-        margin-left: 56rem;
-    }
-    .logotitulo{
-        margin-left: 2rem;
-    }
-}
 
-@media(min-width: 1440px) {
-    .logo_e_titulo {
-        margin-left: -85rem;
-    }
-    .dropdown {
-        margin-left: 92rem;
-    }
+/*.nav_dropp {*/
+/*justify-content: space-between;*/
+/*margin-right: -88rem;*/
+/*}*/
 
-    .logotitulo{
-        margin-left: 4rem;
-    }
+/*Button de Login*/
+.btn_login:hover {
+    box-shadow: #adb5bd 0.3rem 0.3rem 0.5rem !important;
 }

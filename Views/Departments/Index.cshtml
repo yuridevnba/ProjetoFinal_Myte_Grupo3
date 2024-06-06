@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Departamentos";
 }
+<br />
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
@@ -23,15 +24,24 @@
                     <a class="btn btn-primary" asp-action="Create">Criar</a>
                 </div>
             </div>
-            <div class="col-md-5 mb-2 form-outline" data-mdb-input-init style="margin-left: -1.8rem;">
-                <input type="search" id="searchInput" class="form-control text-left" data-mdb-input-init placeholder="Pesquisar Departamento">
+            <div class="col-md-5 mb-2 form-outline" data-mdb-input-init style="margin-left: 32rem;">
+                <input type="search" id="searchInput" class="form-control text-left" data-mdb-input-init placeholder="Filtrar Departamento">
             </div>
         </div>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         <table class="table table-light">
-            <thead class="talbe-light">
+            <thead class="table-light">
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.DepartmentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmployeeCount)
                     </th>
                     <th></th>
                 </tr>
@@ -44,9 +54,13 @@
                             @Html.DisplayFor(modelItem => item.DepartmentName)
                         </td>
                         <td>
+                            @item.EmployeeCount
+                        </td>
+                        <td>
                             <a class="btn bi bi-pencil-square" title="Editar" asp-action="Edit" asp-route-id="@item.DepartmentId"></a>
                             <a class="btn bi bi-list" title="Detalhes" asp-action="Details" asp-route-id="@item.DepartmentId"></a>
-                            <a class="btn bi bi-trash" title="Excluir" asp-action="Delete" asp-route-id="@item.DepartmentId"></a>
+                            <a class="btn bi bi-trash" title="Excluir" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.DepartmentId"></a>
+                            @* <button type="button" class="btn bi bi-trash" title="Excluir" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.DepartmentId"></button> *@
                         </td>
                     </tr>
                 }
@@ -54,25 +68,32 @@
         </table>
     </div>
 </div>
+
+<!-- Modal para excluir-->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="deleteModalContent">
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script>
-        document.getElementById('searchInput').addEventListener('input', function () {
-            var input, filter, table, tr, td, i, departmentName;
-            input = document.getElementById('searchInput');
-            filter = input.value.toUpperCase();
-            table = document.querySelector('table');
-            tr = table.getElementsByTagName('tr');
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var departmentId = button.data('id');
 
-            for (i = 0; i < tr.length; i++) {
-                departmentName = tr[i].getElementsByTagName('td')[0];
-                if (departmentName) {
-                    if ((departmentName.textContent || departmentName.innerText).toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
+            $.get('/Departments/DeleteModal/' + departmentId, function (data) {
+                $('#deleteModalContent').html(data);
+            });
+        });
+
+        $(document).ready(function () {
+            $("#searchInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("table tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
         });
     </script>
 }

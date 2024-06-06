@@ -1,0 +1,15 @@
+﻿@model ProjetoFinal_Myte_Grupo3.Models.Department
+
+<div class="modal-header">
+    <h1 class="modal-title fs-5" id="deleteModalLabel">Confirmar Exclusão</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    Tem certeza de que deseja excluir esse Departamento @Model.DepartmentName?
+    <div class="text-right mt-3">
+        <form asp-action="Delete" method="post">
+            <input type="hidden" name="id" value="@Model.DepartmentId" />
+            <button type="submit" class="btn btn-primary">Excluir</button>
+        </form>
+    </div>
+</div>

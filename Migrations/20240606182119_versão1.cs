@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDb : Migration
+    public partial class versão1 : Migration
     {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
+        protected override void Up(MigrationBuilder migrationBuilder)   
         {
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",

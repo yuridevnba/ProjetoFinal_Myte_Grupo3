@@ -9,6 +9,11 @@
 
   <ItemGroup>
     <Content Remove="Views\Account\TelaAdmin.cshtml" />
+    <Content Remove="Views\Employees\_DeleteModal.cshtml" />
+    <Content Remove="Views\WBS\_DeleteModal.cshtml" />
+    <Content Remove="wwwroot\css\img_background_laranja.jpg" />
+    <Content Remove="wwwroot\css\img_background_teste2.jpg" />
+    <Content Remove="wwwroot\css\logo3.png" />
     <Content Remove="wwwroot\Img\user.png" />
     <Content Remove="wwwroot\user.png" />
   </ItemGroup>

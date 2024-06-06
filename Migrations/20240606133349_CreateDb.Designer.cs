@@ -12,8 +12,8 @@ using ProjetoFinal_Myte_Grupo3.Data;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240527191055_AccessLevel")]
-    partial class AccessLevel
+    [Migration("20240606133349_CreateDb")]
+    partial class CreateDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,6 +235,9 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EmployeeCount")
+                        .HasColumnType("int");
+
                     b.HasKey("DepartmentId");
 
                     b.ToTable("Department");
@@ -278,6 +281,51 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("ProjetoFinal_Myte_Grupo3.Models.InfosEmployee", b =>
+                {
+                    b.Property<int>("InfosEmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InfosEmployeeId"));
+
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cep")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cpf")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("InfosEmployeeId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("InfosEmployee");
                 });
 
             modelBuilder.Entity("ProjetoFinal_Myte_Grupo3.Models.WBS", b =>
@@ -432,6 +480,17 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                         .IsRequired();
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("ProjetoFinal_Myte_Grupo3.Models.InfosEmployee", b =>
+                {
+                    b.HasOne("ProjetoFinal_Myte_Grupo3.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("ProjetoFinal_Myte_Grupo3.Models.WorkingHour", b =>

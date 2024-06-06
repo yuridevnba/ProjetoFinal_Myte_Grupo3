@@ -2,63 +2,75 @@
 @{
     ViewData["Title"] = "Detalhes Funcionário";
 }
+<br />
 <nav data-mdb-navbar-init class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol id="bread" class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
+                @if(User.IsInRole("Admin")){
+                    <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
+                }
             </ol>
         </nav>
     </div>
 </nav>
 <div class="card text-center shadow bg-light rounded-3">
+    <div class="card-header card_color">
+        <h2 class="card-title text-center mb-0 mt-0 text-white">Detalhes Funcionário</h2>
+    </div>
     <div class="card-body">
-        <h2 class="card-title">Detalhes Fucionário</h2>
-        <hr/>
         <div>
             <dl class="row text-left">
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     Nome:
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.EmployeeName)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     E-mail:
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Email)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     Senha:
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Password)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     Data de Contratação:
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.HiringDate)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     Nível de Acesso:
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @ViewData["AccessLevel"]
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     Status:
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.StatusEmployee)
                 </dd>
             </dl>
         </div>
         <div class="text-left">
-            <button class="btn btn-primary mt-2 text-white" asp-action="Edit" asp-route-id="@Model?.EmployeeId">Editar</button>
-            <a class="btn btn-secondary mt-2" asp-controller="WorkingHours" asp-action="Index">Voltar</a>
+            <a class="btn btn-primary mt-2 text-white" asp-action="Edit" asp-route-id="@Model?.EmployeeId">Editar</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="btn btn-secondary mt-2" asp-controller="Employees" asp-action="Index">Voltar</a>
+            }
+            else
+            {
+                <a class="btn btn-secondary mt-2" asp-controller="WorkingHours" asp-action="Index">Voltar</a>
+            }
         </div>
     </div>
 </div>
+<br />

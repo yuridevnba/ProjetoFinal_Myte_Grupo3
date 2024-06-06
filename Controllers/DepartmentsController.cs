@@ -24,7 +24,16 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Department.ToListAsync());
+            var departments = await _context.Department
+                .Include(d => d.Employee)
+                .ToListAsync();
+
+            foreach (var department in departments)
+            {
+                department.EmployeeCount = department.Employee?.Count(e => e.StatusEmployee == "Active") ?? 0;
+            }
+
+            return View(departments);
         }
 
         // GET: Departments/Details/5
@@ -36,11 +45,15 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
 
             var department = await _context.Department
+                .Include(d => d.Employee)
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
+
             if (department == null)
             {
                 return NotFound();
             }
+
+            department.EmployeeCount = department.Employee?.Count(e => e.StatusEmployee == "Active") ?? 0;
 
             return View(department);
         }
@@ -126,8 +139,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(department);
         }
 
-        // GET: Departments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Departments/DeleteModal/5
+        public async Task<IActionResult> DeleteModal(int? id)
         {
             if (id == null)
             {
@@ -135,13 +148,14 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             }
 
             var department = await _context.Department
+                .Include(d => d.Employee)
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
             if (department == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Account");
             }
 
-            return View(department);
+            return PartialView("_DeleteModal", department);
         }
 
         // POST: Departments/Delete/5
@@ -149,15 +163,27 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var department = await _context.Department.FindAsync(id);
-            if (department != null)
+            var department = await _context.Department
+                .Include(d => d.Employee)
+                .FirstOrDefaultAsync(m => m.DepartmentId == id);
+
+            if (department == null)
             {
-                _context.Department.Remove(department);
+                return RedirectToAction(nameof(Index));
             }
 
+            var employeeCount = department.Employee?.Count(e => e.StatusEmployee == "Active") ?? 0;
+            if (employeeCount > 0)
+            {
+                TempData["ErrorMessage"] = $"Há {employeeCount} funcionários nesse departamento. Para excluir, desvincule primeiro esses funcionários.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            _context.Department.Remove(department);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool DepartmentExists(int id)
         {

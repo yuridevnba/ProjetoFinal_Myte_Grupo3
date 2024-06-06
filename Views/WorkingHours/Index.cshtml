@@ -12,16 +12,15 @@
     var currentTotalSum = 0;
     var employeeName = ViewBag.EmployeeName;
     var employeeId = ViewBag.EmployeeId;
-    var isEditable = TempData["IsEditable"] as bool? ?? false;
+    var isEditable = wbsList.Count <= 0;
 
     System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
     System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("pt-BR");
 }
-
 <body>
     <div class="container title-container">
-        <h1 class="titulo_boasVindas"><i class="fa fa-user" style="color: #fd7e14;"></i> Bem-vindo, <span style="color: #fd7e14;">@employeeName!</span></h1>
-        <div class="date-forms-container">
+        <h1 class="titulo_boasVindas"><i class="fa fa-user" style="color: #E15031;"></i> Bem-vindo, <span style="color: #E15031;">@employeeName!</span></h1>
+        <div class="date-forms-container" style="margin-right: -27rem;">
             <form method="post" asp-controller="WorkingHours" asp-action="Index">
                 <input type="hidden" name="selectedDate" value="@dateRange[0].AddDays(-15).ToString("yyyy-MM-dd")">
                 <button type="submit" class="btn btn-link"><i class="fas fa-chevron-left"></i></button>
@@ -31,7 +30,7 @@
                     <div class="input-group">
                         <input type="date" id="dataInicio" name="selectedDate" class="form-control" value="@dateRange[0].ToString("yyyy-MM-dd")">
                         <div>
-                            <button type="submit" class="btn btn-primary btn_buscar_tabela">Buscar</button>
+                            <button type="submit" class="btn btn-primary">Buscar</button>
                         </div>
                     </div>
                 </div>
@@ -41,17 +40,12 @@
                 <button type="submit" class="btn btn-link"><i class="fas fa-chevron-right"></i></button>
             </form>
         </div>
+        <form method="get" asp-controller="WorkingHours" asp-action="GeneratePdfReport">
+            <button type="submit" class="btn btn-primary" style="padding: 10px;"><i class="bi bi-printer"></i></button>
+        </form>
     </div>
 
-    <form method="get" asp-controller="WorkingHours" asp-action="GeneratePdfReport">
-       @*  <input type="date" name="selectedDate" value="@dateRange[0].ToString("yyyy-MM-dd")" /> *@
-        <button type="submit" class="btn btn-secondary"><i class="bi bi-printer"></i></button>
-    </form>
-
-
-
     <form id="saveHoursForm" method="post" action="@Url.Action("SaveWorkingHours", "WorkingHours")">
-        <input type="hidden" id="isEditable" name="isEditable" value="@isEditable" />
         <table class="table table-striped">
             <thead>
                 <tr id="linhaCabecalho">
@@ -77,9 +71,9 @@
                     currentTotalSum = 0;
                     var wbs = wbsList[wbsIndex];
                     <tr>
-                        <td>
-                            <select name="WBSId[]" class="loaded-wbs" @(isEditable ? "" : "disabled")>
-                                <option value="@wbs.WBSId">@wbs.Code</option>
+                        <td class="wbs_nomeDela">
+                            <select id="select-index-@(wbsIndex)" name="WBSSelectedIdList[]" class="loaded-wbs" @(isEditable ? "" : "disabled")>
+                                <option value="@wbs.WBSId">@(wbs.Code) - @(wbs.Description)</option>
                             </select>
                         </td>
                         @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -91,7 +85,7 @@
                                 <input type="@(isWeekend ? "hidden" : "text")"
                                        name="Hours[@wbsIndex][@dateIndex]"
                                        value="@hours"
-                                        @(isEditable ? "" : "disabled")>    
+                                @(isEditable ? "" : "disabled")>
                             </td>
                         }
                         @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -110,15 +104,15 @@
                         currentTotalSum = 0;
                         <tr>
                             <td>
-                                <select name="WBSId[]" class="available-wbs" @(isEditable ? "" : "disabled")>
-                                    <option value="0" selected>Selecione sua WBS</option>
+                                <select id="select-index-@(wbsIndex)" name="WBSSelectedIdList[]" class="available-wbs" @(isEditable ? "" : "disabled")>
+                                    <option value="0">Selecione sua WBS</option>
                                     @for (var currWbsIndex = 0; currWbsIndex < allWbsList.Count; currWbsIndex++)
                                     {
                                         var wbs = allWbsList[currWbsIndex];
                                         var doesItExists = wbsList.Any(existingWbs => existingWbs.Code == wbs.Code);
                                         @if (!doesItExists)
                                         {
-                                            <option value="@wbs.WBSId">@wbs.Code</option>
+                                            <option value="@wbs.WBSId">@(wbs.Code) - @(wbs.Description)</option>
                                         }
                                     }
                                 </select>
@@ -132,7 +126,7 @@
                                     <input type="@(isWeekend ? "hidden" : "text")"
                                            name="Hours[@wbsIndex][@dateIndex]"
                                            value="@hours"
-                                            @(isEditable ? "" : "disabled")>
+                                    @(isEditable ? "" : "disabled")>
                                 </td>
                             }
                             @for (var dateIndex = 0; dateIndex < dateRange.Count; dateIndex++)
@@ -164,21 +158,18 @@
         </table>
         <div class="msg_tabela">
             <div class="but_salvar">
-                <button class="btn btn-primary" id="submitWorkingHours" type="submit">Salvar</button>
-                <button class="btn btn-secondary" id="editWorkingHours" type="button" onclick="enableEditing()">Editar</button>
-                @if (TempData["IsEditable"] != null && (bool)TempData["IsEditable"] == false)
-                {
-                    <span> Horas já enviadas </span>
-                }
+                <button class="btn btn-primary @(isEditable ? "d-none" : "")" id="editWorkingHours" type="button">Editar</button>
+                <span class="@(isEditable ? "d-none" : "")" id="editWorkingHoursText"> Horas já enviadas! </span>
+                <button class="btn btn-primary @(isEditable ? "" : "d-none")" id="submitWorkingHours" type="submit">Salvar</button>
             </div>
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
-                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="false">
                     <div class="toast-header" style="background-color: #ffe6e6">
                         <img src="https://img.icons8.com/?size=100&id=59782&format=png&color=FA5252" style="width: 30px; height: 30px;" class="rounded me-2">
                         <strong class="me-auto" style="color: black; font-size: 16px;">Erro!</strong>
-                        <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body" style="background-color: #ffe6e6; font-weight: 400; font-size: 15px;">
                         @errorMessage
@@ -188,11 +179,11 @@
 
             @if (!string.IsNullOrEmpty(successMessage))
             {
-                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="false">
                     <div class="toast-header" style="background-color: #ebffe5">
                         <img src="https://img.icons8.com/?size=100&id=UrUFNWAeX8fJ&format=png&color=40C057" style="width: 30px; height: 30px;" class="rounded me-2">
                         <strong class="me-auto" style="color: black; font-size: 16px;">Sucesso!</strong>
-                        <button type="button" class="btn-close" data-dismiss="toast" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body" style="background-color: #ebffe5; font-weight: 400; font-size: 15px;">
                         @successMessage
@@ -206,25 +197,72 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Mostrar ou ocultar o botão de edição com base no valor de TempData["IsEditable"]
-            if ('@isEditable' == 'True') {
-                $('#submitWorkingHours').show();
-                $('#editWorkingHours').hide();
-            } else {
-                $('#submitWorkingHours').hide();
-                $('#editWorkingHours').show();
-            }
+            $('#editWorkingHours').click(function () {
+                // Pega os botões de editar e mensagem de horas já salvas, e deixa eles invisiveis
+                $('#editWorkingHours').toggleClass('btn btn-primary d-none');
+                $('#editWorkingHoursText').toggleClass('d-none');
+
+                // Vai no botao de salvar e deixa ele visível
+                $('#submitWorkingHours').attr('class', 'btn btn-primary');
+
+
+                // Vai em todos os inputs desabilitados e habilita eles
+                var disabledTextInputs = $('input:disabled');
+                disabledTextInputs.prop('disabled', false);
+
+                // Vai em todos os selects de wbs e habilita eles
+                var disabledWBSSelects = $('select');
+                disabledWBSSelects.prop('disabled', false);
+            });
+
+            // Lista que representa os selects de WBS da tabela, com seus Ids e Valores
+            var selectedValues = [
+                {
+                    id: 'select-index-0',
+                    value: $('#select-index-0').val(),
+                },
+                {
+                    id: 'select-index-1',
+                    value: $('#select-index-1').val(),
+                },
+                {
+                    id: 'select-index-2',
+                    value: $('#select-index-2').val(),
+                },
+                {
+                    id: 'select-index-3',
+                    value: $('#select-index-3').val(),
+                },
+            ];
+
+            // Toda vez que o usuário escolher um WBS no select, essa função vai ser chamada
+            $('.available-wbs').change(function () {
+                // Pega o valor do select alterado pelo usuário
+                var selectValue = $(this).val();
+                // Pega o ID do select alterado pelo usuário
+                var selectId = $(this).attr('id');
+
+                // Procura pelo indíce do select alterado lá no array que representa os selects de WBS
+                var indexFound = selectedValues.findIndex((currentSelect) => currentSelect.id === selectId);
+
+                // Muda o valor no array, para o valor mais atual daquele select
+                selectedValues[indexFound] = {
+                    id: selectId,
+                    value: selectValue
+                };
+
+                // Habilita todas as opções temporariamente (Funciona como um "reset" para nossa lógica de desabilitar opções)
+                $('.available-wbs').not(this).find('option').prop('disabled', false);
+
+                // Percorre todos os outros selects de wbs e desabilita opções que ja foram selecionada           
+                for (var i = 0; i < selectedValues.length; i++) {
+                    var selectedValue = selectedValues[i];
+
+                    $('.available-wbs').not(`#${selectedValue.id}`).find('option[value="' + selectedValue.value + '"]').prop('disabled', true);
+                }
+            });
+
+            $('.toast').toast('show');
         });
-
-        $('.toast').toast('show');
-
-        function enableEditing() {
-            // Habilitar todos os inputs de horas para edição
-            $('input[type="text"], select').prop('disabled', false);
-            $('#isEditable').val('true');
-            // Substituir o botão Editar por Salvar novamente
-            $('#submitWorkingHours').show();
-            $('#editWorkingHours').hide();
-        }
     </script>
 }

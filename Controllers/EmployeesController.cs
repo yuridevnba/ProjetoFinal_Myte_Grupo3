@@ -12,6 +12,7 @@ using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
 using System.Linq.Dynamic.Core;
 using Microsoft.AspNetCore.Identity;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ProjetoFinal_Myte_Grupo3.Controllers
 {
@@ -30,9 +31,11 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         // GET: Employees
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(DateTime? startDate, DateTime? endDate, string status)
         {
-            var employees = _context.Employee.AsQueryable();
+            var employees = _context.Employee.Include(e => e.Department)
+                                             .AsQueryable();
 
             if (startDate.HasValue)
             {
@@ -204,9 +207,11 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var employees = _context.Employee.Include(e => e.Department)
+                                             .AsQueryable();
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             var employee = await _context.Employee.FindAsync(id);
@@ -229,7 +234,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View(employee);
         }
 
-
+        [Authorize(Roles = "Admin")]
         // GET: Employees/Create
         public IActionResult Create()
         {
@@ -237,6 +242,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Employees/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -244,6 +250,8 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             if (ModelState.IsValid)
             {
+                employee.HiringDate = employee.HiringDate.Date;
+
                 // Adiciona lógica para definir nível de acesso ao criar um funcionário
                 var user = new IdentityUser { UserName = employee.Email, Email = employee.Email };
                 var result = await _userManager.CreateAsync(user, employee.Password);
@@ -268,6 +276,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
+                        return RedirectToAction(nameof(Error));
                     }
                 }
             }
@@ -281,13 +290,13 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             var employee = await _context.Employee.FindAsync(id);
             if (employee == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", employee.DepartmentId);
             return View(employee);
@@ -296,7 +305,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // POST: Employees/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,EmployeeName,Email,Password,HiringDate,DepartmentId,AccessLevel,StatusEmployee")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,EmployeeName,Email,Password,HiringDate,DepartmentId,AccessLevel,StatusEmployee,IdentityUserId")] Employee employee)
         {
             if (id != employee.EmployeeId)
             {
@@ -321,23 +330,31 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                             await _userManager.RemoveFromRoleAsync(user, "Standard");
                             await _userManager.AddToRoleAsync(user, "Admin");
                         }
+
+
+                        var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user); // gera um token de redifinição de senha.
+                        var result = await _userManager.ResetPasswordAsync(user, resetToken, employee.Password!);
+
+                        _context.Update(employee);
+                        await _context.SaveChangesAsync();
                     }
 
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!EmployeeExists(employee.EmployeeId))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error));
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = employee.EmployeeId });
+
             }
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "DepartmentName", employee.DepartmentId);
             return View(employee);
@@ -345,39 +362,52 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
 
 
-
+        [Authorize(Roles = "Admin")]
         // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Error(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var employee = await _context.Employee
-                .Include(e => e.Department)
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
+            //var employee = await _context.Employee
+            //    .Include(e => e.Department)
+            //    .FirstOrDefaultAsync(m => m.EmployeeId == id);
+            //if (employee == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(employee);
+            //return RedirectToAction(nameof(Index));
+
+
+            return RedirectToAction("Error", "Account");
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var employee = await _context.Employee.FindAsync(id);
-            if (employee != null)
+            var user = await _userManager.FindByIdAsync(employee.IdentityUserId!);
+            if (employee != null && user != null)
             {
                 _context.Employee.Remove(employee);
+                var result = await _userManager.DeleteAsync(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+            else
+            {
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Error));
+
+            }
+           
         }
 
         private bool EmployeeExists(int id)

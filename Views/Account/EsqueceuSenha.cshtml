@@ -1,39 +1,61 @@
 ﻿@model ProjetoFinal_Myte_Grupo3.Models.TelasLogin.LoginViewModel
 @{
-    ViewBag.Title = "Login de Usuário";
-}
-@{
     ViewData["Title"] = "Esqueceu a Senha";
 }
+<style>
+    body {
+        background: linear-gradient(to right, #ee7724,#d8363a, #dd3675, #b44593);
+    }
 
-<h2>Esqueceu a Senha</h2>
-
-<p>Por favor, insira seu e-mail para receber instruções de redefinição de senha.</p>
-
-<form asp-action="EsqueceuSenha" method="post">
-    <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+    footer {
+        display: none;
+    }
+</style>
+<br />
+<br />
+<br />
+<br />
+<div class="card shadow bg-light rounded-3" style="border:hidden;">
+    <div class="card-header card_color">
+        <h2 class="card-title text-center mb-0 mt-0 text-white">Esqueceu a Senha</h2>
     </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Enviar</button>
+    <div class="card-body">
+        <h6>Insira seu e-mail para receber instruções de redefinição de senha.</h6>
+        <form asp-action="EsqueceuSenha" method="post">
+            <div class="form-group">
+                <p>Digite seu e-mail:</p>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <button id="buttonEmail" type="submit" class="btn btn-primary">Enviar</button>
+                <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Voltar</a>
+            </div>
+        </form>
+        <div class ="alert alert-success" role="alert" id="AlertEmail" style="display: none;">
+            Sua Nova Senha foi enviada pelo email!
+        </div>
     </div>
-</form>
-    @section Scripts {
-        <script>
-            function togglePasswordVisibility() {
-                const passwordField = document.getElementById("floatingPassword");
-                const passwordIcon = document.getElementById("togglePasswordIcon");
-                const isPasswordVisible = passwordField.type === "text";
-                passwordField.type = isPasswordVisible ? "password" : "text";
-                passwordIcon.classList.toggle("fa-eye", isPasswordVisible);
-                passwordIcon.classList.toggle("fa-eye-slash", !isPasswordVisible);
-            }
-        </script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Esconde o alerta ao carregar a página
+            document.getElementById("AlertEmail").style.display = "none";
 
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
+            // Adiciona um event listener para o submit do formulário
+            document.querySelector("form").addEventListener("submit", function (event) {
+                // Impede o comportamento padrão do formulário (recarregar a página)
+                event.preventDefault();
+
+                // Exibe o alerta
+                document.getElementById("AlertEmail").style.display = "block";
+            });
+        });
+    </script>
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }

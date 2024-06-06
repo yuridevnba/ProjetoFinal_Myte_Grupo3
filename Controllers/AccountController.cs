@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Mono.TextTemplating;
 using ProjetoFinal_Myte_Grupo3.Data;
 using ProjetoFinal_Myte_Grupo3.Models;
 using ProjetoFinal_Myte_Grupo3.Models.TelasLogin;
@@ -24,15 +25,24 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         private readonly RegistersService registersService;
 
-        public AccountController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RegistersService registersService)
+        private readonly ApiCEP _apiCep;
+
+        public AccountController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RegistersService registersService, ApiCEP apiCep)
         {
 
             this.userManager = userManager;
             this.signInManager = signInManager;
             _context = context;
             this.registersService = registersService;
+            _apiCep = apiCep;
 
 
+        }
+        public IActionResult Error()
+        {
+
+            
+            return View();
         }
         public IActionResult Register()
         {
@@ -59,6 +69,15 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 // usando o serviço SignInManager e redireciona para o método Action Index.
                 if (result.Succeeded)
                 {
+                    var endereco = await _apiCep.GetAddressAsync(model.Cep);
+
+                    if (endereco == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Não foi possível obter o endereço com o CEP fornecido.");
+                        ViewBag.Departments = new SelectList(_context.Department, "DepartmentId", "DepartmentName");
+                        return View(model);
+                    }
+
                     var employee = new Employee
                     {
                         Email = model.Email!,
@@ -68,16 +87,30 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                         DepartmentId = model.DepartmentId,
                         AcessLevel = model.AcessLevel,
                         StatusEmployee = model.StatusEmployee,
-                        Password = model.Password
+                        Password = model.Password,
                     };
 
                     _context.Employee.Add(employee);
                     await _context.SaveChangesAsync();
-                    
+
+                    var infos = new InfosEmployee
+                    {
+                        Salary = model.Salary,
+                        Position = model.Position,
+                        Cpf = model.Cpf,
+                        Phone = model.Phone,
+                        Cep = model.Cep,
+                        Adress = endereco.Logradouro,
+                        Number = model.Number,
+                        City = endereco.Localidade,
+                        State = endereco.Uf,
+                        EmployeeId = employee.EmployeeId,
+                    };
+
+                    _context.InfosEmployee.Add(infos);
+                    await _context.SaveChangesAsync();
 
                     SendEmail.Send(model.Email, model.Password, "welcome");
-
-                    //uzs21363@ilebi.com
 
                     return RedirectToAction("Index", "Employees");
                 }
@@ -113,7 +146,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     var employee = await _context.Employee.FirstOrDefaultAsync(e => e.Email == model.Email);
                     if (employee != null && employee.StatusEmployee == "Inactive")
                     {
-                        ModelState.AddModelError(string.Empty, "Usuário Inativo, para mais informações entre em contato com o administrador");
+                        ModelState.AddModelError(string.Empty, "Conta Inativa. Entre em contato com o administrador");
                         return View(model);
                     }
 

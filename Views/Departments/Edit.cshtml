@@ -2,23 +2,39 @@
 @{
     ViewData["Title"] = "Editar Departamento";
 }
-<h1>Editar Departamento</h1>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DepartmentId" />
-            <div class="form-group">
-                <label asp-for="DepartmentName" class="control-label fw-bolder"></label>
-                <input asp-for="DepartmentName" class="form-control text-left" />
-                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+<br />
+<nav data-mdb-navbar-init class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol id="bread" class="breadcrumb">
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Departments" asp-action="Index">Departamentos</a></li>
+            </ol>
+        </nav>
+    </div>
+</nav>
+<div class="card text-center shadow bg-light rounded-3">
+    <div class="card-header card_color">
+        <h2 class="card-title text-white mt-0 mb-0">Editar Departamento</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="DepartmentId" />
+                    <div class="form-group text-left">
+                        <label asp-for="DepartmentName" class="control-label"></label>
+                        <input asp-for="DepartmentName" class="form-control text-left" />
+                        <span asp-validation-for="DepartmentName" class="text-danger"></span>
+                    </div>
+                    <div class="text-left">
+                        <button type="submit" class="btn btn-primary mt-2">Salvar</button>
+                        <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
+                    </div>
+                </form>
             </div>
-            <div>
-                <button type="submit" class="btn btn-primary mt-2">Enviar</button>
-                <a class="btn btn-secondary mt-2" asp-action="Index">Voltar</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 @section Scripts {
