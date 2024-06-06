@@ -34,39 +34,19 @@
                         @Html.EditorFor(m => m.HiringDate, new { htmlAttributes = new { @class = "form-control text-left" } })
                         @Html.ValidationMessageFor(m => m.HiringDate, "")
                     </div>
-
-                </div>
-                <div class="col">
                     <div data-mdb-input-init class="form-outline mb-2">
-                        <label asp-for="Email">E-mail</label>
-                        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um e-mail" } })
-                        @Html.ValidationMessageFor(m => m.Email, "")
+                        <label asp-for="Position">Cargo</label>
+                        @Html.EditorFor(m => m.Position, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o cargo" } })
+                        @Html.ValidationMessageFor(m => m.Position, "")
                     </div>
-                    <div data-mdb-input-init class="form-outline">
-                        <label asp-for="DepartmentId">Departamento</label>
-                        @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Escolha uma opção", new { @class = "form-control text-left" })
-                        @Html.ValidationMessageFor(m => m.DepartmentId, "")
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Cpf">CPF</label>
+                        @Html.EditorFor(m => m.Cpf, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o CPF do funcionário" } })
+                        @Html.ValidationMessageFor(m => m.Cpf, "")
                     </div>
-                </div>
-                <div data-mdb-input-init class="form-outline mb-2">
-                    <label asp-for="Position">Cargo</label>
-                    @Html.EditorFor(m => m.Position, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o cargo" } })
-                    @Html.ValidationMessageFor(m => m.Position, "")
-                </div>
-                <div data-mdb-input-init class="form-outline mb-2">
-                    <label asp-for="Cpf">CPF</label>
-                    @Html.EditorFor(m => m.Cpf, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o CPF do funcionário" } })
-                    @Html.ValidationMessageFor(m => m.Cpf, "")
-                </div>
-                <div data-mdb-input-init class="form-outline mb-2">
-                    <label asp-for="Phone">Telefone</label>
-                    @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o telefone" } })
-                    @Html.ValidationMessageFor(m => m.Phone, "")
-                </div>
-                <div class="col">
                     <div data-mdb-input-init class="form-outline mb-2">
                         <label asp-for="Cep">CEP</label>
-                        <div class="input-group input-group-sm">
+                        <div class="input-group">
                             @Html.EditorFor(m => m.Cep, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o CEP" } })
                             <button id="ButtonCEP" class="btn btn-primary" type="button">Pesquisar</button>
                         </div>
@@ -77,34 +57,55 @@
                         CEP inválido. Por favor, verifique e tente novamente.
                     </div>
                 </div>
-                <div data-mdb-input-init class="form-outline mb-2">
-                    <label asp-for="City">Cidade</label>
-                    @Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Cidade" } })
-                    @Html.ValidationMessageFor(m => m.City, "")
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Email">E-mail</label>
+                        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite um e-mail" } })
+                        @Html.ValidationMessageFor(m => m.Email, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="DepartmentId">Departamento</label>
+                        @Html.DropDownList("DepartmentId", ViewBag.Departments as SelectList, "Escolha uma opção", new { @class = "form-control text-left" })
+                        @Html.ValidationMessageFor(m => m.DepartmentId, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Salary">Salário</label>
+                        @Html.EditorFor(m => m.Salary, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o salário" } })
+                        @Html.ValidationMessageFor(m => m.Salary, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Phone">Telefone</label>
+                        @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o telefone" } })
+                        @Html.ValidationMessageFor(m => m.Phone, "")
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Adress">Endereço</label>
+                        @Html.EditorFor(m => m.Adress, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o endereço" } })
+                        @Html.ValidationMessageFor(m => m.Adress, "")
+                    </div>
                 </div>
-
-                <div data-mdb-input-init class="form-outline mb-2">
-                    <label asp-for="State">Estado</label>
-                    @Html.EditorFor(m => m.State, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Estado" } })
-                    @Html.ValidationMessageFor(m => m.State, "")
+            </div>
+            <div class="row" style="margin-top: -1.5rem;">
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="Number">Número</label>
+                        @Html.EditorFor(m => m.Number, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o número" } })
+                        @Html.ValidationMessageFor(m => m.Number, "")
+                    </div>
                 </div>
-
-                <div data-mdb-input-init class="form-outline mb-2">
-                    <label asp-for="Adress">Endereço</label>
-                    @Html.EditorFor(m => m.Adress, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o endereço" } })
-                    @Html.ValidationMessageFor(m => m.Adress, "")
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="City">Cidade</label>
+                        @Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Cidade" } })
+                        @Html.ValidationMessageFor(m => m.City, "")
+                    </div>
                 </div>
-
-                <div data-mdb-input-init class="form-outline mb-2">
-                    <label asp-for="Number">Número</label>
-                    @Html.EditorFor(m => m.Number, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o número" } })
-                    @Html.ValidationMessageFor(m => m.Number, "")
-                </div>
-
-                <div data-mdb-input-init class="form-outline mb-2">
-                    <label asp-for="Salary">Salário</label>
-                    @Html.EditorFor(m => m.Salary, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Digite o salário" } })
-                    @Html.ValidationMessageFor(m => m.Salary, "")
+                <div class="col">
+                    <div data-mdb-input-init class="form-outline mb-2">
+                        <label asp-for="State">Estado</label>
+                        @Html.EditorFor(m => m.State, new { htmlAttributes = new { @class = "form-control text-left", placeholder = "Estado" } })
+                        @Html.ValidationMessageFor(m => m.State, "")
+                    </div>
                 </div>
             </div>
         </div>
