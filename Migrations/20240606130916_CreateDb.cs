@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateEmployeeInfo : Migration
+    public partial class CreateDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -220,7 +220,7 @@ namespace ProjetoFinal_Myte_Grupo3.Migrations
                 {
                     InfosEmployeeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Salary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cpf = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
