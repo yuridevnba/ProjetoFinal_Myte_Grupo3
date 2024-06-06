@@ -12,7 +12,7 @@ using ProjetoFinal_Myte_Grupo3.Data;
 namespace ProjetoFinal_Myte_Grupo3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240606130916_CreateDb")]
+    [Migration("20240606133349_CreateDb")]
     partial class CreateDb
     {
         /// <inheritdoc />
