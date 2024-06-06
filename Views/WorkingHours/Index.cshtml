@@ -17,11 +17,10 @@
     System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
     System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("pt-BR");
 }
-
 <body>
     <div class="container title-container">
         <h1 class="titulo_boasVindas"><i class="fa fa-user" style="color: #E15031;"></i> Bem-vindo, <span style="color: #E15031;">@employeeName!</span></h1>
-        <div class="date-forms-container">
+        <div class="date-forms-container" style="margin-right: -27rem;">
             <form method="post" asp-controller="WorkingHours" asp-action="Index">
                 <input type="hidden" name="selectedDate" value="@dateRange[0].AddDays(-15).ToString("yyyy-MM-dd")">
                 <button type="submit" class="btn btn-link"><i class="fas fa-chevron-left"></i></button>
@@ -42,7 +41,7 @@
             </form>
         </div>
         <form method="get" asp-controller="WorkingHours" asp-action="GeneratePdfReport">
-            <button type="submit" class="btn btn-primary" style="padding: 10px"><i class="bi bi-printer"></i></button>
+            <button type="submit" class="btn btn-primary" style="padding: 10px;"><i class="bi bi-printer"></i></button>
         </form>
     </div>
 
