@@ -1,5 +1,4 @@
-﻿
-/* Cores para os buttons do Mythree ---------------------------------- */
+﻿/* Cores para os buttons do Mythree ---------------------------------- */
 .btn-primary {
     background-color: #E15031;
     border-color: #E15031;
@@ -202,5 +201,4 @@ select {
 }
 #editWorkingHoursText {
     margin-left: 10px;
-    text-decoration: underline;
 }

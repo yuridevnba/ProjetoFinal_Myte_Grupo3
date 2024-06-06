@@ -153,17 +153,17 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveWorkingHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates)
+        public async Task<IActionResult> SaveWorkingHours(List<int> WBSSelectedIdList, List<List<int>> Hours, List<DateTime> Dates)
         {
             var employeeId = GetCurrentEmployeeId();
             if (ModelState.IsValid)
             {
-                var dailyTotalHours = CalculateDailyTotalHours(WBSId, Hours, Dates);
+                var dailyTotalHours = CalculateDailyTotalHours(WBSSelectedIdList, Hours, Dates);
                 if (!ValidateTotalHours(dailyTotalHours))
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                await SaveOrUpdateWorkingHours(WBSId, Hours, Dates, employeeId);
+                await SaveOrUpdateWorkingHours(WBSSelectedIdList, Hours, Dates, employeeId);
                 TempData["SuccessMessage"] = "Suas horas foram salvas!";
                 return RedirectToAction(nameof(Index));
             }
@@ -220,13 +220,13 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
             return true;
         }
 
-        private async Task SaveOrUpdateWorkingHours(List<int> WBSId, List<List<int>> Hours, List<DateTime> Dates, int employeeId)
+        private async Task SaveOrUpdateWorkingHours(List<int> WBSSelectedIdList, List<List<int>> Hours, List<DateTime> Dates, int employeeId)
         {
-            for (int i = 0; i < WBSId.Count; i++)
+            for (int i = 0; i < WBSSelectedIdList.Count; i++)
             {
                 for (int j = 0; j < Dates.Count; j++)
                 {
-                    var wbsId = WBSId[i];
+                    var wbsId = WBSSelectedIdList[i];
                     var date = Dates[j];
                     var hours = Hours[i][j];
                     if (hours > 0 && wbsId != 0)
