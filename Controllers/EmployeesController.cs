@@ -211,7 +211,7 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                                              .AsQueryable();
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error));
             }
 
             var employee = await _context.Employee.FindAsync(id);

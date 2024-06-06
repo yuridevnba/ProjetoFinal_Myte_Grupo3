@@ -25,13 +25,16 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
 
         private readonly RegistersService registersService;
 
-        public AccountController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RegistersService registersService)
+        private readonly ApiCEP _apiCep;
+
+        public AccountController(ApplicationDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RegistersService registersService, ApiCEP apiCep)
         {
 
             this.userManager = userManager;
             this.signInManager = signInManager;
             _context = context;
             this.registersService = registersService;
+            _apiCep = apiCep;
 
 
         }
@@ -66,6 +69,15 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 // usando o serviço SignInManager e redireciona para o método Action Index.
                 if (result.Succeeded)
                 {
+                    var endereco = await _apiCep.GetAddressAsync(model.Cep);
+
+                    if (endereco == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Não foi possível obter o endereço com o CEP fornecido.");
+                        ViewBag.Departments = new SelectList(_context.Department, "DepartmentId", "DepartmentName");
+                        return View(model);
+                    }
+
                     var employee = new Employee
                     {
                         Email = model.Email!,
@@ -88,10 +100,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                         Cpf = model.Cpf,
                         Phone = model.Phone,
                         Cep = model.Cep,
-                        Adress = model.Adress,
+                        Adress = endereco.Logradouro,
                         Number = model.Number,
-                        City = model.City,
-                        State = model.State,
+                        City = endereco.Localidade,
+                        State = endereco.Uf,
                         EmployeeId = employee.EmployeeId,
                     };
 
@@ -99,8 +111,6 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                     await _context.SaveChangesAsync();
 
                     SendEmail.Send(model.Email, model.Password, "welcome");
-
-                    //uzs21363@ilebi.com
 
                     return RedirectToAction("Index", "Employees");
                 }

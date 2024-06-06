@@ -51,6 +51,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 builder.Services.AddScoped<RegistersService>();
+builder.Services.AddHttpClient<ApiCEP>();
 
 
 var app = builder.Build();
@@ -67,6 +68,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 
 await CriarPerfisUsuariosAsync(app);
 
