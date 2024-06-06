@@ -455,10 +455,10 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
                 Document document = new Document(pdf, PageSize.A4.Rotate());
                 document.SetMargins(20, 20, 20, 20);
 
-                string imagePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/css/logo_mythree_test.png");
+                string imagePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/css/logo-login.png");
 
                 ImageData imageData = ImageDataFactory.Create(imagePath);
-                Image image = new Image(imageData).ScaleAbsolute(50, 50);
+                Image image = new Image(imageData).ScaleAbsolute(110, 60);
 
                 document.Add(image);
                 document.Add(new Paragraph(""));
