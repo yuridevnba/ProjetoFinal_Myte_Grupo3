@@ -73,7 +73,7 @@
                     var wbs = wbsList[wbsIndex];
                     <tr>
                         <td class="wbs_nomeDela">
-                            <select id="select-index-@(wbsIndex)" name="WBSId[]" class="loaded-wbs" @(isEditable ? "" : "disabled")>
+                            <select id="select-index-@(wbsIndex)" name="WBSSelectedIdList[]" class="loaded-wbs" @(isEditable ? "" : "disabled")>
                                 <option value="@wbs.WBSId">@(wbs.Code) - @(wbs.Description)</option>
                             </select>
                         </td>
@@ -105,8 +105,8 @@
                         currentTotalSum = 0;
                         <tr>
                             <td>
-                                <select id="select-index-@(wbsIndex)" name="WBSId[]" class="available-wbs" @(isEditable ? "" : "disabled")>
-                                    <option value="0" selected>Selecione sua WBS</option>
+                                <select id="select-index-@(wbsIndex)" name="WBSSelectedIdList[]" class="available-wbs" @(isEditable ? "" : "disabled")>
+                                    <option value="0">Selecione sua WBS</option>
                                     @for (var currWbsIndex = 0; currWbsIndex < allWbsList.Count; currWbsIndex++)
                                     {
                                         var wbs = allWbsList[currWbsIndex];
@@ -160,7 +160,7 @@
         <div class="msg_tabela">
             <div class="but_salvar">
                 <button class="btn btn-primary @(isEditable ? "d-none" : "")" id="editWorkingHours" type="button">Editar</button>
-                <span class="@(isEditable ? "d-none" : "")" id="editWorkingHoursText"> Horas já enviadas </span>
+                <span class="@(isEditable ? "d-none" : "")" id="editWorkingHoursText"> Horas já enviadas! </span>
                 <button class="btn btn-primary @(isEditable ? "" : "d-none")" id="submitWorkingHours" type="submit">Salvar</button>
             </div>
 
@@ -255,10 +255,12 @@
                 // Habilita todas as opções temporariamente (Funciona como um "reset" para nossa lógica de desabilitar opções)
                 $('.available-wbs').not(this).find('option').prop('disabled', false);
 
-                // Percorre todos os outros selects de wbs e desabilita opções que ja foram selecionada
-                selectedValues.forEach((selectedValue) => {
-                    $('.available-wbs').not(this).find('option[value="' + selectedValue.value + '"]').prop('disabled', true);
-                });
+                // Percorre todos os outros selects de wbs e desabilita opções que ja foram selecionada           
+                for (var i = 0; i < selectedValues.length; i++) {
+                    var selectedValue = selectedValues[i];
+
+                    $('.available-wbs').not(`#${selectedValue.id}`).find('option[value="' + selectedValue.value + '"]').prop('disabled', true);
+                }
             });
 
             $('.toast').toast('show');
