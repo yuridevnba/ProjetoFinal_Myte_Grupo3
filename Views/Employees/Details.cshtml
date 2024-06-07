@@ -1,4 +1,5 @@
 ﻿@model ProjetoFinal_Myte_Grupo3.Models.Employee
+
 @{
     ViewData["Title"] = "Detalhes Funcionário";
 }
@@ -8,7 +9,8 @@
         <nav aria-label="breadcrumb">
             <ol id="bread" class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="WorkingHours" asp-action="Index">Home</a></li>
-                @if(User.IsInRole("Admin")){
+                @if (User.IsInRole("Admin"))
+                {
                     <li class="breadcrumb-item"><a class="text-secondary" asp-area="" asp-controller="Employees" asp-action="Index">Funcionários</a></li>
                 }
             </ol>
@@ -38,7 +40,7 @@
                     Senha:
                 </dt>
                 <dd class="col-sm-9">
-                    *******
+                    @Html.DisplayFor(model => model.Password)
                 </dd>
                 <dt class="col-sm-3">
                     Data de Contratação:
@@ -57,6 +59,13 @@
                 </dt>
                 <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.StatusEmployee)
+                </dd>
+
+                <dt class="col-sm-3">
+                    Departamento:
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Department.DepartmentName)
                 </dd>
             </dl>
         </div>
