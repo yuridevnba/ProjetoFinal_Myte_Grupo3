@@ -207,8 +207,9 @@ namespace ProjetoFinal_Myte_Grupo3.Controllers
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var employees = _context.Employee.Include(e => e.Department)
-                                             .AsQueryable();
+            var employeee = await _context.Employee
+                                .Include(e => e.Department)
+                                .FirstOrDefaultAsync(e => e.EmployeeId == id);
             if (id == null)
             {
                 return RedirectToAction(nameof(Error));
