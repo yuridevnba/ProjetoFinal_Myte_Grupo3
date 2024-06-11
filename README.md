@@ -119,8 +119,12 @@ Acesse a seção de relatórios para visualizar e analisar as horas trabalhadas 
 
 ## Autores
 
- -Rhayssa Kramer Bezerra de Melo 
- -Leila Mirelle da Silva Vasconcelos
- -Yuri Henrique Da Silva
- -Caetano Mesquita Londres Barreto
  -Beatriz Mozer Aragão
+
+ -Caetano Mesquita Londres Barreto
+ 
+ -Leila Mirelle da Silva Vasconcelos
+
+ -Yuri Henrique Da Silva
+
+ -Rhayssa Kramer Bezerra de Melo 
