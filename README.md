@@ -1,31 +1,31 @@
 # ProjetoFinal_Myte_Grupo3
 
-Uma aplicação para o registro e gestão de horas trabalhadas, baseada no Myte, com funcionalidades para diferentes níveis de usuários, incluindo administradores e funcionários.
+Uma aplicaÃ§Ã£o para o registro e gestÃ£o de horas trabalhadas, baseada no Myte, com funcionalidades para diferentes nÃ­veis de usuÃ¡rios, incluindo administradores e funcionÃ¡rios.
 
-## Índice
+## Ãndice
 
 - [Sobre](#sobre)
 - [Requisitos do Projeto](#requisitos-do-projeto)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Instalação](#instalação)
+- [InstalaÃ§Ã£o](#instalaÃ§Ã£o)
 - [Como Usar](#como-usar)
 - [Autores](#autores)
 
 ## Sobre
 
-O Sistema de Lançamento de Horas é uma aplicação projetada para facilitar o registro e a gestão de horas trabalhadas por funcionários. Este sistema oferece diversas funcionalidades que atendem a diferentes níveis de usuários, incluindo administradores e funcionários.
+O Sistema de LanÃ§amento de Horas Ã© uma aplicaÃ§Ã£o projetada para facilitar o registro e a gestÃ£o de horas trabalhadas por funcionÃ¡rios. Este sistema oferece diversas funcionalidades que atendem a diferentes nÃ­veis de usuÃ¡rios, incluindo administradores e funcionÃ¡rios.
 
 ### Funcionalidades Principais
 
-- **Registro de Horas:** Permite que os funcionários registrem suas horas de trabalho de forma simples e eficiente com sua WBS especificada.
-- **Dados de Usuário:** Permite que os usuários do programa gerenciem suas informações pessoais em uma aba dedicada.
-- **Gerenciamento de Usuários:** Administradores podem adicionar, editar e remover usuários, bem como definir suas permissões e níveis de acesso.
+- **Registro de Horas:** Permite que os funcionÃ¡rios registrem suas horas de trabalho de forma simples e eficiente com sua WBS especificada.
+- **Dados de UsuÃ¡rio:** Permite que os usuÃ¡rios do programa gerenciem suas informaÃ§Ãµes pessoais em uma aba dedicada.
+- **Gerenciamento de UsuÃ¡rios:** Administradores podem adicionar, editar e remover usuÃ¡rios, bem como definir suas permissÃµes e nÃ­veis de acesso.
 - **Gerenciamento de WBS:** Administradores podem adicionar, editar e remover WBS.
-- **Relatórios de Horas:** Gera relatórios detalhados das horas trabalhadas por funcionário, departamento ou projeto.
+- **RelatÃ³rios de Horas:** Gera relatÃ³rios detalhados das horas trabalhadas por funcionÃ¡rio, departamento ou projeto.
 
 ## Requisitos do Projeto
 
-O Sistema MYTE ("My Time Entries") foi desenvolvido para registrar horas trabalhadas em atividades específicas (WBS - Work Breakdown Structure). Os principais requisitos incluem:
+O Sistema MYTE ("My Time Entries") foi desenvolvido para registrar horas trabalhadas em atividades especÃ­ficas (WBS - Work Breakdown Structure). Os principais requisitos incluem:
 
 ### Funcionalidades
 
@@ -33,40 +33,40 @@ O Sistema MYTE ("My Time Entries") foi desenvolvido para registrar horas trabalh
   - Criar, recuperar, atualizar e excluir registros de departamentos.
   - Adicionar e listar departamentos, com filtragem por nome ou ID.
 
-- **Gerenciamento de Funcionários:**
-  - Criar, recuperar, atualizar e excluir registros de funcionários.
-  - Cada registro contém id, nome, departamento e data de contratação.
+- **Gerenciamento de FuncionÃ¡rios:**
+  - Criar, recuperar, atualizar e excluir registros de funcionÃ¡rios.
+  - Cada registro contÃ©m id, nome, departamento e data de contrataÃ§Ã£o.
 
 - **Login:**
-  - Permitir que usuários façam login para acessar as funcionalidades do sistema.
+  - Permitir que usuÃ¡rios faÃ§am login para acessar as funcionalidades do sistema.
 
-- **Criação e Manutenção de WBS:**
+- **CriaÃ§Ã£o e ManutenÃ§Ã£o de WBS:**
   - Criar, editar e excluir WBS.
-  - Visualizar lista de WBS, com validações de código e descrição.
+  - Visualizar lista de WBS, com validaÃ§Ãµes de cÃ³digo e descriÃ§Ã£o.
 
 - **Registro de Horas:**
-  - Permitir que funcionários registrem horas trabalhadas em atividades específicas.
+  - Permitir que funcionÃ¡rios registrem horas trabalhadas em atividades especÃ­ficas.
   - Interface com linhas representando WBS e colunas representando dias da quinzena.
-  - Validação de horas mínimas por dia útil e visualização do total de horas.
+  - ValidaÃ§Ã£o de horas mÃ­nimas por dia Ãºtil e visualizaÃ§Ã£o do total de horas.
 
-- **Navegação entre Quinzenas:**
-  - Permitir navegação entre quinzenas para registrar horas de períodos anteriores ou futuros.
+- **NavegaÃ§Ã£o entre Quinzenas:**
+  - Permitir navegaÃ§Ã£o entre quinzenas para registrar horas de perÃ­odos anteriores ou futuros.
 
-- **Relatórios:**
-  - Relatórios no Power BI com análise das WBS com maior número de horas registradas.
-  - Visualização gráfica e filtragem por período de tempo.
+- **RelatÃ³rios:**
+  - RelatÃ³rios no Power BI com anÃ¡lise das WBS com maior nÃºmero de horas registradas.
+  - VisualizaÃ§Ã£o grÃ¡fica e filtragem por perÃ­odo de tempo.
 
 ### Fluxos Principais
 
-1. **Login:** Autenticação de usuários com redirecionamento após sucesso.
-2. **Gerenciamento de WBS:** CRUD de WBS com validações de código e descrição.
-3. **Registro de Horas:** Interface intuitiva para registro de horas, com validações.
-4. **Navegação entre Quinzenas:** Navegação para quinzenas anteriores e futuras.
-5. **Relatórios:** Geração de relatórios detalhados no Power BI.
+1. **Login:** AutenticaÃ§Ã£o de usuÃ¡rios com redirecionamento apÃ³s sucesso.
+2. **Gerenciamento de WBS:** CRUD de WBS com validaÃ§Ãµes de cÃ³digo e descriÃ§Ã£o.
+3. **Registro de Horas:** Interface intuitiva para registro de horas, com validaÃ§Ãµes.
+4. **NavegaÃ§Ã£o entre Quinzenas:** NavegaÃ§Ã£o para quinzenas anteriores e futuras.
+5. **RelatÃ³rios:** GeraÃ§Ã£o de relatÃ³rios detalhados no Power BI.
 
 ## Tecnologias Utilizadas
 
-### Linguagens de Programação
+### Linguagens de ProgramaÃ§Ã£o
 
 <div align="center">
 
@@ -84,16 +84,16 @@ O Sistema MYTE ("My Time Entries") foi desenvolvido para registrar horas trabalh
 
 </div>
 
-## Instalação
+## InstalaÃ§Ã£o
 
-Siga as instruções abaixo para configurar e executar o projeto localmente.
+Siga as instruÃ§Ãµes abaixo para configurar e executar o projeto localmente.
 
-1. **Clone o repositório:**
+1. **Clone o repositÃ³rio:**
    ```bash
    git clone https://github.com/seu-usuario/ProjetoFinal_Myte_Grupo3.git
    cd ProjetoFinal_Myte_Grupo3
 
-2.Abra o Visual Studio, carregue o projeto e restaure as dependências.
+2.Abra o Visual Studio, carregue o projeto e restaure as dependÃªncias.
 
 3.Configure o banco de dados:
 Update-Database
@@ -103,24 +103,24 @@ Pressione F5 ou clique em "Iniciar" no Visual Studio.
 
 ## Como Usar
 Login:
-Acesse a aplicação e faça login com suas credenciais.
+Acesse a aplicaÃ§Ã£o e faÃ§a login com suas credenciais.
 
 Gerenciamento de Departamentos:
-Navegue até a seção de departamentos para criar, editar ou excluir registros.
+Navegue atÃ© a seÃ§Ã£o de departamentos para criar, editar ou excluir registros.
 
-Gerenciamento de Funcionários:
-Adicione, edite ou remova funcionários e atribua-os a departamentos específicos.
+Gerenciamento de FuncionÃ¡rios:
+Adicione, edite ou remova funcionÃ¡rios e atribua-os a departamentos especÃ­ficos.
 
 Registro de Horas:
-Navegue até a tela de registro de horas para inserir as horas trabalhadas nas WBS apropriadas.
+Navegue atÃ© a tela de registro de horas para inserir as horas trabalhadas nas WBS apropriadas.
 
-Relatórios:
-Acesse a seção de relatórios para visualizar e analisar as horas trabalhadas por funcionário, departamento ou projeto.
+RelatÃ³rios:
+Acesse a seÃ§Ã£o de relatÃ³rios para visualizar e analisar as horas trabalhadas por funcionÃ¡rio, departamento ou projeto.
 
 ## Autores
 
-Rhayssa Kramer Bezerra de Melo
-Leila Mirelle da Silva Vasconcelos
-Yuri Henrique Da Silva
-Caetano Mesquita Londres Barreto
-Beatriz Mozer Aragão
+ -Rhayssa Kramer Bezerra deÂ Melo 
+ -Leila Mirelle da Silva Vasconcelos
+ -Yuri Henrique Da Silva
+ -Caetano Mesquita Londres Barreto
+ -Beatriz Mozer AragÃ£o
